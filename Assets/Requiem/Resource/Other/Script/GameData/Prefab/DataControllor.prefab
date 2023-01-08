@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7543882171348522629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7543882171348522683}
+  - component: {fileID: 7543882171348522628}
+  - component: {fileID: 7543882171348522682}
+  m_Layer: 0
+  m_Name: DataControllor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7543882171348522683
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7543882171348522629}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7543882171348522628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7543882171348522629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 665947c8999652f48877ec9b0f1dea74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_playerData:
+    m_playerObj: {fileID: 0}
+    m_playerRigid: {fileID: 0}
+    m_playerAnimator: {fileID: 0}
+    m_playerSpeed: 6
+    m_jumpLeft: 1
+    m_maxHP: 3
+    m_HP: 3
+    m_isDead: 0
+    m_isHit: 0
+    m_savePoint: {x: 0, y: 0}
+  m_cameraData:
+    m_followTime: 0
+  m_luneData:
+    m_luneObj: {fileID: 0}
+    m_luneRigid: {fileID: 0}
+    m_luneSight: {fileID: 0}
+    m_luneLightArea: {fileID: 0}
+    m_luneIntensity: 1.5
+    m_luneOuterRadius: 0
+    m_lunePowerBackDistance: 2
+    m_lunePowerBackTime: 0.2
+    m_isStop: 0
+    m_isReturn: 0
+    m_isActive: 0
+    m_onWater: 0
+    m_touchWater: 0
+  m_creatLightData:
+    m_lightPrefab: {fileID: 2661167442879057160, guid: ad01d9196a336014982dc04b422de5eb, type: 3}
+    m_lightCount: 200
+    m_cicleTime: 0.01
+  m_layerName:
+    Default:
+      serializedVersion: 2
+      m_Bits: 1
+    TransparentFX:
+      serializedVersion: 2
+      m_Bits: 2
+    IgnoreRaycast:
+      serializedVersion: 2
+      m_Bits: 4
+    Player:
+      serializedVersion: 2
+      m_Bits: 8
+    Water:
+      serializedVersion: 2
+      m_Bits: 16
+    UI:
+      serializedVersion: 2
+      m_Bits: 32
+    Lune:
+      serializedVersion: 2
+      m_Bits: 64
+    Wall:
+      serializedVersion: 2
+      m_Bits: 128
+    Platform:
+      serializedVersion: 2
+      m_Bits: 256
+    RiskFactor:
+      serializedVersion: 2
+      m_Bits: 512
+    Enemy:
+      serializedVersion: 2
+      m_Bits: 1024
+    LightArea:
+      serializedVersion: 2
+      m_Bits: 2048
+  m_spikeData:
+    m_type: spike
+    m_damage: 1
+  m_fallingPlatform:
+    m_type: fallingPlatform
+    m_damage: 1
+--- !u!114 &7543882171348522682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7543882171348522629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa255c2b1e03a5f4aa52add4f9237d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
