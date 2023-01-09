@@ -37,7 +37,7 @@ public class RuneStatue : MonoBehaviour
     {
         if (collision.gameObject.layer == (int)LayerName.Lune && DataController.LuneActive)
         {
-            LuneInteraction();
+            DataController.PlayerSavePoint = m_savePoint;
 
             if (!m_isActive)
             {
@@ -53,11 +53,5 @@ public class RuneStatue : MonoBehaviour
                 m_isActive = true;
             }
         }
-    }
-
-    void LuneInteraction()
-    {
-        DataController.PlayerSavePoint = m_savePoint;
-        DataController.PlayerHP = DataController.PlayerMaxHP;
     }
 }
