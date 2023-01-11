@@ -50,6 +50,7 @@ public class LuneControllerGPT : MonoBehaviour
     /// ∑È πﬂªÁ µÙ∑π¿Ã ≈∏¿”
     /// </summary>
     [SerializeField] float m_shootDelayTime;
+    [SerializeField] float m_luneReturnDistance;
 
     [SerializeField] bool m_isMouseDelay = false;
 
@@ -111,6 +112,7 @@ public class LuneControllerGPT : MonoBehaviour
             }
 
             LunePowerBack();
+            LuneReturnDistance();
         }
 
     }
@@ -204,5 +206,15 @@ public class LuneControllerGPT : MonoBehaviour
 
         // reset the mouseClicked flag
         m_isMouseDelay = false;
+    }
+
+    void LuneReturnDistance()
+    {
+        if (Vector2.Distance(DataController.LuneObj.transform.position, transform.position) >= m_luneReturnDistance)
+        {
+            m_isShoot = false;
+            m_isMouseDelay = true;
+            StartCoroutine("MouseClickDelay");
+        }
     }
 }

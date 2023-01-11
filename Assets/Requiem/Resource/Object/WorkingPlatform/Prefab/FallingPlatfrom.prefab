@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5307436828331710411}
   - component: {fileID: 7930459761920420426}
   - component: {fileID: 6963944061895014009}
+  - component: {fileID: 8964533680197016849}
   m_Layer: 8
   m_Name: Platform
   m_TagString: Untagged
@@ -166,6 +167,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &8964533680197016849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4948594370980333699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d1df35c4bc03544ace0e16e211bd28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_name: FallingPlatform
 --- !u!1001 &1369699957589160548
 PrefabInstance:
   m_ObjectHideFlags: 0
