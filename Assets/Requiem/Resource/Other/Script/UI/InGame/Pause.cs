@@ -5,12 +5,14 @@ using UnityEngine;
 public class Pause : MonoBehaviour
 {
     [SerializeField] GameObject m_pausePanel;
+    [SerializeField] GameObject m_optionPanel;
     bool m_isPause;
 
     private void Start()
     {
         m_isPause = false;
         m_pausePanel.SetActive(false);
+        m_optionPanel.SetActive(false);
     }
 
     void Update()
@@ -50,16 +52,20 @@ public class Pause : MonoBehaviour
     public void RestartButton()
     {
         // 게임 재시작
-        // 게임 오브젝트들 초기화하기
     }
 
     public void OptionButton()
     {
-        // 옵션 창 등장
+        m_optionPanel.SetActive(true);
     }
 
     public void QuitButton()
     {
         Application.Quit();
+    }
+
+    public void OptionReturn()
+    {
+        m_optionPanel.SetActive(false);
     }
 }

@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Sound System")]
     [SerializeField] GameObject m_playerMoveSound;
+    [SerializeField] AudioSource m_moveSoundSource;
     [SerializeField] AudioSource m_playerJumpSound;
     [SerializeField] AudioClip[] m_playerSounds;
 

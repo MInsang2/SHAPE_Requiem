@@ -40,6 +40,7 @@ public class LuneData // 룬 데이터
     public float m_luneOuterRadius; // 룬 시야 범위
     public float m_lunePowerBackDistance; // 룬 힘 회복 거리
     public float m_lunePowerBackTime; // 룬 힘 회복 시간
+    public float m_minVolume; // 룬 최소 볼륨
     public bool m_isStop; // 룬 정지 상태인가
     public bool m_isReturn; // 룬 리턴 상태인가
     public bool m_isActive; // 룬 활성화 상태인가
@@ -54,6 +55,15 @@ public class CreatLightData // 빛 생성 데이터
     public GameObject m_lightPrefab; // 라이트 프리펩
     public int m_lightCount; // 라이트 최대 생성 개수
     public float m_cicleTime; // 라이트 생성 주기
+}
+
+[Serializable]
+public class SoundManager
+{
+    public float m_bgmVolume;
+    public float m_luneSoundVolume;
+    public float m_walkSoundVolume;
+    public float m_jumpSoundVolume;
 }
 
 [Serializable]
@@ -119,6 +129,7 @@ public class DataController : MonoBehaviour
     [SerializeField] LayerString m_layerName = new LayerString();
     [SerializeField] SpikeData m_spikeData = new SpikeData();
     [SerializeField] FallingPlatformData m_fallingPlatform = new FallingPlatformData();
+    [SerializeField] SoundManager m_soundManager = new SoundManager();
 
 
 
@@ -272,7 +283,11 @@ public class DataController : MonoBehaviour
         get { return instance.m_luneData.m_useControl; }
         set { instance.m_luneData.m_useControl = value; }
     }
-
+    public static float LuneMinVolume
+    {
+        get { return instance.m_luneData.m_minVolume; }
+        set { instance.m_luneData.m_minVolume = value; }
+    }
 
 
     //생성되는 라이트
@@ -291,6 +306,28 @@ public class DataController : MonoBehaviour
         set { instance.m_creatLightData.m_cicleTime = value; }
     }
 
+
+    // 사운드매니저
+    public static float BGMVolume
+    {
+        get { return instance.m_soundManager.m_bgmVolume; }
+        set { instance.m_soundManager.m_bgmVolume = value; }
+    }
+    public static float LuneSoundVolume
+    {
+        get { return instance.m_soundManager.m_luneSoundVolume; }
+        set { instance.m_soundManager.m_luneSoundVolume = value; }
+    }
+    public static float WalkSoundVolume
+    {
+        get { return instance.m_soundManager.m_walkSoundVolume; }
+        set { instance.m_soundManager.m_walkSoundVolume = value; }
+    }
+    public static float JumpSoundVolume
+    {
+        get { return instance.m_soundManager.m_jumpSoundVolume; }
+        set { instance.m_soundManager.m_jumpSoundVolume = value; }
+    }
 
 
     // 가시

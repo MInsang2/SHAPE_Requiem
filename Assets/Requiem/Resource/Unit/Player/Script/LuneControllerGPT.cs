@@ -117,7 +117,6 @@ public class LuneControllerGPT : MonoBehaviour
 
     }
 
-
     /// <summary>
     /// 룬을 도착 지점으로 이동 시키는 함수
     /// 계속 반복 실행 중
@@ -144,14 +143,13 @@ public class LuneControllerGPT : MonoBehaviour
         if (m_isShoot)
         {
             // 파라미터 설명(조절 할 변수, 조절 할 변수, 목표 값, 소요 시간)
-            DOTween.To(() => m_luneSound.volume, x => m_luneSound.volume = x, 1f, 1f);
+            DOTween.To(() => m_luneSound.volume, x => m_luneSound.volume = x, DataController.LuneSoundVolume, 1f);
         }
         else
         {
-            DOTween.To(() => m_luneSound.volume, x => m_luneSound.volume = x, 0f, 0.4f);
+            DOTween.To(() => m_luneSound.volume, x => m_luneSound.volume = x, DataController.LuneMinVolume, 0.4f);
         }
     }
-
 
     /// <summary>
     /// 룬의 포지션을 플레이어 주위로 변경시켜주는 함수
