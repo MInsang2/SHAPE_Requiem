@@ -50,6 +50,7 @@ public class Pause : MonoBehaviour
     public void RestartButton()
     {
         // 게임 재시작
+        // 게임 오브젝트들 초기화하기
     }
 
     public void OptionButton()
