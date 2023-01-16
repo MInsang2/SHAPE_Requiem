@@ -38,6 +38,7 @@ public class RuneStatue : MonoBehaviour
         if (collision.gameObject.layer == (int)LayerName.Lune && DataController.LuneActive)
         {
             DataController.PlayerSavePoint = m_savePoint;
+            DataController.PlayerHP = DataController.PlayerMaxHP;
 
             if (!m_isActive)
             {

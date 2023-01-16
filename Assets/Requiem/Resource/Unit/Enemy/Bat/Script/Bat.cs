@@ -4,59 +4,19 @@ using UnityEngine;
 
 public class Bat : Enemy
 {
-    /// <summary>
-    /// �߰� ���
-    /// </summary>
     [SerializeField] Transform m_target;
-
-    /// <summary>
-    /// �÷��̾� ���� ������Ʈ �̸�
-    /// </summary>
     [SerializeField] string m_playerName;
-    
-    /// <summary>
-    /// �����̴� �ӵ�
-    /// </summary>
     [SerializeField] float m_speed = 5f;
     [SerializeField] float m_escapeSpeed = 5f;
-
-    /// <summary>
-    /// �þ� ������
-    /// </summary>
     [SerializeField] float m_sightArea = 3f;
-
-    /// <summary>
-    /// �߰� ������
-    /// </summary>
     [SerializeField] float m_chaseArea = 10f;
-
-    /// <summary>
-    /// �þ� ����
-    /// </summary>
     [SerializeField] Transform m_sight;
-
-    /// <summary>
-    /// �߰� ����
-    /// </summary>
     [SerializeField] Transform m_chase;
-
     [SerializeField] Collider2D m_collider;
-
-    /// <summary>
-    /// �ʱ� ��ǥ
-    /// </summary>
     Transform m_origin;
-
-    /// <summary>
-    /// m_origin.position�� �� ����ŭ ������ ����
-    /// </summary>
     [SerializeField] float m_near;
 
-    /// <summary>
-    /// �� �ݶ�����
-    /// </summary>
-    public LayerMask LuneLayer; // the layer of the collider to escape from
-
+    public LayerMask LuneLayer;
     private Rigidbody2D m_rb;
     bool m_isChasing = false;
     bool m_isEscape = false;
