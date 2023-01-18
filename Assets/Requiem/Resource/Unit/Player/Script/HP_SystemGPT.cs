@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class HP_SystemGPT : MonoBehaviour
 {
@@ -39,42 +40,42 @@ public class HP_SystemGPT : MonoBehaviour
     {
         VerticalCaughtCheck();
 
-        if (collision.gameObject.layer == (int)LayerName.RiskFactor && !m_isInvincibility)
+        if (collision.gameObject.GetComponent<RiskFactor>() != null)
         {
-            RiskFactorCheck(collision);
+            RiskFactorCheck(collision.gameObject.GetComponent<RiskFactor>());
         }
 
-        if (collision.gameObject.layer == (int)LayerName.Enemy && !m_isInvincibility)
+        if (collision.gameObject.GetComponent<Enemy>() != null)
         {
-            EnemyCheck(collision);
+            EnemyCheck(collision.gameObject.GetComponent<Enemy>());
         }
     }
 
-    void RiskFactorCheck(Collision2D collision)
+    void RiskFactorCheck(RiskFactor _riskFactor)
     {
-        string FactorName = collision.gameObject.name;
-
-        switch (FactorName)
+        switch (_riskFactor.GetName)
         {
             case "spike":
-                HitRiskFactor(collision.gameObject, DataController.SpikeDamage);
+                HitRiskFactor(_riskFactor);
                 break;
-            case "fallingPlatform":
-                HitRiskFactor(collision.gameObject, DataController.FallingPlatformDamage);
+            case "rollingStone":
+                HitRiskFactor(_riskFactor);
+                _riskFactor.GetComponent<RollingStone>().resetPosition();
                 break;
             default:
                 break;
         }
     }
 
-    void EnemyCheck(Collision2D collision)
+    void EnemyCheck(Enemy _enemy)
     {
-        string EnemyName = collision.gameObject.GetComponent<Enemy>().m_name;
-
-        switch (EnemyName)
+        switch (_enemy.GetName)
         {
             case "Bat":
-                HitEnemy(collision.gameObject, collision.gameObject.GetComponent<Enemy>().m_damage);
+                HitEnemy(_enemy);
+                break;
+            case "launchedArrow":
+                HitEnemy(_enemy);
                 break;
             default:
                 break;
@@ -87,16 +88,16 @@ public class HP_SystemGPT : MonoBehaviour
         m_hitEffect.SetActive(m_loseControl);
     }
 
-    void HitRiskFactor(GameObject riskFactor, int damage)
+    void HitRiskFactor(RiskFactor _riskFactor)
     {
-        DataController.PlayerHP -= damage;
+        DataController.PlayerHP -= _riskFactor.GetDamage;
         if (DataController.PlayerHP > 0)
         {
             m_animator.SetTrigger("IsHit");
             m_loseControl = true;
             m_hitEffect.SetActive(true);
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            transform.position = riskFactor.GetComponent<Spike>().m_resetPoint;
+            transform.position = _riskFactor.m_resetPoint;
             DataController.PlayerIsHit = true;
             m_PlayerMoveSound.SetActive(false);
         }
@@ -106,9 +107,9 @@ public class HP_SystemGPT : MonoBehaviour
         }
     }
 
-    void HitEnemy(GameObject _Enemy, int _damage)
+    void HitEnemy(Enemy _Enemy)
     {
-        DataController.PlayerHP -= _damage;
+        DataController.PlayerHP -= _Enemy.GetDamage;
         if (DataController.PlayerHP > 0)
         {
             m_animator.SetTrigger("IsHit");
@@ -119,6 +120,11 @@ public class HP_SystemGPT : MonoBehaviour
             m_rigid.AddForce(pushDirection * m_pushForce, ForceMode2D.Impulse);
             DataController.PlayerIsHit = true;
             m_PlayerMoveSound.SetActive(false);
+
+            if (_Enemy.GetComponent<LaunchedArrow>() != null)
+            {
+                _Enemy.GetComponent<LaunchedArrow>().ArrowDestroy();
+            }
         }
         else //dead
         {

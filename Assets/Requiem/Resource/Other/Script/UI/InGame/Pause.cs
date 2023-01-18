@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
@@ -52,6 +53,15 @@ public class Pause : MonoBehaviour
     public void RestartButton()
     {
         // 게임 재시작
+        // 오브젝트들의 리셋 활성화
+        //PlayerController.a_Initialized();
+        //UpDownPlatform.a_Initialized();
+        //RuneStatue.a_Initialized();
+        //Swich.a_Initialized();
+        //FallingPlatform.a_Initialized();
+        //LuneManager.a_Initialized();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Debug.Log("game reset");
     }
 
     public void OptionButton()

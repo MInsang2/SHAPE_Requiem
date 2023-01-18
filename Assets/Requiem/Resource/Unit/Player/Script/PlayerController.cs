@@ -3,12 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
+
 
 public class PlayerController : MonoBehaviour
 {
+    public static Action a_Initialized;
+
     Rigidbody2D m_rigid;
     Animator m_animator;
     Collider2D m_feetCollider;
+    Vector2 m_origin;
 
     [Header("Camera Sysyem")]
     [SerializeField] CameraFollow m_mainCamera;
@@ -34,12 +39,15 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        a_Initialized = () => { Initialized(); };
+
         m_rigid = GetComponent<Rigidbody2D>();
         m_animator = GetComponent<Animator>();
         m_isJump = true;
         m_isUpAndDown = true;
         m_feetCollider = GetComponent<Collider2D>();
         m_playerMoveSound.SetActive(false);
+        m_origin = transform.position;
     }
 
     private void Start()
@@ -190,5 +198,10 @@ public class PlayerController : MonoBehaviour
             m_animator.SetBool("IsJump", false);
             m_isJump = false;
         }
+    }
+
+    public void Initialized()
+    {
+        transform.position = m_origin;
     }
 }

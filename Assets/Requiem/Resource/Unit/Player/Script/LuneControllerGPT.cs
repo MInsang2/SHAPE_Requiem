@@ -30,6 +30,7 @@ public class LuneControllerGPT : MonoBehaviour
     /// 룬이 플레이어 주변에 있을 때 좌표
     /// </summary>
     [SerializeField] Vector2 m_lunePosition;
+    [SerializeField] Vector2 m_origin;
 
     /// <summary>
     /// 룬이 목표 지점으로 가는 시간

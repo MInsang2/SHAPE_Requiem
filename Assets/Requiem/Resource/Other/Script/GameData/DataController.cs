@@ -50,34 +50,12 @@ public class LuneData // 룬 데이터
 }
 
 [Serializable]
-public class CreatLightData // 빛 생성 데이터
-{
-    public GameObject m_lightPrefab; // 라이트 프리펩
-    public int m_lightCount; // 라이트 최대 생성 개수
-    public float m_cicleTime; // 라이트 생성 주기
-}
-
-[Serializable]
 public class SoundManager
 {
     public float m_bgmVolume;
     public float m_luneSoundVolume;
     public float m_walkSoundVolume;
     public float m_jumpSoundVolume;
-}
-
-[Serializable]
-public class SpikeData
-{
-    public string m_type;
-    public int m_damage;
-}
-
-[Serializable]
-public class FallingPlatformData
-{
-    public string m_type;
-    public int m_damage;
 }
 
 [Serializable]
@@ -125,10 +103,7 @@ public class DataController : MonoBehaviour
     [SerializeField] PlayerData m_playerData = new PlayerData();
     [SerializeField] CameraData m_cameraData = new CameraData();
     [SerializeField] LuneData m_luneData = new LuneData();
-    [SerializeField] CreatLightData m_creatLightData = new CreatLightData();
     [SerializeField] LayerString m_layerName = new LayerString();
-    [SerializeField] SpikeData m_spikeData = new SpikeData();
-    [SerializeField] FallingPlatformData m_fallingPlatform = new FallingPlatformData();
     [SerializeField] SoundManager m_soundManager = new SoundManager();
 
 
@@ -290,23 +265,6 @@ public class DataController : MonoBehaviour
     }
 
 
-    //생성되는 라이트
-    public static GameObject LightPrefab
-    {
-        get { return instance.m_creatLightData.m_lightPrefab; }
-    }
-    public static int LightCount
-    {
-        get { return instance.m_creatLightData.m_lightCount; }
-        set { instance.m_creatLightData.m_lightCount = value; }
-    }
-    public static float LightCicleTime
-    {
-        get { return instance.m_creatLightData.m_cicleTime; }
-        set { instance.m_creatLightData.m_cicleTime = value; }
-    }
-
-
     // 사운드매니저
     public static float BGMVolume
     {
@@ -328,31 +286,6 @@ public class DataController : MonoBehaviour
         get { return instance.m_soundManager.m_jumpSoundVolume; }
         set { instance.m_soundManager.m_jumpSoundVolume = value; }
     }
-
-
-    // 가시
-    public static string SpikeName
-    {
-        get { return instance.m_spikeData.m_type; }
-    }
-    public static int SpikeDamage
-    {
-        get { return instance.m_spikeData.m_damage; }
-    }
-
-
-
-    // 낙하하는 플랫폼
-    public static string FallingPlatformName
-    {
-        get { return instance.m_fallingPlatform.m_type; }
-    }
-    public static int FallingPlatformDamage
-    {
-        get { return instance.m_fallingPlatform.m_damage; }
-    }
-
-
 
     // 레이어 이름
     public static LayerMask Default
@@ -411,16 +344,20 @@ public class DataController : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (GameObject.Find("DataController") == null)
         {
-            instance = this;
+            if (instance == null)
+            {
+                instance = this;
 
-            DontDestroyOnLoad(this.gameObject);
+                //DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                //DontDestroyOnLoad(this.gameObject);
+            }
         }
-        else
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
+        
 
         DataController.LuneOuterRadius = DataController.LuneSight.pointLightOuterRadius;
         DataController.LuneOnWater = false;

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using DG.Tweening;
 
 public class UpDownPlatform : MonoBehaviour
 {
-    
+    public static Action a_Initialized;
 
     [SerializeField] float m_transPos; // 어디까지 움직이는가
     [SerializeField] float m_moveSpeed; // 움직이는 속도
@@ -18,12 +19,14 @@ public class UpDownPlatform : MonoBehaviour
     Swich m_swich;
     Transform m_wall;
 
-    float m_pos; // 벽 초기 좌표
-    float m_temp; // 벽 초기 좌표 저장
+    float m_pos;
+    float m_posOrigin; // 벽 초기 좌표
     float m_movePos; // 움직인 거리
 
     private void Awake()
     {
+        a_Initialized = () => { Initialized(); };
+
         m_swich = transform.GetChild(0).GetComponent<Swich>();
         m_wall = transform.GetChild(1);
         m_movePos = 0f;
@@ -31,12 +34,12 @@ public class UpDownPlatform : MonoBehaviour
         if (m_DirY)
         {
             m_pos = m_wall.position.y;
-            m_temp = m_wall.position.y;
+            m_posOrigin = m_wall.position.y;
         }
         else
         {
             m_pos = m_wall.position.x;
-            m_temp = m_wall.position.x;
+            m_posOrigin = m_wall.position.x;
         }
         
     }
@@ -136,5 +139,19 @@ public class UpDownPlatform : MonoBehaviour
             m_pos += m_moveSpeed * Time.deltaTime;
             m_movePos -= m_moveSpeed * Time.deltaTime;
         }
+    }
+
+    void Initialized()
+    {
+        if (m_DirY)
+        {
+            m_wall.position = new Vector2(transform.position.x, m_posOrigin);
+        }
+        else
+        {
+            m_wall.position = new Vector2(m_posOrigin, transform.position.y);
+        }
+
+        m_movePos = 0f;
     }
 }

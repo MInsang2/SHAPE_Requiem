@@ -55,23 +55,26 @@ MonoBehaviour:
     m_HP: 3
     m_isDead: 0
     m_isHit: 0
-    m_savePoint: {x: 0, y: 0}
+    m_savePoint: {x: -14, y: 10}
+    m_deathCount: 0
   m_cameraData:
-    m_followTime: 0
+    m_followTime: 1
   m_luneData:
     m_luneObj: {fileID: 0}
     m_luneRigid: {fileID: 0}
     m_luneSight: {fileID: 0}
     m_luneLightArea: {fileID: 0}
-    m_luneIntensity: 1.5
-    m_luneOuterRadius: 0
-    m_lunePowerBackDistance: 2
-    m_lunePowerBackTime: 0.2
+    m_luneIntensity: 1
+    m_luneOuterRadius: 7
+    m_lunePowerBackDistance: 1
+    m_lunePowerBackTime: 1
+    m_minVolume: 0.1
     m_isStop: 0
     m_isReturn: 0
     m_isActive: 0
     m_onWater: 0
     m_touchWater: 0
+    m_useControl: 0
   m_creatLightData:
     m_lightPrefab: {fileID: 2661167442879057160, guid: ad01d9196a336014982dc04b422de5eb, type: 3}
     m_lightCount: 200
@@ -118,6 +121,14 @@ MonoBehaviour:
     m_damage: 1
   m_fallingPlatform:
     m_type: fallingPlatform
+    m_damage: 1
+  m_soundManager:
+    m_bgmVolume: 0.15
+    m_luneSoundVolume: 0.9
+    m_walkSoundVolume: 0.4
+    m_jumpSoundVolume: 1
+  m_rollingStoneData:
+    m_type: RollingStone
     m_damage: 1
 --- !u!114 &7543882171348522682
 MonoBehaviour:

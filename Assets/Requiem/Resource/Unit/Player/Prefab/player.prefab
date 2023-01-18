@@ -10156,9 +10156,9 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 5
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -10193,7 +10193,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -10208,7 +10208,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -10468,7 +10468,7 @@ MonoBehaviour:
   - {x: 0.07949794, y: -0.03531524, z: 0}
 --- !u!95 &7901983242334787850
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10485,7 +10485,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &2529985359348219181
 GameObject:
   m_ObjectHideFlags: 0
@@ -10870,7 +10870,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &2529985360050657732
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10887,7 +10887,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!50 &2529985360050657742
 Rigidbody2D:
   serializedVersion: 4
@@ -11031,10 +11031,12 @@ MonoBehaviour:
   m_luneLight: {fileID: 2529985359348219183}
   m_target: {x: 0, y: 0}
   m_lunePosition: {x: -0.93, y: 0.63}
+  m_origin: {x: 0, y: 0}
   m_moveTime: 1
   m_luneSound: {fileID: 1904553364}
   m_isShoot: 0
   m_shootDelayTime: 0.2
+  m_luneReturnDistance: 25
   m_isMouseDelay: 0
 --- !u!114 &1996320799
 MonoBehaviour:
@@ -11076,6 +11078,7 @@ MonoBehaviour:
   m_CameraFollowTime: 1
   m_Distance: 10
   m_playerMoveSound: {fileID: 894907076}
+  m_moveSoundSource: {fileID: 894907078}
   m_playerJumpSound: {fileID: 990802244}
   m_playerSounds:
   - {fileID: 8300000, guid: aa5f00c3431948b48905b4ebf1c69143, type: 3}
@@ -11380,7 +11383,7 @@ MonoBehaviour:
   - {x: -0.020398382, y: -0.05622344, z: 0}
 --- !u!95 &1690824048
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -11397,7 +11400,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &6760739195784712601
 GameObject:
   m_ObjectHideFlags: 0

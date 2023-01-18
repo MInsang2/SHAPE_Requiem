@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spike : MonoBehaviour
+public class Spike : RiskFactor
 {
-    public Vector2 m_resetPoint;
-
     void Start()
     {
-        name = DataController.SpikeName;
+        m_name = "spike";
+        m_damage = 1;
     }
 
     void Update()

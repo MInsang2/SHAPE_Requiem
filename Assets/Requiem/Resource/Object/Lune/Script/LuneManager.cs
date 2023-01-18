@@ -2,19 +2,28 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.Rendering.Universal;
 
 public class LuneManager : MonoBehaviour
 {
+    public static Action a_Initialized;
+
     [SerializeField] LuneControllerGPT m_luneControl;
     [SerializeField] Light2D m_luneLight;
     [SerializeField] float m_moveTime = 3f;
     [SerializeField] float m_rotationSpeed = 10f;
     [SerializeField] bool m_isStatueInteraction = false;
 
+    Vector2 m_origin;
 
 
+    private void Start()
+    {
+        a_Initialized = () => { Initialized(); };
 
+        m_origin = transform.position;
+    }
 
     private void Update()
     {
@@ -95,5 +104,10 @@ public class LuneManager : MonoBehaviour
         DataController.LuneActive = false;
         m_isStatueInteraction = false;
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+    }
+
+    public void Initialized()
+    {
+        transform.position = m_origin;
     }
 }

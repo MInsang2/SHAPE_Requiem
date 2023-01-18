@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Swich : MonoBehaviour
 {
+    public static Action a_Initialized;
+
     Transform m_parent;
     public bool m_isActive;
     [SerializeField] Sprite m_active;
@@ -12,6 +15,8 @@ public class Swich : MonoBehaviour
 
     private void Awake()
     {
+        a_Initialized = () => { Initialized(); };
+
         m_parent = transform.parent;
         if (m_parent == null)
             Debug.Log("m_parent == null");
@@ -37,5 +42,10 @@ public class Swich : MonoBehaviour
             m_isActive = false;
             m_spriteRenderer.sprite = m_unActive;
         }
+    }
+
+    public void Initialized()
+    {
+        m_isActive = false;
     }
 }

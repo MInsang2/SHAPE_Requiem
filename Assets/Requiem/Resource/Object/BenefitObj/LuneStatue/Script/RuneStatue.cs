@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using System;
 
 
 public class RuneStatue : MonoBehaviour
 {
+    public static Action a_Initialized;
+
     [SerializeField] Light2D[] m_DivArr;
     [SerializeField] Light2D[] m_circleLightArr;
     [SerializeField] Vector2 m_savePoint;
@@ -15,6 +18,8 @@ public class RuneStatue : MonoBehaviour
 
     private void Awake()
     {
+        a_Initialized = () => { Initialized(); };
+
         if (m_savePoint == Vector2.zero)
         {
             m_savePoint = transform.position;
@@ -53,6 +58,15 @@ public class RuneStatue : MonoBehaviour
                 }
                 m_isActive = true;
             }
+        }
+    }
+
+    public void Initialized()
+    {
+        m_isActive = false;
+        for (int i = 0; i < m_DivArr.Length; i++)
+        {
+            m_DivArr[i].gameObject.SetActive(false);
         }
     }
 }
