@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
     bool GroundCheck()
     {
         RaycastHit2D hitInfo = Physics2D.BoxCast(m_feetCollider.bounds.center, m_feetCollider.bounds.size, 0f,
-                                                            -Vector2.up, m_castDistance, DataController.Platform);
+                                                            -Vector2.up, m_castDistance, (int)LayerName.Platform);
 
         return hitInfo.collider != null;
     }

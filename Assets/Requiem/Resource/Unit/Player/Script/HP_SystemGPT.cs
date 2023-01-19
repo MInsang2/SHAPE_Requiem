@@ -17,6 +17,7 @@ public class HP_SystemGPT : MonoBehaviour
     [SerializeField] CameraFollow m_mainCamera;
     [SerializeField] float m_verticalDistance;
     [SerializeField] float m_horizontalDistance;
+    [SerializeField] LayerMask m_platform;
 
     RaycastHit2D[] m_hitInfo = new RaycastHit2D[2];
     float m_timeLeft;
@@ -189,8 +190,8 @@ public class HP_SystemGPT : MonoBehaviour
 
     void VerticalCaughtCheck()
     {
-        m_hitInfo[0] = Physics2D.Raycast(transform.position, Vector2.up, m_verticalDistance, DataController.Platform);
-        m_hitInfo[1] = Physics2D.Raycast(transform.position, Vector2.down, m_verticalDistance, DataController.Platform);
+        m_hitInfo[0] = Physics2D.Raycast(transform.position, Vector2.up, m_verticalDistance, m_platform);
+        m_hitInfo[1] = Physics2D.Raycast(transform.position, Vector2.down, m_verticalDistance, m_platform);
 
         for (int i = 0; i < m_hitInfo.Length; i++)
         {
@@ -203,8 +204,8 @@ public class HP_SystemGPT : MonoBehaviour
 
     void HorizontalCaughtCheck()
     {
-        m_hitInfo[0] = Physics2D.Raycast(m_colider.bounds.center, Vector2.left, m_horizontalDistance, DataController.Platform);
-        m_hitInfo[1] = Physics2D.Raycast(m_colider.bounds.center, Vector2.right, m_horizontalDistance, DataController.Platform);
+        m_hitInfo[0] = Physics2D.Raycast(m_colider.bounds.center, Vector2.left, m_horizontalDistance, m_platform);
+        m_hitInfo[1] = Physics2D.Raycast(m_colider.bounds.center, Vector2.right, m_horizontalDistance, m_platform);
 
         for (int i = 0; i < m_hitInfo.Length; i++)
         {

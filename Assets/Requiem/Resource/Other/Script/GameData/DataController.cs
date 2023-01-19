@@ -58,23 +58,6 @@ public class SoundManager
     public float m_jumpSoundVolume;
 }
 
-[Serializable]
-public class LayerString
-{
-    public LayerMask Default;
-    public LayerMask TransparentFX;
-    public LayerMask IgnoreRaycast;
-    public LayerMask Player;
-    public LayerMask Water;
-    public LayerMask UI;
-    public LayerMask Lune;
-    public LayerMask Wall;
-    public LayerMask Platform;
-    public LayerMask RiskFactor;
-    public LayerMask Enemy;
-    public LayerMask LightArea;
-}
-
 //레이어 번호
 public enum LayerName
 {
@@ -89,7 +72,8 @@ public enum LayerName
     Platform,
     RiskFactor,
     Enemy,
-    LightArea
+    LightArea,
+    MossLight
 }
 
 public class DataController : MonoBehaviour
@@ -103,7 +87,6 @@ public class DataController : MonoBehaviour
     [SerializeField] PlayerData m_playerData = new PlayerData();
     [SerializeField] CameraData m_cameraData = new CameraData();
     [SerializeField] LuneData m_luneData = new LuneData();
-    [SerializeField] LayerString m_layerName = new LayerString();
     [SerializeField] SoundManager m_soundManager = new SoundManager();
 
 
@@ -286,59 +269,6 @@ public class DataController : MonoBehaviour
         get { return instance.m_soundManager.m_jumpSoundVolume; }
         set { instance.m_soundManager.m_jumpSoundVolume = value; }
     }
-
-    // 레이어 이름
-    public static LayerMask Default
-    {
-        get { return instance.m_layerName.Default; }
-    }
-    public static LayerMask TransparentFX
-    {
-        get { return instance.m_layerName.TransparentFX; }
-    }
-    public static LayerMask IgnoreRaycast
-    {
-        get { return instance.m_layerName.IgnoreRaycast; }
-    }
-    public static LayerMask Player
-    {
-        get { return instance.m_layerName.Player; }
-    }
-    public static LayerMask Water
-    {
-        get { return instance.m_layerName.Water; }
-    }
-    public static LayerMask UI
-    {
-        get { return instance.m_layerName.UI; }
-    }
-    public static LayerMask Lune
-    {
-        get { return instance.m_layerName.Lune; }
-    }
-    public static LayerMask Wall
-    {
-        get { return instance.m_layerName.Wall; }
-    }
-    public static LayerMask Platform
-    {
-        get { return instance.m_layerName.Platform; }
-    }
-    public static LayerMask RiskFactor
-    {
-        get { return instance.m_layerName.RiskFactor; }
-    }
-    public static LayerMask Enemy
-    {
-        get { return instance.m_layerName.Enemy; }
-    }
-
-    public static LayerMask LightArea
-    {
-        get { return instance.m_layerName.LightArea; }
-    }
-
-
 
 
 
