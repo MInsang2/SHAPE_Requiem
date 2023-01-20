@@ -58,12 +58,10 @@ public class MossBug_Green : MonoBehaviour
         if (temp != -1)
         {
             m_detectLight = true;
-            Debug.Log("m_detectLight = true");
         }
         else
         {
             m_detectLight = false;
-            Debug.Log("m_detectLight = false");
         }
     }
 
@@ -74,9 +72,16 @@ public class MossBug_Green : MonoBehaviour
 
     void TargetChange()
     {
+        if (m_light.Length == 0)
+        {
+            m_target = m_origin;
+            return;
+        }
+
         if (temp == -1)
         {
             m_target = m_origin;
+            return;
         }
         else
         {

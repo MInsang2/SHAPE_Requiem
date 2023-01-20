@@ -11062,6 +11062,9 @@ MonoBehaviour:
   m_mainCamera: {fileID: 0}
   m_verticalDistance: 0.4
   m_horizontalDistance: 0.2
+  m_platform:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &1495656165233417272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11087,6 +11090,9 @@ MonoBehaviour:
   m_fallForce: 1.5
   m_maxFallSpeed: 10
   m_castDistance: 1
+  m_platform:
+    serializedVersion: 2
+    m_Bits: 256
   m_isJump: 0
   m_isGrounded: 0
   m_isUpAndDown: 0

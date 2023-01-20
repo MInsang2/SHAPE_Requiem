@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float m_fallForce;
     [SerializeField] float m_maxFallSpeed;
     [SerializeField] float m_castDistance;
+    [SerializeField] LayerMask m_platform;
 
     [SerializeField] bool m_isJump;
     [SerializeField] bool m_isGrounded;
@@ -156,7 +157,7 @@ public class PlayerController : MonoBehaviour
     bool GroundCheck()
     {
         RaycastHit2D hitInfo = Physics2D.BoxCast(m_feetCollider.bounds.center, m_feetCollider.bounds.size, 0f,
-                                                            -Vector2.up, m_castDistance, (int)LayerName.Platform);
+                                                            -Vector2.up, m_castDistance, m_platform);
 
         return hitInfo.collider != null;
     }
