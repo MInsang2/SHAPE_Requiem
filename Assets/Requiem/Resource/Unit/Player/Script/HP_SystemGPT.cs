@@ -39,17 +39,21 @@ public class HP_SystemGPT : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        VerticalCaughtCheck();
-
-        if (collision.gameObject.GetComponent<RiskFactor>() != null)
+        if (!m_isInvincibility)
         {
-            RiskFactorCheck(collision.gameObject.GetComponent<RiskFactor>());
-        }
+            VerticalCaughtCheck();
 
-        if (collision.gameObject.GetComponent<Enemy>() != null)
-        {
-            EnemyCheck(collision.gameObject.GetComponent<Enemy>());
+            if (collision.gameObject.GetComponent<RiskFactor>() != null)
+            {
+                RiskFactorCheck(collision.gameObject.GetComponent<RiskFactor>());
+            }
+
+            if (collision.gameObject.GetComponent<Enemy>() != null)
+            {
+                EnemyCheck(collision.gameObject.GetComponent<Enemy>());
+            }
         }
+        
     }
 
     void RiskFactorCheck(RiskFactor _riskFactor)
@@ -73,9 +77,8 @@ public class HP_SystemGPT : MonoBehaviour
         switch (_enemy.GetName)
         {
             case "Bat":
-                HitEnemy(_enemy);
-                break;
             case "launchedArrow":
+            case "mossBug_Red":
                 HitEnemy(_enemy);
                 break;
             default:
@@ -111,6 +114,7 @@ public class HP_SystemGPT : MonoBehaviour
     void HitEnemy(Enemy _Enemy)
     {
         DataController.PlayerHP -= _Enemy.GetDamage;
+        Debug.Log(DataController.PlayerHP);
         if (DataController.PlayerHP > 0)
         {
             m_animator.SetTrigger("IsHit");

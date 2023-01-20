@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MossBug_Red : MonoBehaviour
+public class MossBug_Red : Enemy
 {
     // 룬의 빛이랑 접촉하면, 플레이어에게 돌진
     // 일정거리 이상 벗어나면 초기위치로 복귀
     [SerializeField] float m_speed;
     [SerializeField] float m_returnDistance;
-    [SerializeField] Vector2 m_target;
-    [SerializeField] Vector2 m_origin;
-    [SerializeField] Transform m_player;
+    Vector2 m_target;
+    Vector2 m_origin;
+    Transform m_player;
 
     bool m_detectLight = false;
 
 
     void Start()
     {
+        m_name = "mossBug_Red";
+        m_damage = 1;
         m_origin = transform.position;
         m_target = m_origin;
         m_player = GameObject.Find("player").transform;
@@ -44,7 +46,7 @@ public class MossBug_Red : MonoBehaviour
 
     void MoveTarget()
     {
-        Vector2.MoveTowards(transform.position, m_target, m_speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, m_target, m_speed * Time.deltaTime);
     }
 
     void ChangeTarget()
@@ -62,7 +64,7 @@ public class MossBug_Red : MonoBehaviour
 
     void MissingPlayer()
     {
-        if (((Vector2)transform.position - m_origin).magnitude < m_returnDistance)
+        if (((Vector2)transform.position - m_origin).magnitude > m_returnDistance)
         {
             m_detectLight = false;
         }
