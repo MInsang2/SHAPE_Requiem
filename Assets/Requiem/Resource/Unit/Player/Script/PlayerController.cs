@@ -63,10 +63,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        CameraController();
-        PlayerDataUpdate();
-        Move();
-        JumpController();
+        if (DataController.PlayerIsMove)
+        {
+            CameraController();
+            PlayerDataUpdate();
+            Move();
+            JumpController();
+        }
+        
     }
 
     void PlayerDataUpdate()

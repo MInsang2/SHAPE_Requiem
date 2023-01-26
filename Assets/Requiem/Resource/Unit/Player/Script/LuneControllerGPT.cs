@@ -67,9 +67,12 @@ public class LuneControllerGPT : MonoBehaviour
 
     void Update()
     {
-        LuneControl();
-        LuneSoundController();
-        LuneMove();
+        if (DataController.PlayerIsGetLune)
+        {
+            LuneControl();
+            LuneSoundController();
+            LuneMove();
+        }
     }
 
     /// <summary>
