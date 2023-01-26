@@ -19,6 +19,8 @@ public class PlayerData // 플레이어 데이터
     public int m_HP; // 현재 체력
     public bool m_isDead; // 죽음 체크
     public bool m_isHit; // 맞음 판정
+    public bool m_isMove;
+    public bool m_isGetLune;
     public Vector2 m_savePoint;
     public uint m_deathCount;
 }
@@ -153,6 +155,16 @@ public class DataController : MonoBehaviour
     {
         get { return instance.m_playerData.m_isHit; }
         set { instance.m_playerData.m_isHit = value; }
+    }
+    public static bool PlayerIsMove
+    {
+        get { return instance.m_playerData.m_isMove; }
+        set { instance.m_playerData.m_isMove = value; }
+    }
+    public static bool PlayerIsGetLune
+    {
+        get { return instance.m_playerData.m_isGetLune; }
+        set { instance.m_playerData.m_isGetLune = value; }
     }
     public static uint PlayerDeathCount
     {
@@ -295,5 +307,7 @@ public class DataController : MonoBehaviour
         DataController.PlayerIsHit = false;
         DataController.LuneTouchWater = false;
         DataController.LuneUseControl = true;
+        DataController.PlayerIsMove = true;
+        DataController.PlayerIsGetLune = true;
     }
 }
