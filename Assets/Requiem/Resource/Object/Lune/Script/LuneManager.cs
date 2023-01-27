@@ -14,6 +14,7 @@ public class LuneManager : MonoBehaviour
     [SerializeField] float m_moveTime = 3f;
     [SerializeField] float m_rotationSpeed = 10f;
     [SerializeField] bool m_isStatueInteraction = false;
+    [SerializeField] Transform m_statue;
 
     Vector2 m_origin;
 
@@ -29,7 +30,7 @@ public class LuneManager : MonoBehaviour
     {
         if (m_isStatueInteraction)
         {
-            StatueInteraction();
+            StatueInteraction(m_statue);
         }
     }
 
@@ -56,8 +57,7 @@ public class LuneManager : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<RuneStatue>() != null && DataController.LuneActive)
         {
-            m_luneControl.m_target = collision.transform.position;
-            DataController.LuneUseControl = false;
+            m_statue = collision.transform;
             m_isStatueInteraction = true;
         }
     }
@@ -89,8 +89,10 @@ public class LuneManager : MonoBehaviour
         DataController.LuneLightArea.radius = m_luneLight.pointLightOuterRadius;
     }
 
-    void StatueInteraction()
+    public void StatueInteraction(Transform _target)
     {
+        m_luneControl.m_target = _target.position;
+        DataController.LuneUseControl = false;
         transform.Rotate(Vector3.back * m_rotationSpeed);
         transform.DOMove(m_luneControl.m_target, m_moveTime);
         StartCoroutine("StatueInteractionDelay");
@@ -102,6 +104,7 @@ public class LuneManager : MonoBehaviour
 
         DataController.LuneUseControl = true;
         DataController.LuneActive = false;
+        DataController.PlayerIsGetLune = true;
         m_isStatueInteraction = false;
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
     }
