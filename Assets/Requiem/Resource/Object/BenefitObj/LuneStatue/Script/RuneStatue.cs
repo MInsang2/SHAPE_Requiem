@@ -42,22 +42,27 @@ public class RuneStatue : MonoBehaviour
     {
         if (collision.gameObject.layer == (int)LayerName.Lune && DataController.LuneActive)
         {
-            DataController.PlayerSavePoint = m_savePoint;
-            DataController.PlayerHP = DataController.PlayerMaxHP;
+            EnterTheLune();
+        }
+    }
 
-            if (!m_isActive)
+    public void EnterTheLune()
+    {
+        DataController.PlayerSavePoint = m_savePoint;
+        DataController.PlayerHP = DataController.PlayerMaxHP;
+
+        if (!m_isActive)
+        {
+            m_animator.SetBool("IsActive", true);
+            for (int i = 0; i < m_DivArr.Length; i++)
             {
-                m_animator.SetBool("IsActive", true);
-                for (int i = 0; i < m_DivArr.Length; i++)
-                {
-                    m_DivArr[i].gameObject.SetActive(true);
-                }
-                for (int i = 0; i < m_circleLightArr.Length; i++)
-                {
-                    m_circleLightArr[i].intensity = 0f;
-                }
-                m_isActive = true;
+                m_DivArr[i].gameObject.SetActive(true);
             }
+            for (int i = 0; i < m_circleLightArr.Length; i++)
+            {
+                m_circleLightArr[i].intensity = 0f;
+            }
+            m_isActive = true;
         }
     }
 
