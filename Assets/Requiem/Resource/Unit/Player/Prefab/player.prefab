@@ -5207,7 +5207,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: aa5f00c3431948b48905b4ebf1c69143, type: 3}
+  m_audioClip: {fileID: 8300000, guid: af4a611c7409fb846afc7b4173d3e7d5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1.05
@@ -10695,6 +10695,7 @@ MonoBehaviour:
   m_moveTime: 3
   m_rotationSpeed: 10
   m_isStatueInteraction: 0
+  m_statue: {fileID: 0}
 --- !u!60 &1862329909
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -11084,7 +11085,7 @@ MonoBehaviour:
   m_moveSoundSource: {fileID: 894907078}
   m_playerJumpSound: {fileID: 990802244}
   m_playerSounds:
-  - {fileID: 8300000, guid: aa5f00c3431948b48905b4ebf1c69143, type: 3}
+  - {fileID: 8300000, guid: af4a611c7409fb846afc7b4173d3e7d5, type: 3}
   m_jumpLeft: 2
   m_jumpForce: 15
   m_fallForce: 1.5

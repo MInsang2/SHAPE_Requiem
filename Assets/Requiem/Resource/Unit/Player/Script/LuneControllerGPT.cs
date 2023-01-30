@@ -24,7 +24,7 @@ public class LuneControllerGPT : MonoBehaviour
     /// <summary>
     /// 룬의 목표 지점
     /// </summary>
-    [SerializeField] public Vector2 m_target;
+    public Vector2 m_target;
 
     /// <summary>
     /// 룬이 플레이어 주변에 있을 때 좌표
@@ -35,7 +35,7 @@ public class LuneControllerGPT : MonoBehaviour
     /// <summary>
     /// 룬이 목표 지점으로 가는 시간
     /// </summary>
-    [SerializeField] float m_moveTime;
+    public float m_moveTime;
 
     /// <summary>
     /// 룬이 움직일 때 나는 소리
@@ -45,7 +45,7 @@ public class LuneControllerGPT : MonoBehaviour
     /// <summary>
     /// 룬이 발사 상태인지 체크하는 변수
     /// </summary>
-    [SerializeField] bool m_isShoot;
+    public bool m_isShoot;
 
     /// <summary>
     /// 룬 발사 딜레이 타임

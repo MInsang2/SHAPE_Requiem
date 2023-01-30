@@ -13,6 +13,8 @@ public class Bat : Enemy
     [SerializeField] Transform m_sight;
     [SerializeField] Transform m_chase;
     [SerializeField] Collider2D m_collider;
+    [SerializeField] AudioSource m_audioSource;
+    [SerializeField] AudioClip m_fly;
     Transform m_origin;
     [SerializeField] float m_near;
 
@@ -20,6 +22,7 @@ public class Bat : Enemy
     private Rigidbody2D m_rb;
     bool m_isChasing = false;
     bool m_isEscape = false;
+    bool m_isPlay = false;
 
     public Bat()
     {
@@ -129,13 +132,23 @@ public class Bat : Enemy
     void SightSearch()
     {
         if (Vector2.Distance(transform.position, m_target.position) < m_sightArea)
+        {
             m_isChasing = true;
+            if (!m_isPlay)
+            {
+                m_audioSource.PlayOneShot(m_fly);
+                m_isPlay = true;
+            }
+        }
     }
 
     void ChaseSearch()
     {
         if (Vector2.Distance(m_origin.position, m_target.position) > m_chaseArea)
+        {
             m_isChasing = false;
+            m_isPlay = false;
+        }
     }
 
 
