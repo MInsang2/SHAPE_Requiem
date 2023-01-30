@@ -180,4 +180,12 @@ public class Bat : Enemy
             transform.localScale = new Vector2(1f, 1f);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, m_chaseArea);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, m_sightArea);
+    }
 }
