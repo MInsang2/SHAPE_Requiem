@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
         m_feetCollider = GetComponent<Collider2D>();
         m_playerMoveSound.SetActive(false);
         m_origin = transform.position;
+        m_mainCamera = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
     }
 
     private void Start()

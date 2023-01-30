@@ -27,6 +27,7 @@ public class HP_SystemGPT : MonoBehaviour
 
     void Start()
     {
+        m_mainCamera = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
         m_hitEffect.SetActive(false);
     }
 

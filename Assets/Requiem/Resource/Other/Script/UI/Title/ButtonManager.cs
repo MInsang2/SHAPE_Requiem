@@ -12,7 +12,7 @@ public class ButtonManager : MonoBehaviour
 
     public void StartClick()
     {
-        SceneManager.LoadScene("underground_map1");
+        SceneManager.LoadScene("underground_MinSang");
     }
 
     public void ExitClick()

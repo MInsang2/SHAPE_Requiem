@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Title.unity
     guid: 6a3206ca07c58c140877c09f55149482
   - enabled: 1
-    path: Assets/Scenes/underground_map1.unity
-    guid: c7524665d01cc1d448c39efd9495f36d
+    path: Assets/Scenes/underground_MinSang.unity
+    guid: 6b0c83aba6f1076449e2a2fddfa2d39a
   m_configObjects: {}
