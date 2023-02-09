@@ -13,7 +13,9 @@ public class RuneStatue : MonoBehaviour
     [SerializeField] Light2D[] m_circleLightArr;
     [SerializeField] Vector2 m_savePoint;
     [SerializeField] bool m_isActive;
+    [SerializeField] AudioClip m_audioClip;
     Animator m_animator;
+    AudioSource m_audioSource;
 
 
     private void Awake()
@@ -31,6 +33,8 @@ public class RuneStatue : MonoBehaviour
         {
             m_DivArr[i].gameObject.SetActive(false);
         }
+
+        m_audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -50,7 +54,7 @@ public class RuneStatue : MonoBehaviour
     {
         DataController.PlayerSavePoint = m_savePoint;
         DataController.PlayerHP = DataController.PlayerMaxHP;
-
+        m_audioSource.PlayOneShot(m_audioClip);
         if (!m_isActive)
         {
             m_animator.SetBool("IsActive", true);

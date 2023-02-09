@@ -11,7 +11,11 @@ public class Swich : MonoBehaviour
     public bool m_isActive;
     [SerializeField] Sprite m_active;
     [SerializeField] Sprite m_unActive;
+    [SerializeField] AudioClip m_audioSwichOff;
+    [SerializeField] AudioClip m_audioSwichOn;
     SpriteRenderer m_spriteRenderer;
+    AudioSource m_audioSource;
+
 
     private void Awake()
     {
@@ -23,6 +27,7 @@ public class Swich : MonoBehaviour
         m_isActive = false;
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_spriteRenderer.sprite = m_unActive;
+        m_audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -35,11 +40,13 @@ public class Swich : MonoBehaviour
         if (collision.gameObject.layer == (int)LayerName.Lune && !m_isActive && DataController.LuneActive)
         {
             m_isActive = true;
+            m_audioSource.PlayOneShot(m_audioSwichOn);
             m_spriteRenderer.sprite = m_active;
         }
         else if (collision.gameObject.layer == (int)LayerName.Lune && m_isActive && DataController.LuneActive)
         {
             m_isActive = false;
+            m_audioSource.PlayOneShot(m_audioSwichOff);
             m_spriteRenderer.sprite = m_unActive;
         }
     }
