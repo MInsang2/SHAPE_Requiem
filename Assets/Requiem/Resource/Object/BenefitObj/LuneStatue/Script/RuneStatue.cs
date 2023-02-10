@@ -12,10 +12,12 @@ public class RuneStatue : MonoBehaviour
     [SerializeField] Light2D[] m_DivArr;
     [SerializeField] Light2D[] m_circleLightArr;
     [SerializeField] Vector2 m_savePoint;
-    [SerializeField] bool m_isActive;
+    [SerializeField] public bool m_isActive;
     [SerializeField] AudioClip m_audioClip;
     Animator m_animator;
     AudioSource m_audioSource;
+
+    bool m_isPlay;
 
 
     private void Awake()
@@ -28,6 +30,7 @@ public class RuneStatue : MonoBehaviour
         }
 
         m_isActive = false;
+        m_isPlay = false;
         m_animator = GetComponent<Animator>();
         for (int i = 0; i < m_DivArr.Length; i++)
         {
@@ -50,13 +53,22 @@ public class RuneStatue : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == (int)LayerName.Player)
+        {
+            DataController.PlayerSavePoint = m_savePoint;
+            DataController.PlayerHP = DataController.PlayerMaxHP;
+        }
+    }
+
     public void EnterTheLune()
     {
-        DataController.PlayerSavePoint = m_savePoint;
-        DataController.PlayerHP = DataController.PlayerMaxHP;
-        m_audioSource.PlayOneShot(m_audioClip);
+        
         if (!m_isActive)
         {
+            DataController.PlayerSavePoint = m_savePoint;
+            DataController.PlayerHP = DataController.PlayerMaxHP;
             m_animator.SetBool("IsActive", true);
             for (int i = 0; i < m_DivArr.Length; i++)
             {
@@ -66,7 +78,12 @@ public class RuneStatue : MonoBehaviour
             {
                 m_circleLightArr[i].intensity = 0f;
             }
-            m_isActive = true;
+
+            if (!m_isPlay)
+            {
+                m_audioSource.PlayOneShot(m_audioClip);
+            }
+            m_isPlay = true;
         }
     }
 

@@ -30,7 +30,10 @@ public class LuneManager : MonoBehaviour
     {
         if (m_isStatueInteraction)
         {
-            StatueInteraction(m_statue);
+            if (!m_statue.GetComponent<RuneStatue>().m_isActive)
+            {
+                StatueInteraction(m_statue);
+            }
         }
     }
 
@@ -107,6 +110,7 @@ public class LuneManager : MonoBehaviour
         DataController.PlayerIsGetLune = true;
         m_isStatueInteraction = false;
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
+        m_statue.GetComponent<RuneStatue>().m_isActive = true;
     }
 
     public void Initialized()

@@ -9,17 +9,17 @@ public class CameraFollow : MonoBehaviour
     /// DOMOVE 함수에 사용됨
     /// 카메라가 지정된 위치로 이동 시 걸리는 시간
     /// </summary>
-    [SerializeField] public float FollowTime;
+    public float FollowTime;
 
     /// <summary>
     /// 카메라가 플레이어 보다 얼만큼 앞에 있을 지 정하는 변수
     /// </summary>
-    [SerializeField] float CameraPosX;
+    public float CameraPosX;
 
     /// <summary>
     /// 카메라가 플레이어 보다 얼만큼 위에 있을 지 정하는 변수
     /// </summary>
-    [SerializeField] float CameraPosY;
+    public float CameraPosY;
 
     /// <summary>
     /// 플레이어의 위치

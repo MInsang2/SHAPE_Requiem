@@ -131,7 +131,7 @@ public class Bat : Enemy
 
     void SightSearch()
     {
-        if (Vector2.Distance(transform.position, m_target.position) < m_sightArea)
+        if (Vector2.Distance(transform.position, m_target.position) < m_sightArea && Vector2.Distance(m_origin.position, m_target.position) < m_chaseArea)
         {
             m_isChasing = true;
             if (!m_isPlay)

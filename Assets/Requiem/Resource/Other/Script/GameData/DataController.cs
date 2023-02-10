@@ -60,6 +60,12 @@ public class SoundManager
     public float m_jumpSoundVolume;
 }
 
+[Serializable]
+public class TriggerData
+{
+    public bool m_playerIn; 
+}
+
 //레이어 번호
 public enum LayerName
 {
@@ -90,6 +96,7 @@ public class DataController : MonoBehaviour
     [SerializeField] CameraData m_cameraData = new CameraData();
     [SerializeField] LuneData m_luneData = new LuneData();
     [SerializeField] SoundManager m_soundManager = new SoundManager();
+    [SerializeField] TriggerData m_triggerData = new TriggerData();
 
 
 
@@ -282,6 +289,13 @@ public class DataController : MonoBehaviour
         set { instance.m_soundManager.m_jumpSoundVolume = value; }
     }
 
+    // 트리거 데이터
+    public static bool PlayerIn
+    {
+        get { return instance.m_triggerData.m_playerIn; }
+        set { instance.m_triggerData.m_playerIn = value; }
+    }
+
 
 
     private void Awake()
@@ -309,5 +323,6 @@ public class DataController : MonoBehaviour
         DataController.LuneUseControl = true;
         DataController.PlayerIsMove = true;
         DataController.PlayerIsGetLune = true;
+        DataController.PlayerIn = false;
     }
 }
