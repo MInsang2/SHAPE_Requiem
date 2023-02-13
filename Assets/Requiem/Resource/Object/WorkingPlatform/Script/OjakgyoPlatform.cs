@@ -10,6 +10,7 @@ public class OjakgyoPlatform : MonoBehaviour
     [SerializeField] float m_desY;
     [SerializeField] float m_moveTime;
     [SerializeField] float m_timeLaps;
+    [SerializeField] AudioSource m_audioSource;
 
     Vector2 m_initialPos;
     Vector2 m_destyPos;
@@ -18,6 +19,7 @@ public class OjakgyoPlatform : MonoBehaviour
 
     private void Awake()
     {
+        m_audioSource.gameObject.SetActive(false);
         m_initialPos = transform.position;
         m_destyPos = new Vector2(m_desX, m_desY);
         m_delayTime = 0f;
@@ -57,11 +59,13 @@ public class OjakgyoPlatform : MonoBehaviour
         if (m_delayTime <= m_timeLaps && m_isActive)
         {
             transform.DOMove(m_destyPos, m_moveTime);
+            m_audioSource.gameObject.SetActive(true);
             m_delayTime += Time.deltaTime;
         }
         else if (m_delayTime > m_timeLaps)
         {
             transform.DOMove(m_initialPos, m_moveTime);
+            m_audioSource.gameObject.SetActive(false);
             m_delayTime = 0f;
             m_isActive = false;
         }
