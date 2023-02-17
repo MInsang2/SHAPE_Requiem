@@ -8,12 +8,14 @@ public class LaunchedArrow : Enemy
     [SerializeField] float m_speed;
     Rigidbody2D m_rigid;
     Vector2 m_dir;
+    Vector2 m_origin;
 
     void Start()
     {
         m_name = "launchedArrow";
         m_damage = 1;
         m_rigid = GetComponent<Rigidbody2D>();
+        m_origin = transform.position;
     }
 
     private void Update()
@@ -21,6 +23,8 @@ public class LaunchedArrow : Enemy
         MoveArrow();
         Invoke("ArrowDestroy", m_destroyTime);
     }
+
+    
 
     public override void TriggerOn()
     {

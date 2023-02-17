@@ -38,8 +38,8 @@ public class GetLuneTrigger : MonoBehaviour
             m_isActive = true;
             // 룬 애니매이션 시작
             m_runeStatue.EnterTheLune();
+            m_runeStatue.m_isActive = true;
             StartCoroutine("GetLuneDelay");
-            // 플레이어 컨트롤 정지.
         }
     }
 

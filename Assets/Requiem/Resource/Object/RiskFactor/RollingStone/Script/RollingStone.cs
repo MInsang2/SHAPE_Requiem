@@ -35,6 +35,6 @@ public class RollingStone : RiskFactor
         m_rigid.velocity = Vector2.zero;
         m_rigid.freezeRotation = true;
         transform.position = m_origin;
-
     }
+
 }

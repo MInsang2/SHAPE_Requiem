@@ -15,7 +15,7 @@ public class LuneThrowTrigger : MonoBehaviour
 
     void Update()
     {
-        if (DataController.PlayerDeathCount == 1)
+        if (DataController.PlayerIsGetLune)
         {
             m_luneThrowGuide.SetActive(true);
             m_isActive = true;

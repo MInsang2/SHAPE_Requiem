@@ -54,7 +54,24 @@ public class HP_SystemGPT : MonoBehaviour
                 EnemyCheck(collision.gameObject.GetComponent<Enemy>());
             }
         }
-        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!m_isInvincibility)
+        {
+            VerticalCaughtCheck();
+
+            if (collision.gameObject.GetComponent<RiskFactor>() != null)
+            {
+                RiskFactorCheck(collision.gameObject.GetComponent<RiskFactor>());
+            }
+
+            if (collision.gameObject.GetComponent<Enemy>() != null)
+            {
+                EnemyCheck(collision.gameObject.GetComponent<Enemy>());
+            }
+        }
     }
 
     void RiskFactorCheck(RiskFactor _riskFactor)
@@ -66,7 +83,7 @@ public class HP_SystemGPT : MonoBehaviour
                 break;
             case "rollingStone":
                 HitRiskFactor(_riskFactor);
-                _riskFactor.GetComponent<RollingStone>().resetPosition();
+                //_riskFactor.GetComponent<RollingStone>().resetPosition();
                 break;
             default:
                 break;
