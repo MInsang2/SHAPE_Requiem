@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
-
+using UnityEngine.SceneManagement; //이걸 써야지 씬에 관한 시스템을 적용시킬수있다.
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +14,10 @@ public class PlayerController : MonoBehaviour
     Animator m_animator;
     Collider2D m_feetCollider;
     Vector2 m_origin;
+
+    GameObject Teleport2;
+
+    Vector2 Teleport2location;
 
     [Header("Camera Sysyem")]
     [SerializeField] CameraFollow m_mainCamera;
@@ -71,7 +75,6 @@ public class PlayerController : MonoBehaviour
             Move();
             JumpController();
         }
-        
     }
 
     void PlayerDataUpdate()
