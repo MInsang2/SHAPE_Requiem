@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 7785947108727004564}
   - component: {fileID: 7785947108727004567}
   - component: {fileID: 7785947108727004562}
-  - component: {fileID: 7785947108727004565}
   m_Layer: 10
   m_Name: ArrowLauncher
   m_TagString: Untagged
@@ -197,21 +196,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7785947108727004565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7785947108727004566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f68973ae2eb2c79429811259deaa4172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_resetPoint: {x: 0, y: 0}
-  m_arrowPrefab: {fileID: 2698640535502645867, guid: 7176009c5124a784498bdd0183d3c4dd, type: 3}
-  m_shootDelay: 3
-  m_launchPoint: {x: 0, y: 0}
-  m_timeLeft: 0
-  m_isShoot: 0
