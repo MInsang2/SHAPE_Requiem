@@ -213,4 +213,22 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = m_origin;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "CheckPoint")
+        {
+            transform.position = m_origin;
+        }
+        else if(collision.tag == "NextLevel")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            m_origin = transform.position;
+        }
+        else if (collision.tag == "PreviousLevel")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            m_origin = transform.position;
+        }
+    }
 }

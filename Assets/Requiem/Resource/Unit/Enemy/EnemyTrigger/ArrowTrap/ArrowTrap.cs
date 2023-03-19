@@ -19,6 +19,7 @@ public class ArrowTrap : MonoBehaviour
         {
             yield return new WaitForSeconds(ArrowSpeed);
             Instantiate(Arrow, firepoint.position, firepoint.rotation);
+            Destroy(gameObject);
         }
     }
 }
