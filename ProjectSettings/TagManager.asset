@@ -8,7 +8,6 @@ TagManager:
   - previousLevel
   - NextLevel
   - Item
-  - Enemy
   layers:
   - Default
   - TransparentFX
