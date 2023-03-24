@@ -81,7 +81,9 @@ public enum LayerName
     RiskFactor,
     Enemy,
     LightArea,
-    MossLight
+    MossLight,
+    Teleport,
+    Item
 }
 
 public class DataController : MonoBehaviour
