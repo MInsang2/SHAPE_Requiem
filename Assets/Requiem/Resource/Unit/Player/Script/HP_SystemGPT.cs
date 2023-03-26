@@ -95,7 +95,7 @@ public class HP_SystemGPT : MonoBehaviour
         switch (_enemy.GetName)
         {
             case "Bat":
-            case "EnemyProjectile":
+            case "ArrowScript":
             case "launchedArrow":
             case "mossBug_Red":
                 HitEnemy(_enemy);
