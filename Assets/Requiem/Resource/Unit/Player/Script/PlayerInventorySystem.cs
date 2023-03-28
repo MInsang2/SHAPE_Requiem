@@ -6,10 +6,9 @@ using UnityEngine.UI;
 public class PlayerInventorySystem : MonoBehaviour
 {
     [SerializeField] int m_invenSize;
-    [SerializeField] Item[] m_items;
-    [SerializeField] GameObject m_playerInven;
-    [SerializeField] Sprite[] m_sprites = new Sprite[100];
-    int m_index;
+    public GameObject m_playerInven;
+    public Item[] m_items;
+    public int m_index;
 
     private void Awake()
     {
@@ -31,43 +30,38 @@ public class PlayerInventorySystem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GetItem(collision);
+        if (collision.gameObject.layer == (int)LayerName.Item)
+        {
+            GetItem(collision);
+        }
     }
 
     void GetItem(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Item)
+        m_playerInven.gameObject.SetActive(true);
+
+        if (collision.GetComponent<Item>() != null)
         {
-            m_playerInven.gameObject.SetActive(true);
-
-            GameObject newObj = new GameObject();
-            if (collision.GetComponent<Item>() != null)
-            {
-                newObj.AddComponent<CanvasRenderer>();
-                newObj.AddComponent<Image>().sprite = m_sprites[collision.GetComponent<Item>().m_ID];
-                newObj.GetComponent<Image>().color = Color.red;
-            }
-            else
-            {
-                Debug.Log("collision.GetComponent<Item>() == null");
-            }
-            newObj.transform.parent = m_playerInven.transform.GetChild(m_index);
-            newObj.transform.position = m_playerInven.transform.GetChild(m_index).transform.position;
-
             m_items[m_index++] = collision.GetComponent<Item>();
             collision.gameObject.SetActive(false);
             collision.transform.parent = transform;
-
-            m_playerInven.gameObject.SetActive(false);
+            m_playerInven.GetComponent<InventorySystem>().UpdateInven();
         }
+        else
+        {
+            Debug.Log("collision.GetComponent<Item>() == null");
+        }
+
+        m_playerInven.gameObject.SetActive(false);
+
     }
 
-    void OpenInven()
+    public void OpenInven()
     {
         m_playerInven.SetActive(true);
     }
 
-    void CloseInven()
+    public void CloseInven()
     {
         m_playerInven.SetActive(false);
     }
@@ -75,5 +69,25 @@ public class PlayerInventorySystem : MonoBehaviour
     void AddRedKey()
     {
 
+    }
+
+    public void UseItem(int _index)
+    {
+        m_playerInven.GetComponent<InventorySystem>().DeleteItem(_index);
+        m_items[_index] = null;
+        for (; _index < m_index; _index++)
+        {
+            if (m_items[_index + 1] != null)
+            {
+                m_items[_index] = m_items[_index + 1];
+            }
+            else
+            {
+                m_items[_index] = null;
+            }
+        }
+
+        m_index--;
+        m_playerInven.GetComponent<InventorySystem>().UpdateInven();
     }
 }

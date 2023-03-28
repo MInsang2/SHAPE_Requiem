@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3363501520433979321}
   - component: {fileID: 3363501520433979322}
   - component: {fileID: 3363501520433979323}
-  - component: {fileID: 3363501520433979204}
+  - component: {fileID: 7063168458736218652}
+  - component: {fileID: 1700388270258201252}
   m_Layer: 0
   m_Name: RedKey
   m_TagString: Untagged
@@ -100,8 +101,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ID: 0
   m_name: 
---- !u!58 &3363501520433979204
-CircleCollider2D:
+  m_image: {fileID: 0}
+  m_animator: {fileID: 0}
+--- !u!70 &7063168458736218652
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -114,5 +117,25 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 0.64, y: 1.77}
+  m_Direction: 0
+--- !u!95 &1700388270258201252
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3363501520433979205}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
