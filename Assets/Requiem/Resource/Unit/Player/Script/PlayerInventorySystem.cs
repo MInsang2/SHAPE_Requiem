@@ -51,9 +51,7 @@ public class PlayerInventorySystem : MonoBehaviour
         {
             Debug.Log("collision.GetComponent<Item>() == null");
         }
-
         m_playerInven.gameObject.SetActive(false);
-
     }
 
     public void OpenInven()

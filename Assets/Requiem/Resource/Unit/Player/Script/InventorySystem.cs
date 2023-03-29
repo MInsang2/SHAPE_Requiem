@@ -36,8 +36,11 @@ public class InventorySystem : MonoBehaviour
 
     void AddItem(int _id, int _index)
     {
-        m_invenBlock[_index].GetChild(0).GetComponent<Image>().sprite = DataController.ItemSprites[_id];
-        m_invenBlock[_index].GetChild(0).GetComponent<Image>().color = Color.red;
+        m_invenBlock[_index].GetChild(0).GetComponent<Image>().sprite = 
+            DataController.ItemSprites[_id];
+
+        m_invenBlock[_index].GetChild(0).GetComponent<Image>().color = 
+            m_playerInvenData.m_items[_index].GetComponent<SpriteRenderer>().color;
     }
 
     public void DeleteItem(int _index)
