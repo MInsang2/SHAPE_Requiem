@@ -75,19 +75,15 @@ public class PlayerInventorySystem : MonoBehaviour
     {
         m_playerInven.GetComponent<InventorySystem>().DeleteItem(_index);
         m_items[_index] = null;
-        for (; _index < m_index; _index++)
+
+        for (int i = _index; i < m_index; i++)
         {
-            if (m_items[_index + 1] != null)
-            {
-                m_items[_index] = m_items[_index + 1];
-            }
-            else
-            {
-                m_items[_index] = null;
-            }
+            m_items[i] = m_items[i + 1];
         }
 
+        m_items[m_index] = null;
         m_index--;
+
         m_playerInven.GetComponent<InventorySystem>().UpdateInven();
     }
 }
