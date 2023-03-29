@@ -10,7 +10,6 @@ public class RedKeyItem : Item
         m_name = "redKey";
         m_ID = 0;
         gameObject.layer = (int)LayerName.Item;
-        m_image = DataController.ItemSprites[m_ID];
         m_collider = GetComponent<Collider2D>();
         m_animator = GetComponent<Animator>();
     }

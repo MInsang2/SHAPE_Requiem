@@ -10,7 +10,6 @@ public class BlueKeyItem : Item
         m_name = "blueKey";
         m_ID = 1;
         gameObject.layer = (int)LayerName.Item;
-        m_image = DataController.ItemSprites[m_ID];
         m_collider = GetComponent<Collider2D>();
         m_animator = GetComponent<Animator>();
     }
