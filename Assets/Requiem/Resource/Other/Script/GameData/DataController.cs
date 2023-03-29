@@ -66,6 +66,12 @@ public class TriggerData
     public bool m_playerIn; 
 }
 
+[Serializable]
+public class ItemData
+{
+    public Sprite[] m_sprite = new Sprite[100];
+}
+
 //레이어 번호
 public enum LayerName
 {
@@ -99,6 +105,7 @@ public class DataController : MonoBehaviour
     [SerializeField] LuneData m_luneData = new LuneData();
     [SerializeField] SoundManager m_soundManager = new SoundManager();
     [SerializeField] TriggerData m_triggerData = new TriggerData();
+    [SerializeField] ItemData m_itemData = new ItemData();
 
 
 
@@ -298,7 +305,11 @@ public class DataController : MonoBehaviour
         set { instance.m_triggerData.m_playerIn = value; }
     }
 
-
+    // 아이템 데이터
+    public static Sprite[] ItemSprites
+    {
+        get { return instance.m_itemData.m_sprite; }
+    }
 
     private void Awake()
     {
