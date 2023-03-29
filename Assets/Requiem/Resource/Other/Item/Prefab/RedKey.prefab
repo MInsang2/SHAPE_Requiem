@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3363501520433979321}
   - component: {fileID: 3363501520433979322}
   - component: {fileID: 3363501520433979323}
-  - component: {fileID: 3363501520433979204}
+  - component: {fileID: 707438441505240251}
   m_Layer: 0
   m_Name: RedKey
   m_TagString: Untagged
@@ -100,8 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ID: 0
   m_name: 
---- !u!58 &3363501520433979204
-CircleCollider2D:
+--- !u!70 &707438441505240251
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -113,6 +113,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Offset: {x: 0.02, y: -0.04}
+  m_Size: {x: 0.62, y: 1.55}
+  m_Direction: 0
