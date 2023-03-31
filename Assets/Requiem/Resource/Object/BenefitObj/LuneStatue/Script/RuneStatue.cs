@@ -51,10 +51,7 @@ public class RuneStatue : MonoBehaviour
         {
             EnterTheLune();
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
         if (collision.gameObject.layer == (int)LayerName.Player)
         {
             DataController.PlayerSavePoint = m_savePoint;
