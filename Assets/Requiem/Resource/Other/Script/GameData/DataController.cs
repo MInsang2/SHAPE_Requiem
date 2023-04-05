@@ -70,6 +70,7 @@ public class TriggerData
 public class ItemData
 {
     public Sprite[] m_sprite = new Sprite[100];
+    public bool m_isInvenOpen = false;
 }
 
 //레이어 번호
@@ -309,6 +310,11 @@ public class DataController : MonoBehaviour
     public static Sprite[] ItemSprites
     {
         get { return instance.m_itemData.m_sprite; }
+    }
+    public static bool IsInvenOpen
+    {
+        get { return instance.m_itemData.m_isInvenOpen; }
+        set { instance.m_itemData.m_isInvenOpen = value; }
     }
 
     private void Awake()

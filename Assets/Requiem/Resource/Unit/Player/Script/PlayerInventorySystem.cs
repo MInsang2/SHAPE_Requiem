@@ -18,11 +18,16 @@ public class PlayerInventorySystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I) && m_playerInven.active == false)
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            DataController.IsInvenOpen = !DataController.IsInvenOpen;
+        }
+
+        if (DataController.IsInvenOpen)
         {
             OpenInven();
         }
-        else if (Input.GetKeyDown(KeyCode.I) && m_playerInven.active == true)
+        else
         {
             CloseInven();
         }
@@ -62,11 +67,6 @@ public class PlayerInventorySystem : MonoBehaviour
     public void CloseInven()
     {
         m_playerInven.SetActive(false);
-    }
-
-    void AddRedKey()
-    {
-
     }
 
     public void UseItem(int _index)

@@ -102,6 +102,7 @@ MonoBehaviour:
   m_name: 
   m_image: {fileID: 0}
   m_animator: {fileID: 0}
+  m_explanation: "\uBE68\uAC04\uC0C9 \uBB38\uC744 \uC5F4 \uC218 \uC788\uB294 \uC5F4\uC1E0"
 --- !u!70 &707438441505240251
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -12,6 +12,23 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] Sprite m_platformInactive;
     [SerializeField] GameObject m_Light1;
     [SerializeField] GameObject m_Light2;
+    [SerializeField] AudioSource m_audioSource;
+    [SerializeField] AudioClip m_clip;
+
+    bool m_isActivated = false;
+
+    public bool IsActivated
+    {
+        get { return m_isActivated; }
+        set
+        {
+            if (value != m_isActivated)
+            {
+                m_isActivated = value;
+                OnActivationChanged();
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -21,6 +38,11 @@ public class MovingPlatform : MonoBehaviour
     void Update()
     {
         FlatformMove();
+    }
+
+    void OnActivationChanged()
+    {
+        m_audioSource.PlayOneShot(m_clip);
     }
 
     void FlatformMove()

@@ -12,6 +12,8 @@ public class UpDownPlatform : MonoBehaviour
     [SerializeField] float m_moveSpeed; // 움직이는 속도
     [SerializeField] bool m_moveDir; // 움직이는 방향 . 기본값 +
     [SerializeField] bool m_DirY; // x축, y축 결정 . 기본값 x
+    [SerializeField] AudioSource m_audioSource;
+    [SerializeField] AudioClip m_clip;
 
     [Header("falling Platform")]
     public Vector2 m_resetPoint;
@@ -22,6 +24,20 @@ public class UpDownPlatform : MonoBehaviour
     float m_pos;
     float m_posOrigin; // 벽 초기 좌표
     float m_movePos; // 움직인 거리
+    bool m_isActivated = false;
+
+    public bool IsActivated
+    {
+        get { return m_isActivated; }
+        set
+        {
+            if (value != m_isActivated)
+            {
+                m_isActivated = value;
+                OnActivationChanged();
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -47,6 +63,12 @@ public class UpDownPlatform : MonoBehaviour
     void Update()
     {
         DirCheck();
+        IsActivated = m_swich.m_isActive;
+    }
+
+    void OnActivationChanged()
+    {
+        m_audioSource.PlayOneShot(m_clip);
     }
 
     void DirCheck()

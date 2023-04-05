@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventorySystem : MonoBehaviour
 {
-    [SerializeField] PlayerInventorySystem m_playerInvenData;
     [SerializeField] Transform[] m_invenBlock = new Transform[32];
+    [SerializeField] PlayerInventorySystem m_playerInvenData;
 
     private void Awake()
     {
+        m_playerInvenData = GameObject.Find("player").GetComponent<PlayerInventorySystem>();
+
         for (int i = 0; i < 32; i++)
         {
             m_invenBlock[i] = transform.GetChild(1).GetChild(0).GetChild(0).GetChild(i);
@@ -36,10 +39,10 @@ public class InventorySystem : MonoBehaviour
 
     void AddItem(int _id, int _index)
     {
-        m_invenBlock[_index].GetChild(0).GetComponent<Image>().sprite = 
+        m_invenBlock[_index].GetChild(0).GetComponent<Image>().sprite =
             DataController.ItemSprites[_id];
 
-        m_invenBlock[_index].GetChild(0).GetComponent<Image>().color = 
+        m_invenBlock[_index].GetChild(0).GetComponent<Image>().color =
             m_playerInvenData.m_items[_index].GetComponent<SpriteRenderer>().color;
     }
 
