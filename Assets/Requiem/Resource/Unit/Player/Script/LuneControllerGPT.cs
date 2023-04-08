@@ -38,11 +38,6 @@ public class LuneControllerGPT : MonoBehaviour
     public float m_moveTime;
 
     /// <summary>
-    /// 룬이 움직일 때 나는 소리
-    /// </summary>
-    [SerializeField] AudioSource m_luneSound;
-
-    /// <summary>
     /// 룬이 발사 상태인지 체크하는 변수
     /// </summary>
     public bool m_isShoot;
@@ -62,7 +57,6 @@ public class LuneControllerGPT : MonoBehaviour
         m_luneObj.SetActive(true);
         m_target = transform.position;
         m_isShoot = false;
-        m_luneSound.volume = 0.2f;
     }
 
     void Update()
@@ -70,7 +64,6 @@ public class LuneControllerGPT : MonoBehaviour
         if (DataController.PlayerIsGetLune)
         {
             LuneControl();
-            LuneSoundController();
             LuneMove();
         }
     }
@@ -86,6 +79,7 @@ public class LuneControllerGPT : MonoBehaviour
             {
                 if (m_isShoot)
                 {
+                    m_luneObj.GetComponent<LuneSoundManager>().PlayLuneOff();
                     m_isShoot = false;
                     m_isMouseDelay = true;
                     StartCoroutine("MouseClickDelay");
@@ -100,8 +94,8 @@ public class LuneControllerGPT : MonoBehaviour
                         DataController.LuneLightArea.enabled = true;
                     }
                     ChangeTargetToMouse();
-
                     m_isMouseDelay = true;
+                    m_luneObj.GetComponent<LuneSoundManager>().PlayLuneOn();
                     StartCoroutine("MouseClickDelay");
                 }
             }
@@ -137,22 +131,6 @@ public class LuneControllerGPT : MonoBehaviour
     {
         m_target = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
             Input.mousePosition.y, -Camera.main.transform.position.z));
-    }
-
-    /// <summary>
-    /// 룬 사운드를 조절해주는 함수
-    /// </summary>
-    void LuneSoundController()
-    {
-        if (m_isShoot)
-        {
-            // 파라미터 설명(조절 할 변수, 조절 할 변수, 목표 값, 소요 시간)
-            DOTween.To(() => m_luneSound.volume, x => m_luneSound.volume = x, DataController.LuneSoundVolume, 1f);
-        }
-        else
-        {
-            DOTween.To(() => m_luneSound.volume, x => m_luneSound.volume = x, DataController.LuneMinVolume, 0.4f);
-        }
     }
 
     /// <summary>
