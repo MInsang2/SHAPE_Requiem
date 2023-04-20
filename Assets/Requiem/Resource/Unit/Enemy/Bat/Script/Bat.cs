@@ -24,14 +24,11 @@ public class Bat : Enemy
     bool m_isEscape = false;
     bool m_isPlay = false;
 
-    public Bat()
-    {
-        m_name = "Bat";
-        m_damage = 1;
-    }
-
     void Start()
     {
+        m_name = EnemyData.DynamicEnemyNameArr[0];
+        m_damage = 1;
+
         m_target = FindObject().transform;
         // get the Rigidbody2D component on this game object
         m_rb = GetComponent<Rigidbody2D>();

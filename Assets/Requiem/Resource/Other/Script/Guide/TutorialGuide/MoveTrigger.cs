@@ -13,6 +13,10 @@ public class MoveTrigger : MonoBehaviour
 
     private void Start()
     {
+        if (m_moveGuide == null)
+        {
+            m_moveGuide = DataController.CanvasObj.transform.Find("MoveGuide").gameObject;
+        }
         m_moveGuide.SetActive(false);
     }
 

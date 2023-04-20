@@ -10,9 +10,9 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] Transform[] m_invenBlock = new Transform[32];
     [SerializeField] PlayerInventorySystem m_playerInvenData;
 
-    private void Awake()
+    private void Start()
     {
-        m_playerInvenData = GameObject.Find("player").GetComponent<PlayerInventorySystem>();
+        m_playerInvenData = PlayerData.PlayerObj.GetComponent<PlayerInventorySystem>();
 
         for (int i = 0; i < 32; i++)
         {

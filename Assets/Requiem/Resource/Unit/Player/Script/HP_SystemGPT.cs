@@ -1,25 +1,39 @@
+// 게임 내에서 플레이어의 체력과 죽음 여부를 관리하는 스크립트
+// 또한, 플레이어가 적과 부딪혔을 때의 처리도 담당
+// 이 스크립트는 플레이어 오브젝트에 붙어 있다
+// 필요한 변수들을 SerializeField로 Inspector 창에서 설정할 수 있다
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 public class HP_SystemGPT : MonoBehaviour
 {
-    [SerializeField] float m_resetDelay;
-    [SerializeField] float m_recorverDelay;
-    [SerializeField] float m_pushForce;
-    [SerializeField] PlayerController m_playerController;
-    [SerializeField] Rigidbody2D m_rigid;
-    [SerializeField] Collider2D m_colider;
-    [SerializeField] GameObject m_hitEffect;
-    [SerializeField] Animator m_animator;
-    [SerializeField] GameObject m_PlayerMoveSound;
-    [SerializeField] CameraFollow m_mainCamera;
-    [SerializeField] float m_verticalDistance;
-    [SerializeField] float m_horizontalDistance;
-    [SerializeField] LayerMask m_platform;
+    // 초기화된 값을 인스펙터에서 설정할 수 있도록 SerializeField를 사용
+    [SerializeField] float m_resetDelay; // 플레이어가 피격된 후 제어를 되찾을 때까지 걸리는 시간
+    [SerializeField] float m_recorverDelay; // 플레이어가 사망한 후 부활하는 시간
+    [SerializeField] float m_pushForce; // 플레이어가 피격된 후 밀리는 힘
+    [SerializeField] float m_verticalDistance; // 세로 충돌 체크 거리
+    [SerializeField] float m_horizontalDistance; // 가로 충돌 체크 거리
+    [SerializeField] LayerMask m_platform; // 충돌을 체크할 레이어 마스크
 
+    // 플레이어와 카메라, 애니메이터, 리지드바디 등의 컴포넌트
+    PlayerControllerGPT m_playerController;
+    Rigidbody2D m_rigid;
+    Collider2D m_collider;
+    GameObject m_hitEffect;
+    Animator m_animator;
+    GameObject m_PlayerMoveSound;
+    CameraFollow m_mainCamera;
+
+    // 충돌을 체크할 Raycast 정보를 저장할 배열 및 에너미 정보
     RaycastHit2D[] m_hitInfo = new RaycastHit2D[2];
+    string[] m_dynamicEnemyName;
+    string[] m_staticEnemyName;
+
+    // 제어를 되찾기 위한 시간, 무적 상태 여부, 제어 불가 상태 여부, 사망 여부
     float m_timeLeft;
     bool m_isInvincibility = false;
     bool m_loseControl = false;
@@ -27,215 +41,243 @@ public class HP_SystemGPT : MonoBehaviour
 
     void Start()
     {
-        m_mainCamera = GameObject.Find("Main Camera").GetComponent<CameraFollow>();
-        m_hitEffect.SetActive(false);
+        InitializeVariables(); // 컴포넌트 초기화
+    }
+
+    void InitializeVariables()
+    {
+        // 컴포넌트를 가져와 변수에 할당
+        m_playerController = PlayerData.PlayerObj.GetComponent<PlayerControllerGPT>();
+        m_rigid = GetComponent<Rigidbody2D>();
+        m_collider = GetComponent<Collider2D>();
+        m_hitEffect = PlayerData.PlayerObj.transform.Find("HitEffect").gameObject;
+        m_animator = GetComponent<Animator>();
+        m_PlayerMoveSound = PlayerData.PlayerMoveSoundSource.gameObject;
+        m_mainCamera = DataController.MainCamera.GetComponent<CameraFollow>();
+
+
+        m_hitEffect.SetActive(false); // 충돌 효과 오브젝트 비활성화
+
+        // 에너미 정보를 입력 받기
+        m_dynamicEnemyName = new string[EnemyData.DynamicEnemyNameArr.Length];
+        m_staticEnemyName = new string[EnemyData.StaticEnemyNameArr.Length];
+
+        // 배열을 복사하여 데이터 저장
+        for (int i = 0; i < m_dynamicEnemyName.Length; i++)
+        {
+            m_dynamicEnemyName[i] = EnemyData.DynamicEnemyNameArr[i];
+        }
+
+        for (int i = 0; i < m_staticEnemyName.Length; i++)
+        {
+            m_staticEnemyName[i] = EnemyData.StaticEnemyNameArr[i];
+        }
     }
 
     void Update()
     {
-        PlayerStateUpdate();
-        ReControl();
-        ReControlDead();
+        PlayerStateUpdate(); // 플레이어 상태 업데이트
+        ReControlHit(); // 제어 되찾기
+        ReControlDead(); // 사망 후 부활하기
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         if (!m_isInvincibility)
         {
-            VerticalCaughtCheck();
-
-            if (collision.gameObject.GetComponent<RiskFactor>() != null)
-            {
-                RiskFactorCheck(collision.gameObject.GetComponent<RiskFactor>());
-            }
-
-            if (collision.gameObject.GetComponent<Enemy>() != null)
-            {
-                EnemyCheck(collision.gameObject.GetComponent<Enemy>());
-            }
+            CheckCollision(collision.gameObject); // 충돌 처리
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (!m_isInvincibility)
         {
-            VerticalCaughtCheck();
+            CheckCollision(collision.gameObject); // 충돌 처리
+        }
+    }
 
-            if (collision.gameObject.GetComponent<RiskFactor>() != null)
-            {
-                RiskFactorCheck(collision.gameObject.GetComponent<RiskFactor>());
-            }
 
-            if (collision.gameObject.GetComponent<Enemy>() != null)
+    void CheckCollision(GameObject obj) // 게임 오브젝트에 충돌이 일어날 때 호출되는 메소드.
+    {
+
+        VerticalCaughtCheck(); // 플레이어가 끼어있는지 확인.
+
+
+        if (obj.GetComponent<RiskFactor>() != null) // 충돌한 오브젝트가 위험 요소인지 확인.
+        {
+            Static_EnemyCheck(obj.GetComponent<RiskFactor>());
+        }
+
+
+        if (obj.GetComponent<Enemy>() != null) // 충돌한 오브젝트가 적인지 확인.
+        {
+            Dynamic_EnemyCheck(obj.GetComponent<Enemy>());
+        }
+    }
+
+
+    void Static_EnemyCheck(RiskFactor _enemy) // 위험 요소와의 충돌을 처리하는 메소드.
+    {
+        for (int i = 0; i < m_staticEnemyName.Length; i++)
+        {
+            if (_enemy.GetName == m_staticEnemyName[i])
             {
-                EnemyCheck(collision.gameObject.GetComponent<Enemy>());
+                HitRiskFactor(_enemy);
+                break;
             }
         }
     }
 
-    void RiskFactorCheck(RiskFactor _riskFactor)
-    {
-        switch (_riskFactor.GetName)
-        {
-            case "spike":
-                HitRiskFactor(_riskFactor);
-                break;
-            case "rollingStone":
-                HitRiskFactor(_riskFactor);
-                //_riskFactor.GetComponent<RollingStone>().resetPosition();
-                break;
-            default:
-                break;
-        }
-    }
 
-    void EnemyCheck(Enemy _enemy)
+    void Dynamic_EnemyCheck(Enemy _enemy) // 적과의 충돌을 처리하는 메소드.
     {
-        switch (_enemy.GetName)
+        for (int i = 0; i < m_dynamicEnemyName.Length; i++)
         {
-            case "Bat":
-            case "ArrowScript":
-            case "launchedArrow":
-            case "mossBug_Red":
+            if (_enemy.GetName == m_dynamicEnemyName[i])
+            {
                 HitEnemy(_enemy);
                 break;
-            default:
-                break;
+            }
         }
     }
 
-    void PlayerStateUpdate()
+
+    void PlayerStateUpdate() // 플레이어의 상태를 업데이트하는 메소드
     {
-        m_playerController.enabled = !m_loseControl;
-        m_hitEffect.SetActive(m_loseControl);
+
+        m_playerController.enabled = !m_loseControl; // 제어 상실 여부에 따라 플레이어 컨트롤러를 활성화/비활성화
+        m_hitEffect.SetActive(m_loseControl); // 제어 상실 상태일 때 히트 이펙트를 활성화
     }
 
-    void HitRiskFactor(RiskFactor _riskFactor)
+    void HitRiskFactor(RiskFactor _riskFactor) // 위험 요소와 충돌 시 처리하는 메소드
     {
-        DataController.PlayerHP -= _riskFactor.GetDamage;
-        if (DataController.PlayerHP > 0)
+        PlayerData.PlayerHP -= _riskFactor.GetDamage; // 플레이어 체력을 위험 요소의 데미지만큼 감소
+
+        if (PlayerData.PlayerHP > 0) // 체력이 남아있을 경우
         {
-            m_animator.SetTrigger("IsHit");
-            m_loseControl = true;
-            m_hitEffect.SetActive(true);
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            transform.position = _riskFactor.m_resetPoint;
-            DataController.PlayerIsHit = true;
-            m_PlayerMoveSound.SetActive(false);
+            m_animator.SetTrigger("IsHit"); // 애니메이션을 피격 상태로 전환
+            m_loseControl = true; // 제어 상실 상태로 전환
+            m_hitEffect.SetActive(true); // 히트 이펙트를 활성화
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero; // 리지드바디의 속도를 0으로 만든다
+            transform.position = _riskFactor.m_resetPoint; // 플레이어의 위치를 위험 요소의 리셋 지점으로 이동
+            PlayerData.PlayerIsHit = true; // 플레이어가 피격되었음
+            m_PlayerMoveSound.SetActive(false); // 플레이어 이동 사운드를 비활성화
         }
-        else //dead
+        else // 체력이 0이면 죽음
         {
             Dead();
         }
     }
 
-    void HitEnemy(Enemy _Enemy)
+    void HitEnemy(Enemy _Enemy) // 적과 충돌 시 처리하는 메소드
     {
-        DataController.PlayerHP -= _Enemy.GetDamage;
-        Debug.Log(DataController.PlayerHP);
-        if (DataController.PlayerHP > 0)
-        {
-            m_animator.SetTrigger("IsHit");
-            m_loseControl = true;
-            m_hitEffect.SetActive(true);
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            Vector2 pushDirection = (transform.position - _Enemy.transform.position).normalized;
-            m_rigid.AddForce(pushDirection * m_pushForce, ForceMode2D.Impulse);
-            DataController.PlayerIsHit = true;
-            m_PlayerMoveSound.SetActive(false);
+        PlayerData.PlayerHP -= _Enemy.GetDamage; // 플레이어 체력을 적의 데미지만큼 감소
 
-            if (_Enemy.GetComponent<LaunchedArrow>() != null)
+        if (PlayerData.PlayerHP > 0) // 체력이 남아있을 경우
+        {
+            m_animator.SetTrigger("IsHit"); // 애니메이션을 피격 상태로 전환
+            m_loseControl = true; // 제어 상실 상태로 전환
+            m_hitEffect.SetActive(true); // 히트 이펙트를 활성화
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero; // 리지드바디의 속도를 0으로 만든다
+            Vector2 pushDirection = (transform.position - _Enemy.transform.position).normalized; // 플레이어를 밀어낼 방향을 계산
+            m_rigid.AddForce(pushDirection * m_pushForce, ForceMode2D.Impulse); // 플레이어를 밀어낸다
+            PlayerData.PlayerIsHit = true; // 플레이어가 피격되었음
+            m_PlayerMoveSound.SetActive(false); // 플레이어 이동 사운드를 비활성화
+
+            if (_Enemy.GetComponent<LaunchedArrow>() != null) // 적이 발사된 화살일 경우
             {
-                _Enemy.GetComponent<LaunchedArrow>().ArrowDestroy();
+                _Enemy.GetComponent<LaunchedArrow>().ArrowDestroy(); // 화살을 파괴
             }
         }
-        else //dead
+        else // 체력이 0일 경우 죽음
         {
             Dead();
         }
     }
 
-    void ReControl()
+    
+    void ReControlHit() // 피격 시 플레이어 제어 회복
     {
-        if (m_loseControl)
+        if (m_loseControl) // 제어 상실 상태인 경우
         {
-            if (m_timeLeft < m_resetDelay)
+            if (m_timeLeft < m_resetDelay) // 시간이 리셋 지연시간보다 작을 경우
             {
-                m_isInvincibility = true;
-                m_timeLeft += Time.deltaTime;
+                m_isInvincibility = true; // 무적 상태로 전환
+                m_timeLeft += Time.deltaTime; // 시간을 누적
             }
             else
             {
-                m_loseControl = false;
-                m_timeLeft = 0f;
-                DataController.PlayerIsHit = false;
-                m_isInvincibility = false; 
+                m_loseControl = false; // 제어 상실 상태를 해제
+                m_timeLeft = 0f; // 시간을 초기화
+                PlayerData.PlayerIsHit = false; // 플레이어가 피격되지 않았음을 나타낸다
+                m_isInvincibility = false; // 무적 상태를 해제
             }
         }
     }
 
-    void ReControlDead()
+    
+    void ReControlDead() // 죽음 시 플레이어 제어 회복
     {
-        if (m_isDead)
+        if (m_isDead) // 죽은 상태인 경우
         {
-            if (m_timeLeft < m_recorverDelay)
+            if (m_timeLeft < m_recorverDelay) // 시간이 복구 지연시간보다 작을 경우
             {
-                m_isInvincibility = true;
-                m_timeLeft += Time.deltaTime;
+                m_isInvincibility = true; // 무적 상태로 전환
+                m_timeLeft += Time.deltaTime; // 시간을 누적
             }
             else
             {
-                m_isDead = false;
-                m_timeLeft = 0f;
-                DataController.PlayerIsHit = false;
-                DataController.PlayerIsDead = false;
-                m_isInvincibility = false;
-                m_mainCamera.FollowTime = DataController.CameraFollowTime;
+                m_isDead = false; // 죽은 상태를 해제
+                m_timeLeft = 0f;  // 시간을 초기화
+                PlayerData.PlayerIsHit = false; // 플레이어가 피격되지 않았음을 나타낸다
+                PlayerData.PlayerIsDead = false; // 플레이어가 죽지 않았음을 나타낸다
+                m_isInvincibility = false;  // 무적 상태를 해제
+                m_mainCamera.FollowTime = DataController.CameraFollowTime; // 카메라의 따라가기 시간을 기본 값으로 설정
             }
         }
     }
 
-    void Dead()
+    void Dead() // 죽음 처리하는 메소드
     {
-        DataController.PlayerHP = DataController.PlayerMaxHP;
-        m_animator.SetTrigger("IsDead");
-        m_loseControl = true;
-        m_isDead = true;
-        DataController.PlayerIsDead = true;
-        m_hitEffect.SetActive(true);
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        transform.position = DataController.PlayerSavePoint;
-        m_PlayerMoveSound.SetActive(false);
+        PlayerData.PlayerHP = PlayerData.PlayerMaxHP; // 플레이어 체력을 최대치로 복구
+        m_animator.SetTrigger("IsDead");  // 애니메이션을 죽음 상태로 전환
+        m_loseControl = true;  // 제어 상실 상태로 전환
+        m_isDead = true; // 죽은 상태로 전환
+        PlayerData.PlayerIsDead = true; // 플레이어가 죽었음을 나타낸다
+        m_hitEffect.SetActive(true); // 히트 이펙트를 활성화
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero; // 리지드바디의 속도를 0으로 만든다
+        transform.position = PlayerData.PlayerSavePoint; // 플레이어의 위치를 세이브 지점으로 이동
+        m_PlayerMoveSound.SetActive(false); // 플레이어 이동 사운드를 비활성화
+        PlayerData.PlayerDeathCount++; // 플레이어 사망 횟수를 증가
         m_mainCamera.FollowTime = 0.5f;
-        DataController.PlayerDeathCount++;
     }
 
-    void VerticalCaughtCheck()
+    void VerticalCaughtCheck() // 수직으로 끼어있는지 확인하는 메소드
     {
         m_hitInfo[0] = Physics2D.Raycast(transform.position, Vector2.up, m_verticalDistance, m_platform);
         m_hitInfo[1] = Physics2D.Raycast(transform.position, Vector2.down, m_verticalDistance, m_platform);
 
         for (int i = 0; i < m_hitInfo.Length; i++)
         {
-            if (m_hitInfo[i].collider == null)
+            if (m_hitInfo[i].collider == null) // 충돌체가 없으면 리턴
                 return;
             else
-                Dead();
+                Dead(); // 끼이면 죽음 처리
         }
     }
 
-    void HorizontalCaughtCheck()
+    void HorizontalCaughtCheck() // 수평으로 끼어있는지 확인하는 메소드
     {
-        m_hitInfo[0] = Physics2D.Raycast(m_colider.bounds.center, Vector2.left, m_horizontalDistance, m_platform);
-        m_hitInfo[1] = Physics2D.Raycast(m_colider.bounds.center, Vector2.right, m_horizontalDistance, m_platform);
+        m_hitInfo[0] = Physics2D.Raycast(m_collider.bounds.center, Vector2.left, m_horizontalDistance, m_platform);
+        m_hitInfo[1] = Physics2D.Raycast(m_collider.bounds.center, Vector2.right, m_horizontalDistance, m_platform);
 
         for (int i = 0; i < m_hitInfo.Length; i++)
         {
-            if (m_hitInfo[i].collider == null)
+            if (m_hitInfo[i].collider == null) // 충돌체가 없으면 리턴
                 return;
             else
-                Dead();
+                Dead(); // 끼이면 죽음 처리
         }
     }
 }

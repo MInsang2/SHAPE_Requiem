@@ -6,7 +6,7 @@ public class ExplanWindowManager : MonoBehaviour
 {
     GameObject[] m_explanWindows = new GameObject[32];
 
-    private void Awake()
+    private void Start()
     {
         for (int i = 0; i < m_explanWindows.Length; i++)
         {

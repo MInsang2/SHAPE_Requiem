@@ -8,7 +8,7 @@ public class DownPlatform : MonoBehaviour
     // 도중에 룬이 빠지면, 정지
     // 목표 위치에 도달 시 목표 위치 변경 반복
 
-    [SerializeField] LuneControllerGPT m_luneController;
+    [SerializeField] RuneControllerGPT m_runeController;
     [SerializeField] Transform m_player;
     [SerializeField] float m_speed;
     [SerializeField] Vector2 m_destination;
@@ -17,13 +17,18 @@ public class DownPlatform : MonoBehaviour
     Vector2 m_origin;
     bool m_isGetLune = false;
 
-    float m_luneMoveTime;
+    float m_runeMoveTime;
 
     private void Start()
     {
+        if (m_runeController == null)
+        {
+            m_runeController = PlayerData.PlayerObj.GetComponent<RuneControllerGPT>();
+        }
+
         m_origin = transform.position;
         m_target = m_destination;
-        m_luneMoveTime = m_luneController.m_moveTime;
+        m_runeMoveTime = m_runeController.m_moveTime;
     }
 
     void Update()
@@ -63,11 +68,11 @@ public class DownPlatform : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Lune && DataController.LuneActive)
+        if (collision.gameObject.layer == (int)LayerName.Rune && RuneData.RuneActive)
         {
             // 목표위치에 도달 시 까지 룬 조작 불가.
-            DataController.LuneUseControl = false;
-            m_luneController.m_moveTime = 0.1f;
+            RuneData.RuneUseControl = false;
+            m_runeController.m_moveTime = 0.1f;
             m_isGetLune = true;
         }
     }
@@ -101,24 +106,24 @@ public class DownPlatform : MonoBehaviour
     }
     void GetLuneFalseEnd()
     {
-        m_luneController.m_moveTime = m_luneMoveTime;
-        DataController.LuneUseControl = true;
-        m_luneController.m_target = m_player.position;
+        m_runeController.m_moveTime = m_runeMoveTime;
+        RuneData.RuneUseControl = true;
+        m_runeController.m_target = m_player.position;
         m_isGetLune = false;
-        m_luneController.m_isShoot = false;
+        m_runeController.m_isShoot = false;
     }
 
     void GetLuneFalseMiddle()
     {
-        m_luneController.m_moveTime = m_luneMoveTime;
-        DataController.LuneUseControl = true;
-        m_luneController.m_target = m_player.position;
+        m_runeController.m_moveTime = m_runeMoveTime;
+        RuneData.RuneUseControl = true;
+        m_runeController.m_target = m_player.position;
         m_isGetLune = false;
-        m_luneController.m_isShoot = true;
+        m_runeController.m_isShoot = true;
     }
 
     void GetLune()
     {
-        m_luneController.m_target = transform.position;
+        m_runeController.m_target = transform.position;
     }
 }

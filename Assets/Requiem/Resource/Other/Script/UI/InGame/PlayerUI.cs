@@ -16,6 +16,6 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        m_HP.text = DataController.PlayerHP.ToString();
+        m_HP.text = PlayerData.PlayerHP.ToString();
     }
 }

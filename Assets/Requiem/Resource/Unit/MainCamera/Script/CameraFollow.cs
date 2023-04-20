@@ -34,7 +34,7 @@ public class CameraFollow : MonoBehaviour
     private void Start()
     {
         DataController.CameraFollowTime = FollowTime;
-        target = GameObject.Find("player").transform;
+        target = GameObject.Find("Player").transform;
     }
 
     void Update()

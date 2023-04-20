@@ -41,7 +41,7 @@ public class LuminusPlant2 : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Lune && m_light.pointLightOuterRadius < m_maxRadius)
+        if (collision.gameObject.layer == (int)LayerName.Rune && m_light.pointLightOuterRadius < m_maxRadius)
         {
             DOTween.To(() => m_light.pointLightOuterRadius, x => m_light.pointLightOuterRadius = x, m_maxRadius, m_lightTime);
             m_isBright = true;

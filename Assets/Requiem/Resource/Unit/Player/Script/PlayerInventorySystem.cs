@@ -10,8 +10,16 @@ public class PlayerInventorySystem : MonoBehaviour
     public Item[] m_items;
     public int m_index;
 
-    private void Awake()
+
+
+
+    private void Start()
     {
+        if (m_playerInven == null)
+        {
+            m_playerInven = GameObject.Find("Canvas").transform.Find("PlayerUI").Find("Inven").gameObject;
+        }
+
         m_index = 0;
         m_items = new Item[m_invenSize];
     }

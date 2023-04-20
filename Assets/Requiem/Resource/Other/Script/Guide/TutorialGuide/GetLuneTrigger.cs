@@ -7,7 +7,7 @@ using DG.Tweening;
 public class GetLuneTrigger : MonoBehaviour
 {
     [SerializeField] RuneStatue m_runeStatue;
-    [SerializeField] LuneManager m_luneManager;
+    [SerializeField] RuneManager m_luneManager;
     [SerializeField] Light2D m_light;
     [SerializeField] float m_animationTime;
 
@@ -33,7 +33,7 @@ public class GetLuneTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!m_isActive && collision.gameObject.layer == (int)LayerName.Player && !DataController.PlayerIsGetLune)
+        if (!m_isActive && collision.gameObject.layer == (int)LayerName.Player && !PlayerData.PlayerIsGetRune)
         {
             m_isActive = true;
             // 룬 애니매이션 시작
@@ -49,6 +49,6 @@ public class GetLuneTrigger : MonoBehaviour
 
         m_isActive = false;
         m_luneManager.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
-        DataController.PlayerIsGetLune = true;
+        PlayerData.PlayerIsGetRune = true;
     }
 }

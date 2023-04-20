@@ -10,12 +10,13 @@ public class LuneThrowTrigger : MonoBehaviour
 
     void Start()
     {
+        m_luneThrowGuide = DataController.CanvasObj.transform.Find("LuneThrowGuide").gameObject;
         m_luneThrowGuide.SetActive(false);
     }
 
     void Update()
     {
-        if (DataController.PlayerIsGetLune)
+        if (PlayerData.PlayerIsGetRune)
         {
             m_luneThrowGuide.SetActive(true);
             m_isActive = true;

@@ -17,6 +17,10 @@ public class DoubleJumpTrigger : MonoBehaviour
 
     private void Start()
     {
+        if (m_doubleJumpGuide == null)
+        {
+            m_doubleJumpGuide = DataController.CanvasObj.transform.Find("DoubleJumpGuide").gameObject;
+        }
         m_doubleJumpGuide.SetActive(false);
     }
 

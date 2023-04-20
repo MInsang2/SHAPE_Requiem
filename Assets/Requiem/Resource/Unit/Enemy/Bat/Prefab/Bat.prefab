@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
-  m_playerName: player
+  m_playerName: Player
   m_speed: 9
   m_escapeSpeed: 9
   m_sightArea: 8

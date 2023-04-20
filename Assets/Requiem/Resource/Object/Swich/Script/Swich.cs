@@ -37,13 +37,13 @@ public class Swich : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Lune && !m_isActive && DataController.LuneActive)
+        if (collision.gameObject.layer == (int)LayerName.Rune && !m_isActive && RuneData.RuneActive)
         {
             m_isActive = true;
             m_audioSource.PlayOneShot(m_audioSwichOn);
             m_spriteRenderer.sprite = m_active;
         }
-        else if (collision.gameObject.layer == (int)LayerName.Lune && m_isActive && DataController.LuneActive)
+        else if (collision.gameObject.layer == (int)LayerName.Rune && m_isActive && RuneData.RuneActive)
         {
             m_isActive = false;
             m_audioSource.PlayOneShot(m_audioSwichOff);

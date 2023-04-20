@@ -12,7 +12,7 @@ public class LaunchedArrow : Enemy
 
     void Start()
     {
-        m_name = "launchedArrow";
+        m_name = EnemyData.DynamicEnemyNameArr[1];
         m_damage = 1;
         m_rigid = GetComponent<Rigidbody2D>();
         m_origin = transform.position;

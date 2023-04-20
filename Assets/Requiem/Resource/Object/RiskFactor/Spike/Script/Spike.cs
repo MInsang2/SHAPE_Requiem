@@ -6,7 +6,7 @@ public class Spike : RiskFactor
 {
     void Start()
     {
-        m_name = "spike";
+        m_name = EnemyData.StaticEnemyNameArr[0];
         m_damage = 1;
     }
 

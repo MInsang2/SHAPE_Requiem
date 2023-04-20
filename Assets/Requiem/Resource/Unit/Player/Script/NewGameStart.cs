@@ -8,15 +8,15 @@ public class NewGameStart : MonoBehaviour
     // 이후에 룬을 획득하기 전까지 룬이 없어야 한다.
 
     [SerializeField] Transform m_player;
-    [SerializeField] Transform m_lune;
+    [SerializeField] Transform m_rune;
     
 
     Animator m_playerAni;
 
     void Start()
     {
-        DataController.PlayerIsMove = false;
-        DataController.PlayerIsGetLune = false;
+        PlayerData.PlayerIsMove = false;
+        PlayerData.PlayerIsGetRune = false;
         m_playerAni = m_player.GetComponent<Animator>();
         m_playerAni.SetBool("IsFirstStart", true);
     }
@@ -39,6 +39,6 @@ public class NewGameStart : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        DataController.PlayerIsMove = true;
+        PlayerData.PlayerIsMove = true;
     }
 }

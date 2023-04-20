@@ -16,6 +16,10 @@ public class JumpTrigger : MonoBehaviour
 
     private void Start()
     {
+        if (m_jumpGuide == null)
+        {
+            m_jumpGuide = DataController.CanvasObj.transform.Find("JumpGuide").gameObject;
+        }
         m_jumpGuide.SetActive(false);
     }
 

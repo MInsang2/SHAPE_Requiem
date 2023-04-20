@@ -13,10 +13,10 @@ public class InventoryBlock : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     int m_index;
 
 
-    private void Awake()
+    private void Start()
     {
         m_mouseOver = false;
-        m_playerInven = GameObject.Find("player").GetComponent<PlayerInventorySystem>();
+        m_playerInven = PlayerData.PlayerObj.GetComponent<PlayerInventorySystem>();
         m_index = transform.GetSiblingIndex();
         m_explanWindow = GameObject.Find("ExplanWindowEvery").transform.GetChild(m_index).gameObject;
         m_explanWindow.SetActive(false);

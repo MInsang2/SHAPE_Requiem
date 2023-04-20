@@ -9,7 +9,7 @@ public class RollingStone : RiskFactor
 
     void Start()
     {
-        m_name = "rollingStone";
+        m_name = EnemyData.StaticEnemyNameArr[1];
         m_damage = 1;
         m_rigid = GetComponent<Rigidbody2D>();
         m_rigid.bodyType = RigidbodyType2D.Kinematic;

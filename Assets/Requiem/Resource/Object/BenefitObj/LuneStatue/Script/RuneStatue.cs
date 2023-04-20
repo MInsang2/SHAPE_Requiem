@@ -47,15 +47,15 @@ public class RuneStatue : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Lune && DataController.LuneActive)
+        if (collision.gameObject.layer == (int)LayerName.Rune && RuneData.RuneActive)
         {
             EnterTheLune();
         }
 
         if (collision.gameObject.layer == (int)LayerName.Player)
         {
-            DataController.PlayerSavePoint = m_savePoint;
-            DataController.PlayerHP = DataController.PlayerMaxHP;
+            PlayerData.PlayerSavePoint = m_savePoint;
+            PlayerData.PlayerHP = PlayerData.PlayerMaxHP;
         }
     }
 
@@ -64,8 +64,8 @@ public class RuneStatue : MonoBehaviour
         
         if (!m_isActive)
         {
-            DataController.PlayerSavePoint = m_savePoint;
-            DataController.PlayerHP = DataController.PlayerMaxHP;
+            PlayerData.PlayerSavePoint = m_savePoint;
+            PlayerData.PlayerHP = PlayerData.PlayerMaxHP;
             m_animator.SetBool("IsActive", true);
             for (int i = 0; i < m_DivArr.Length; i++)
             {
