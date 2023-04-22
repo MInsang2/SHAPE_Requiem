@@ -21,8 +21,7 @@ public class RuneControllerGPT : MonoBehaviour
     RuneSoundManager m_runeSoundManager;
     Light2D m_runeSight;
 
-    
-    
+    LayerMask m_layerMask;
 
     void Start()
     {
@@ -34,20 +33,20 @@ public class RuneControllerGPT : MonoBehaviour
         m_runeObj.SetActive(true);
         m_target = transform.position;
         m_isShoot = false;
+        m_layerMask = LayerMask.GetMask("Platform", "Wall", "RiskFactor");
     }
 
     void Update()
     {
         if (PlayerData.PlayerIsGetRune)
         {
+            
+            RuneColliding();
             RuneControl();
             RuneMove();
         }
     }
 
-    /// <summary>
-    /// 룬의 전반적인 컨트롤을 담당하는 함수
-    /// </summary>
     void RuneControl()
     {
         if (RuneData.RuneUseControl)
@@ -92,18 +91,11 @@ public class RuneControllerGPT : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 룬을 도착 지점으로 이동 시키는 함수
-    /// 계속 반복 실행 중
-    /// </summary>
     void RuneMove()
     {
         m_runeObj.transform.DOMove(m_target, m_moveTime);
     }
 
-    /// <summary>
-    /// 룬의 도착지점을 마우스 포인터로 옮겨주는 함수
-    /// </summary>
     void ChangeTargetToMouse()
     {
         m_target = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,
@@ -129,9 +121,6 @@ public class RuneControllerGPT : MonoBehaviour
         RuneData.RuneLightArea.enabled = false;
     }
 
-    /// <summary>
-    /// 룬의 시야를 회복한다.
-    /// </summary>
     void RunePowerBack()
     {
         if (Vector2.Distance(transform.position, m_runeObj.transform.position) <= RuneData.RunePowerBackDistance && !RuneData.RuneOnWater)
@@ -148,9 +137,6 @@ public class RuneControllerGPT : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// 룬이 제자리에 멈춘다.
-    /// </summary>
     public void RuneStop()
     {
         m_target = m_runeObj.transform.position;
@@ -158,10 +144,8 @@ public class RuneControllerGPT : MonoBehaviour
 
     IEnumerator MouseClickDelay()
     {
-        // wait for the specified delay
         yield return new WaitForSeconds(m_shootDelayTime);
 
-        // reset the mouseClicked flag
         m_isMouseDelay = false;
     }
 
@@ -173,6 +157,25 @@ public class RuneControllerGPT : MonoBehaviour
             m_isMouseDelay = true;
             m_runeSoundManager.PlayRuneOff();
             StartCoroutine("MouseClickDelay");
+        }
+    }
+
+    void RuneColliding()
+    {
+        // 벽 또는 다른 장애물과의 충돌을 감지하기 위해 룬 객체와 목표 지점 사이에 Raycast를 수행
+        RaycastHit2D hit =
+            Physics2D.Raycast(m_runeObj.transform.position,
+            (m_target - (Vector2)m_runeObj.transform.position).normalized,
+            Vector2.Distance(m_runeObj.transform.position, m_target),
+            m_layerMask);
+
+        // Raycast가 벽 또는 다른 장애물과 충돌한 경우 충돌 지점에서 룬 객체를 정지
+        if (hit.collider != null &&
+            (hit.collider.gameObject.layer == (int)LayerName.Platform ||
+            hit.collider.gameObject.layer == (int)LayerName.Wall ||
+            hit.collider.gameObject.layer == (int)LayerName.RiskFactor))
+        {
+            m_target = hit.point;
         }
     }
 }
