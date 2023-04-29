@@ -39,7 +39,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100743734}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: aa63ad747d5224149b4145546c20d24b, type: 3}
@@ -6120,12 +6120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd70c0af16cb0d498e5342bb6576fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_resetDelay: 1
-  m_recorverDelay: 3
-  m_pushForce: 10
-  m_verticalDistance: 0.4
-  m_horizontalDistance: 0.2
-  m_platform:
+  resetDelay: 1
+  recorverDelay: 3
+  pushForce: 10
+  verticalDistance: 0.2
+  horizontalDistance: 0.4
+  platform:
     serializedVersion: 2
     m_Bits: 256
 --- !u!114 &8160237521022626517
@@ -6177,7 +6177,7 @@ MonoBehaviour:
   m_jumpForce: 15
   m_fallForce: 1.5
   m_maxFallSpeed: 10
-  m_castDistance: 0.1
+  m_castDistance: 0.05
   m_platform:
     serializedVersion: 2
     m_Bits: 256
