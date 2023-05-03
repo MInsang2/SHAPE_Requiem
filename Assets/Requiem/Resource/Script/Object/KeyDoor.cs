@@ -33,9 +33,9 @@ public class KeyDoor : MonoBehaviour
     // 인벤토리를 열고 키를 찾는 함수
     private void OpenAndSearchInventory(PlayerInventorySystem inven)
     {
-        inven.OpenInven();
+        inven.OpenInventory();
 
-        for (int i = 0; i < inven.m_index; i++)
+        for (int i = 0; i < inven.currentIndex; i++)
         {
             if (HasKey(inven, i))
             {
@@ -49,21 +49,21 @@ public class KeyDoor : MonoBehaviour
     // 인벤토리에 키가 있는지 확인하는 함수
     private bool HasKey(PlayerInventorySystem inven, int index)
     {
-        return inven.m_items[index].m_ID == keyID;
+        return inven.items[index].m_ID == keyID;
     }
 
     // 키를 사용하고 문을 제거하는 함수
     private void UseKeyAndDestroyDoor(PlayerInventorySystem inven, int index)
     {
         inven.UseItem(index);
-        inven.CloseInven();
+        inven.CloseInventory();
         Destroy(gameObject);
     }
 
     // 인벤토리를 업데이트하고 닫는 함수
     private void UpdateAndCloseInventory(PlayerInventorySystem inven)
     {
-        inven.m_playerInven.GetComponent<InventorySystem>().UpdateInventory();
-        inven.CloseInven();
+        inven.playerInventory.GetComponent<InventorySystem>().UpdateInventory();
+        inven.CloseInventory();
     }
 }

@@ -52,10 +52,10 @@ public class InventoryBlock : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     // 설명 창 상태에 따른 업데이트
     private void UpdateExplanWindow()
     {
-        if (mouseOver && playerInven.m_items[index] != null)
+        if (mouseOver && playerInven.items[index] != null)
         {
             explanWindow.SetActive(true);
-            ChangeExplanWindow(playerInven.m_items[index]);
+            ChangeExplanWindow(playerInven.items[index]);
         }
         else
         {

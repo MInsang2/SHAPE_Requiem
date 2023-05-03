@@ -38,9 +38,9 @@ public class InventorySystem : MonoBehaviour
 
         for (int i = 0; i < 32; i++)
         {
-            if (playerInventoryData.m_items[i] != null)
+            if (playerInventoryData.items[i] != null)
             {
-                AddItem(playerInventoryData.m_items[i].m_ID, i); // 아이템 추가
+                AddItem(playerInventoryData.items[i].m_ID, i); // 아이템 추가
             }
         }
     }
@@ -61,7 +61,7 @@ public class InventorySystem : MonoBehaviour
             DataController.ItemSprites[id];
 
         inventoryBlocks[index].GetChild(0).GetComponent<Image>().color =
-            playerInventoryData.m_items[index].GetComponent<SpriteRenderer>().color;
+            playerInventoryData.items[index].GetComponent<SpriteRenderer>().color;
     }
 
     // 아이템 삭제

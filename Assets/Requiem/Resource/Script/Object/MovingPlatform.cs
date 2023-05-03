@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class MovingPlatform : MonoBehaviour
 {
-    [SerializeField] Swich m_swich;
+    [SerializeField] Switch m_swich;
     [SerializeField] Collider2D m_Collider;
     [SerializeField] SpriteRenderer m_platform;
     [SerializeField] Sprite m_platformActive;
@@ -47,7 +47,7 @@ public class MovingPlatform : MonoBehaviour
 
     void FlatformMove()
     {
-        if (m_swich.m_isActive)
+        if (m_swich.isActive)
         {
             m_platform.sprite = m_platformInactive;
             m_Collider.enabled = false;
@@ -58,7 +58,7 @@ public class MovingPlatform : MonoBehaviour
             if (m_Light2 != null)
                 m_Light2.SetActive(true);
         }
-        else if (!m_swich.m_isActive)
+        else if (!m_swich.isActive)
         {
             m_platform.sprite = m_platformActive;
             m_Collider.enabled = true;

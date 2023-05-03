@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class LuminusLamp : MonoBehaviour
 {
-    [SerializeField] Swich m_swich;
+    [SerializeField] Switch m_swich;
     [SerializeField] Light2D m_light;
     [SerializeField] float m_outerRadius;
     CircleCollider2D m_lightArea;
@@ -18,7 +18,7 @@ public class LuminusLamp : MonoBehaviour
 
     void Update()
     {
-        if (m_swich.m_isActive)
+        if (m_swich.isActive)
         {
             m_light.pointLightOuterRadius = m_outerRadius;
             DOTween.To(() => m_light.pointLightOuterRadius, x => m_light.pointLightOuterRadius = x, m_outerRadius, 5f);

@@ -20,10 +20,17 @@ public class NewGameStart : MonoBehaviour
 
     private void InitializeGame()
     {
+        player = PlayerData.PlayerObj.transform;
+        rune = RuneData.RuneObj.transform;
+
         PlayerData.PlayerIsMove = false; // 플레이어 이동 불가능
         PlayerData.PlayerIsGetRune = false; // 플레이어 룬 획득 불가능
         playerAnimator = player.GetComponent<Animator>(); // 플레이어 애니메이터 컴포넌트 받아옴
         playerAnimator.SetBool("IsFirstStart", true); // 처음 시작 상태로 설정
+
+        if (player == null) Debug.Log("player == null");
+        if (rune == null) Debug.Log("rune == null");
+        if (playerAnimator == null) Debug.Log("playerAnimator == null");
     }
 
     private void Update()

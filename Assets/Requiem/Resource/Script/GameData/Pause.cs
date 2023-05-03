@@ -1,3 +1,5 @@
+// 1차 리펙토링
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,77 +7,88 @@ using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
-    [SerializeField] GameObject m_pausePanel;
-    [SerializeField] GameObject m_optionPanel;
-    bool m_isPause;
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject optionPanel;
+    private bool isPaused;
 
     private void Start()
     {
-        m_isPause = false;
-        m_pausePanel.SetActive(false);
-        m_optionPanel.SetActive(false);
+        InitializeVariables();
     }
 
-    void Update()
+    // 초기 변수 값 설정
+    private void InitializeVariables()
     {
-        InputEscapeKey();
-        GamePause();
+        pausePanel = transform.Find("Pause").gameObject;
+        optionPanel = transform.Find("OptionPanel").gameObject;
+
+        if (pausePanel == null) Debug.Log("pausePanel == null");
+        if (optionPanel == null) Debug.Log("optionPanel == null");
+
+        isPaused = false;
+        pausePanel.SetActive(false);
+        optionPanel.SetActive(false);
     }
 
-    void InputEscapeKey()
+    private void Update()
+    {
+        CheckEscapeKeyInput();
+        ManageGamePause();
+    }
+
+    // Escape 키 입력 확인
+    private void CheckEscapeKeyInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            m_isPause = true;
+            isPaused = !isPaused;
         }
     }
 
-    void GamePause()
+    // 게임 일시정지 상태 관리
+    private void ManageGamePause()
     {
-        if (m_isPause)
+        if (isPaused)
         {
             Time.timeScale = 0f;
-            m_pausePanel.SetActive(m_isPause);
+            pausePanel.SetActive(true);
         }
         else
         {
             Time.timeScale = 1f;
-            m_pausePanel.SetActive(m_isPause);
+            pausePanel.SetActive(false);
         }
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 
+    // 계속하기 버튼
     public void ContinueButton()
     {
-        m_isPause = false;
+        isPaused = false;
     }
 
+    // 재시작 버튼
     public void RestartButton()
     {
-        // 게임 재시작
-        // 오브젝트들의 리셋 활성화
-        //PlayerController.a_Initialized();
-        //UpDownPlatform.a_Initialized();
-        //RuneStatue.a_Initialized();
-        //Swich.a_Initialized();
-        //FallingPlatform.a_Initialized();
-        //LuneManager.a_Initialized();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Debug.Log("game reset");
     }
 
+    // 옵션 버튼
     public void OptionButton()
     {
-        m_optionPanel.SetActive(true);
+        optionPanel.SetActive(true);
     }
 
+    // 종료 버튼
     public void QuitButton()
     {
         Application.Quit();
     }
 
+    // 옵션 패널 닫기
     public void OptionReturn()
     {
-        m_optionPanel.SetActive(false);
+        optionPanel.SetActive(false);
     }
 }

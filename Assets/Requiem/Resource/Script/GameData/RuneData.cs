@@ -1,3 +1,5 @@
+// 1Â÷ ¸®ÆåÅä¸µ
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,28 +8,25 @@ using UnityEngine.Rendering.Universal;
 
 public class RuneData : MonoBehaviour
 {
-    [SerializeField] GameObject m_runeObj; // ·é ¿ÀºêÁ§Æ®
-    [SerializeField] CircleCollider2D m_runeLightArea; // ·é ½Ã¾ß Ãæµ¹ ¹üÀ§
-    [SerializeField] float m_runeIntensity; // ·é ½Ã¾ß ¹à±â
-    [SerializeField] float m_runeOuterRadius; // ·é ½Ã¾ß ¹üÀ§
-    [SerializeField] float m_runePowerBackDistance; // ·é Èû È¸º¹ °Å¸®
-    [SerializeField] float m_runePowerBackTime; // ·é Èû È¸º¹ ½Ã°£
-    [SerializeField] float m_minVolume; // ·é ÃÖ¼Ò º¼·ý
-    [SerializeField] bool m_isStop; // ·é Á¤Áö »óÅÂÀÎ°¡
-    [SerializeField] bool m_isReturn; // ·é ¸®ÅÏ »óÅÂÀÎ°¡
-    [SerializeField] bool m_isActive; // ·é È°¼ºÈ­ »óÅÂÀÎ°¡
-    [SerializeField] bool m_onWater; // ·éÀÌ ¹°¿¡ µé¾î°¡ ÀÖ´Â°¡
-    [SerializeField] bool m_touchWater; // ·éÀÌ ¹°¿¡ ´ê¾Ò´Â°¡
-    [SerializeField] bool m_useControl; // ·éÀ» ¿òÁ÷ÀÏ ¼ö ÀÖ´Â°¡
+    [SerializeField] private GameObject runeObj; // ·é ¿ÀºêÁ§Æ®
+    [SerializeField] private CircleCollider2D runeLightArea; // ·é ºû ¹üÀ§
+    [SerializeField] private float runeIntensity; // ·é ºû °­µµ
+    [SerializeField] private float runeOuterRadius; // ·é ºû ¿ø ¹üÀ§
+    [SerializeField] private float runePowerBackDistance; // ·é ºû È¸º¹ °Å¸® // ÇÃ·¹ÀÌ¾î¿Í ÀÏÁ¤°Å¸®¿¡ ÀÖÀ¸¸é ºû ¹üÀ§¸¦ È¸º¹ÇÔ
+    [SerializeField] private float runePowerBackTime; // ·é ºû È¸º¹ ½Ã°£
+    [SerializeField] private bool isStop; // ·éÀÇ ¸ØÃã ÆÇ´Ü
+    [SerializeField] private bool isReturn; // ·éÀÇ ¸®ÅÏ ÆÇ´Ü
+    [SerializeField] private bool isActive; // ·éÀÇ È°¼ºÈ­ ÆÇ´Ü
+    [SerializeField] private bool onWater; // ·éÀÌ ¹° À§¿¡ ´ê¾ÒÀ» ¶§ ¿Â
+    [SerializeField] private bool touchWater; // ·éÀÌ ¹°¿¡ ´ê¾ÒÀ» ¶§ ¿Â
+    [SerializeField] private bool useControl; // ·éÀÇ ÄÁÆ®·ÑÀÌ °¡´ÉÇÒ ¶§ ¿Â
 
     private static RuneData instance = null;
 
-    // ÀÎ½ºÅÏ½º¿¡ Á¢±ÙÇÒ ¼ö ÀÖ´Â ÇÁ·ÎÆÛÆ¼
     public static RuneData Instance
     {
         get
         {
-            // ÀÎ½ºÅÏ½º°¡ ¾øÀ¸¸é »ý¼º
             if (instance == null)
             {
                 instance = new RuneData();
@@ -36,74 +35,58 @@ public class RuneData : MonoBehaviour
         }
     }
 
-    public static GameObject RuneObj
-    {
-        get { return Instance.m_runeObj; }
-        set { Instance.m_runeObj = value; }
-    }
-    public static CircleCollider2D RuneLightArea
-    {
-        get { return Instance.m_runeLightArea; }
-        set { Instance.m_runeLightArea = value; }
-    }
+    public static GameObject RuneObj => Instance.runeObj;
+    public static CircleCollider2D RuneLightArea => Instance.runeLightArea;
     public static bool RuneIsStop
     {
-        get { return Instance.m_isStop; }
-        set { Instance.m_isStop = value; }
+        get => Instance.isStop;
+        set => Instance.isStop = value;
     }
     public static bool RuneIsReturn
     {
-        get { return Instance.m_isReturn; }
-        set { Instance.m_isReturn = value; }
+        get => Instance.isReturn;
+        set => Instance.isReturn = value;
     }
     public static bool RuneActive
     {
-        get { return Instance.m_isActive; }
-        set { Instance.m_isActive = value; }
+        get => Instance.isActive;
+        set => Instance.isActive = value;
     }
     public static float RuneIntensity
     {
-        get { return Instance.m_runeIntensity; }
-        set { Instance.m_runeIntensity = value; }
+        get => Instance.runeIntensity;
+        set => Instance.runeIntensity = value;
     }
     public static float RunePowerBackDistance
     {
-        get { return Instance.m_runePowerBackDistance; }
-        set { Instance.m_runeIntensity = value; }
+        get => Instance.runePowerBackDistance;
+        set => Instance.runeIntensity = value;
     }
     public static float RunePowerBackTime
     {
-        get { return Instance.m_runePowerBackTime; }
-        set { Instance.m_runePowerBackTime = value; }
+        get => Instance.runePowerBackTime;
+        set => Instance.runePowerBackTime = value;
     }
     public static bool RuneOnWater
     {
-        get { return Instance.m_onWater; }
-        set { Instance.m_onWater = value; }
+        get => Instance.onWater;
+        set => Instance.onWater = value;
     }
     public static float RuneOuterRadius
     {
-        get { return Instance.m_runeOuterRadius; }
-        set { Instance.m_runeOuterRadius = value; }
+        get => Instance.runeOuterRadius;
+        set => Instance.runeOuterRadius = value;
     }
     public static bool RuneTouchWater
     {
-        get { return Instance.m_touchWater; }
-        set { Instance.m_touchWater = value; }
+        get => Instance.touchWater;
+        set => Instance.touchWater = value;
     }
     public static bool RuneUseControl
     {
-        get { return Instance.m_useControl; }
-        set { Instance.m_useControl = value; }
+        get => Instance.useControl;
+        set => Instance.useControl = value;
     }
-    public static float RuneMinVolume
-    {
-        get { return Instance.m_minVolume; }
-        set { Instance.m_minVolume = value; }
-    }
-
-
-
 
     private void Awake()
     {
@@ -115,19 +98,19 @@ public class RuneData : MonoBehaviour
             }
         }
 
-        if (m_runeObj == null)
+        if (runeObj == null)
         {
-            m_runeObj = GameObject.Find("Rune");
+            runeObj = GameObject.Find("Rune");
         }
 
-        if (m_runeLightArea == null)
+        if (runeLightArea == null)
         {
-            m_runeLightArea = RuneData.RuneObj.transform.Find("LightArea").GetComponent<CircleCollider2D>();
+            runeLightArea = RuneObj.transform.Find("LightArea").GetComponent<CircleCollider2D>();
         }
-        
-        RuneData.RuneOuterRadius = RuneData.RuneObj.GetComponent<Light2D>().pointLightOuterRadius;
-        RuneData.RuneOnWater = false;
-        RuneData.RuneTouchWater = false;
-        RuneData.RuneUseControl = true;
+
+        RuneOuterRadius = RuneObj.GetComponent<Light2D>().pointLightOuterRadius;
+        RuneOnWater = false;
+        RuneTouchWater = false;
+        RuneUseControl = true;
     }
 }
