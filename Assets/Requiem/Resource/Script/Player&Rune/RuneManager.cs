@@ -93,10 +93,10 @@ public class RuneManager : MonoBehaviour
 
     public void StatueInteraction(Transform _target)
     {
-        m_runeControl.m_target = _target.position;
+        m_runeControl.target = _target.position;
         RuneData.RuneUseControl = false;
         transform.Rotate(Vector3.back * m_rotationSpeed);
-        transform.DOMove(m_runeControl.m_target, m_moveTime);
+        transform.DOMove(m_runeControl.target, m_moveTime);
         StartCoroutine("StatueInteractionDelay");
     }
 

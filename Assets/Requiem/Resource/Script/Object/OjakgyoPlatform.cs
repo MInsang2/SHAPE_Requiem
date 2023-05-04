@@ -1,38 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+// 1차 리펙토링
+
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 
 public class OjakgyoPlatform : MonoBehaviour
 {
-    [SerializeField] float m_desX;
-    [SerializeField] float m_desY;
-    [SerializeField] float m_moveTime;
-    [SerializeField] float m_timeLaps;
-    [SerializeField] AudioSource m_audioSource;
+    [SerializeField] private float destinationX; // 목적지 x좌표
+    [SerializeField] private float destinationY; // 목적지 y좌표
+    [SerializeField] private float moveTime; // 이동 시간
+    [SerializeField] private float delayTime; // 지연 시간
+    [SerializeField] private AudioSource audioSource; // 이동 소리
 
-    Vector2 m_initialPos;
-    Vector2 m_destyPos;
-    float m_delayTime;
-    bool m_isActive;
+    private Vector2 initialPosition; // 초기 위치
+    private Vector2 destinationPosition; // 목적지 위치
+    private bool isActive = false; // 활성화 여부
 
-    private void Awake()
+    private void Start()
     {
-        m_audioSource.gameObject.SetActive(false);
-        m_initialPos = transform.position;
-        m_destyPos = new Vector2(m_desX, m_desY);
-        m_delayTime = 0f;
+        audioSource = transform.Find("Sound").GetComponent<AudioSource>();
+
+        audioSource.gameObject.SetActive(false);
+        initialPosition = transform.position;
+        destinationPosition = new Vector2(destinationX, destinationY);
+        delayTime = 0f;
+
+        if (audioSource == null) Debug.Log("audioSource == null");
+
     }
 
-    void Update()
+    private void Update()
     {
         MovePlatform();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == (int)LayerName.Player)
+        if (collision.gameObject.layer == (int)LayerName.Player)
         {
             collision.transform.parent = transform;
         }
@@ -50,24 +53,24 @@ public class OjakgyoPlatform : MonoBehaviour
     {
         if (collision.gameObject.layer == (int)LayerName.Rune && RuneData.RuneActive)
         {
-            m_isActive = true;
+            isActive = true;
         }
     }
 
-    void MovePlatform()
+    private void MovePlatform()
     {
-        if (m_delayTime <= m_timeLaps && m_isActive)
+        if (delayTime <= moveTime && isActive)
         {
-            transform.DOMove(m_destyPos, m_moveTime);
-            m_audioSource.gameObject.SetActive(true);
-            m_delayTime += Time.deltaTime;
+            transform.DOMove(destinationPosition, moveTime);
+            audioSource.gameObject.SetActive(true);
+            delayTime += Time.deltaTime;
         }
-        else if (m_delayTime > m_timeLaps)
+        else if (delayTime > moveTime)
         {
-            transform.DOMove(m_initialPos, m_moveTime);
-            m_audioSource.gameObject.SetActive(false);
-            m_delayTime = 0f;
-            m_isActive = false;
+            transform.DOMove(initialPosition, moveTime);
+            audioSource.gameObject.SetActive(false);
+            delayTime = 0f;
+            isActive = false;
         }
     }
 }

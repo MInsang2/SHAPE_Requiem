@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
-    [SerializeField] RuneManager m_rune;
+    [SerializeField] RuneManager rune;
 
 
     private void Start()
     {
-        m_rune = RuneData.RuneObj.GetComponent<RuneManager>();
+        rune = RuneData.RuneObj.GetComponent<RuneManager>();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -17,7 +17,7 @@ public class Water : MonoBehaviour
         switch (collision.gameObject.layer)
         {
             case (int)LayerName.Rune:
-                m_rune.EnterWater();
+                rune.EnterWater();
                 break;
             default:
                 break;
@@ -29,7 +29,7 @@ public class Water : MonoBehaviour
         switch (collision.gameObject.layer)
         {
             case (int)LayerName.Rune:
-                m_rune.ExitWater();
+                rune.ExitWater();
                 break;
             default:
                 break;

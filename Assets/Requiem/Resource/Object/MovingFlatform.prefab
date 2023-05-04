@@ -706,9 +706,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -880,15 +880,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5cbbf8c501ef499d4685c9988ea7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_swich: {fileID: 5533439113905633042}
-  m_Collider: {fileID: 8050348918365922165}
-  m_platform: {fileID: 5533439114693205798}
-  m_platformActive: {fileID: 21300000, guid: b9a1db63207258f44ae44c97341e889c, type: 3}
-  m_platformInactive: {fileID: 21300000, guid: c51b3e8688aa83f498bccf77ef4e386d, type: 3}
-  m_Light1: {fileID: 5070838552938277202}
-  m_Light2: {fileID: 3261328628396620608}
-  m_audioSource: {fileID: 851944555024130969}
-  m_clip: {fileID: 8300000, guid: 88931ec587337eb40afb15ee9018bda7, type: 3}
+  activeSprite: {fileID: 21300000, guid: b9a1db63207258f44ae44c97341e889c, type: 3}
+  inactiveSprite: {fileID: 21300000, guid: c51b3e8688aa83f498bccf77ef4e386d, type: 3}
+  audioClip: {fileID: 8300000, guid: 0eff17f56d40b9542811e67e4614c14e, type: 3}
 --- !u!1 &7037843985983589134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,17 +1145,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b03680c18fa20b7479f3a95ac257fadc, type: 3}
---- !u!114 &5533439113905633042 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3231917908599002547, guid: b03680c18fa20b7479f3a95ac257fadc, type: 3}
-  m_PrefabInstance: {fileID: 6922223634796552865}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87586c7e2953381418c035b9e65f0c59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5533439113905633044 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3231917908599002549, guid: b03680c18fa20b7479f3a95ac257fadc, type: 3}

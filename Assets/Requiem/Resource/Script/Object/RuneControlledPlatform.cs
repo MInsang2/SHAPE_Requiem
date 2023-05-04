@@ -29,7 +29,7 @@ public class RuneControlledPlatform : MonoBehaviour
 
         origin = transform.position;
         target = destination;
-        runeMoveTime = runeController.m_moveTime;
+        runeMoveTime = runeController.moveTime;
 
         if (player == null) Debug.Log("player == null");
         if (runeController == null) Debug.Log("runeController == null");
@@ -76,7 +76,7 @@ public class RuneControlledPlatform : MonoBehaviour
         if (collision.gameObject.layer == (int)LayerName.Rune && RuneData.RuneActive)
         {
             RuneData.RuneUseControl = false;
-            runeController.m_moveTime = 0.1f;
+            runeController.moveTime = 0.1f;
             isRuneAttached = true;
         }
     }
@@ -112,26 +112,26 @@ public class RuneControlledPlatform : MonoBehaviour
     // 목적지 도달 시 룬 제거 및 조작 가능
     private void DetachRuneAtEnd()
     {
-        runeController.m_moveTime = runeMoveTime;
+        runeController.moveTime = runeMoveTime;
         RuneData.RuneUseControl = true;
-        runeController.m_target = player.position;
+        runeController.target = player.position;
         isRuneAttached = false;
-        runeController.m_isShoot = false;
+        runeController.isShoot = false;
     }
 
     // 도중에 룬이 빠질 경우 설정
     private void DetachRuneMidway()
     {
-        runeController.m_moveTime = runeMoveTime;
+        runeController.moveTime = runeMoveTime;
         RuneData.RuneUseControl = true;
-        runeController.m_target = player.position;
+        runeController.target = player.position;
         isRuneAttached = false;
-        runeController.m_isShoot = true;
+        runeController.isShoot = true;
     }
 
     // 룬을 플랫폼에 부착
     private void AttachRune()
     {
-        runeController.m_target = transform.position;
+        runeController.target = transform.position;
     }
 }

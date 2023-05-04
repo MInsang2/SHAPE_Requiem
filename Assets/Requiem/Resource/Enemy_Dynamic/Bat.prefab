@@ -557,7 +557,7 @@ MonoBehaviour:
   chaseArea: 10
   audioSource: {fileID: 0}
   fly: {fileID: 0}
-  near: 0.01
+  near: 0.1
   escapeDuration: 0.5
   origin: {fileID: 0}
   rb: {fileID: 0}

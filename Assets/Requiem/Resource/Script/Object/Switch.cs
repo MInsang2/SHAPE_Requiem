@@ -13,7 +13,6 @@ public class Switch : MonoBehaviour
     private AudioSource audioSource; // 자신의 오디오 소스
     public bool isActive; // 활성화 여부
 
-    // Awake에서 컴포넌트 초기화
     private void Start()
     {
         InitializeComponents();
