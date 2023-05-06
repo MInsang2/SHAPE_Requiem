@@ -39,10 +39,10 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100743734}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: aa63ad747d5224149b4145546c20d24b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b9bb455630c38344fa606a0225432990, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.05
   m_Pitch: 1
@@ -5857,6 +5857,7 @@ GameObject:
   - component: {fileID: 2529985360050657736}
   - component: {fileID: 2529985360050657743}
   - component: {fileID: 2529985360050657732}
+  - component: {fileID: 8797573394018910023}
   - component: {fileID: 2529985360050657742}
   - component: {fileID: 2529985360050657737}
   - component: {fileID: 1396653073}
@@ -5962,6 +5963,102 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!82 &8797573394018910023
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529985360050657747}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!50 &2529985360050657742
 Rigidbody2D:
   serializedVersion: 4
@@ -6100,14 +6197,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0839f9420aade4384bf6622dce151a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_target: {x: 0, y: 0}
-  m_moveTime: 1
-  m_isShoot: 0
-  m_RunePosition: {x: -1.2, y: 0.75}
-  m_origin: {x: 0, y: 0}
-  m_shootDelayTime: 0.2
-  m_RuneReturnDistance: 30
-  m_isMouseDelay: 0
+  target: {x: 0, y: 0}
+  moveTime: 1
+  isShoot: 0
+  runePosition: {x: -0.9, y: 0.5}
+  origin: {x: 0, y: 0}
+  shootDelayTime: 0.2
+  runeReturnDistance: 20
+  isMouseDelay: 0
 --- !u!114 &1996320799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6140,10 +6237,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f5c8b7d8a0bed743af77f9bfc191cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_invenSize: 32
-  m_playerInven: {fileID: 0}
-  m_items: []
-  m_index: 0
+  inventorySize: 32
+  inventorySounds:
+  - {fileID: 8300000, guid: 6793fdcc06ab795458e9bcb6a2e00a44, type: 3}
+  - {fileID: 8300000, guid: 6793fdcc06ab795458e9bcb6a2e00a44, type: 3}
+  - {fileID: 8300000, guid: 826099701698aad429df0ce5f2be535d, type: 3}
+  playerInventory: {fileID: 0}
+  items: []
+  currentIndex: 0
 --- !u!114 &178034531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6156,8 +6257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43e5fca52c7dd94bb83eda27dd25ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_player: {fileID: 2529985360050657736}
-  m_rune: {fileID: 0}
+  player: {fileID: 0}
+  rune: {fileID: 0}
 --- !u!114 &1810196480
 MonoBehaviour:
   m_ObjectHideFlags: 0

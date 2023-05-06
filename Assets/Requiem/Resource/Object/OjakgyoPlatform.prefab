@@ -99,11 +99,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce347e8505048d74e81a9a8b809ede44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_desX: 75.57
-  m_desY: -35.19
-  m_moveTime: 2
-  m_timeLaps: 2.5
-  m_audioSource: {fileID: 2344383674773341169}
+  destinationX: 0
+  destinationY: 0
+  moveTime: 0
+  delayTime: 0
+  audioSource: {fileID: 0}
 --- !u!61 &6126231489327306940
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -174,9 +174,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 72693b83419d285479cf5340efcefbb5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.25
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

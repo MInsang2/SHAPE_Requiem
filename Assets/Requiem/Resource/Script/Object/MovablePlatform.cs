@@ -106,6 +106,10 @@ public class MovablePlatform : MonoBehaviour
             platform.position -= Vector3.right * moveSpeed * Time.deltaTime;
             movedDistance -= moveSpeed * Time.deltaTime;
         }
+        else
+        {
+            audioSource.Stop();
+        }
     }
 
     // X축 음의 방향으로 플랫폼 이동
@@ -120,6 +124,10 @@ public class MovablePlatform : MonoBehaviour
         {
             platform.position += Vector3.right * moveSpeed * Time.deltaTime;
             movedDistance -= moveSpeed * Time.deltaTime;
+        }
+        else
+        {
+            audioSource.Stop();
         }
     }
 
@@ -136,6 +144,10 @@ public class MovablePlatform : MonoBehaviour
             platform.position -= Vector3.up * moveSpeed * Time.deltaTime;
             movedDistance -= moveSpeed * Time.deltaTime;
         }
+        else
+        {
+            audioSource.Stop();
+        }
     }
 
     // Y축 음의 방향으로 플랫폼 이동
@@ -150,6 +162,10 @@ public class MovablePlatform : MonoBehaviour
         {
             platform.position += Vector3.up * moveSpeed * Time.deltaTime;
             movedDistance -= moveSpeed * Time.deltaTime;
+        }
+        else
+        {
+            audioSource.Stop();
         }
     }
 }

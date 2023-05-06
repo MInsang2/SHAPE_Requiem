@@ -1,5 +1,3 @@
-// 1Â÷ ¸®ÆåÅä¸µ
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +6,12 @@ using UnityEngine.UI;
 public class PlayerInventorySystem : MonoBehaviour
 {
     [SerializeField] private int inventorySize;
+    [SerializeField] AudioClip[] inventorySounds;
     public GameObject playerInventory;
     public Item[] items;
     public int currentIndex;
+
+    AudioSource audioSource;
 
     private void Start()
     {
@@ -19,15 +20,20 @@ public class PlayerInventorySystem : MonoBehaviour
             playerInventory = GameObject.Find("Canvas").transform.Find("PlayerUI").Find("Inven").gameObject;
         }
 
+        audioSource = GetComponent<AudioSource>();
+
         currentIndex = 0;
         items = new Item[inventorySize];
+
+        if (audioSource == null) Debug.Log("audioSource == null");
+        if (playerInventory == null) Debug.Log("playerInventory == null");
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            DataController.IsInvenOpen = !DataController.IsInvenOpen;
+            SetIsInvenOpen(!DataController.IsInvenOpen);
         }
 
         if (DataController.IsInvenOpen)
@@ -58,6 +64,7 @@ public class PlayerInventorySystem : MonoBehaviour
             collision.gameObject.SetActive(false);
             collision.transform.parent = transform;
             playerInventory.GetComponent<InventorySystem>().UpdateInventory();
+            PlayAudioClip(2);
         }
         else
         {
@@ -90,5 +97,23 @@ public class PlayerInventorySystem : MonoBehaviour
         currentIndex--;
 
         playerInventory.GetComponent<InventorySystem>().UpdateInventory();
+    }
+
+    private void PlayAudioClip(int index)
+    {
+        if (audioSource != null && inventorySounds.Length > index && inventorySounds[index] != null)
+        {
+            audioSource.clip = inventorySounds[index];
+            audioSource.Play();
+        }
+    }
+
+    private void SetIsInvenOpen(bool isOpen)
+    {
+        if (DataController.IsInvenOpen != isOpen)
+        {
+            DataController.IsInvenOpen = isOpen;
+            PlayAudioClip(isOpen ? 0 : 1);
+        }
     }
 }

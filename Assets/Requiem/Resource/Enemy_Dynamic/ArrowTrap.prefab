@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 73032069162767166}
   - component: {fileID: 73032069162767167}
   - component: {fileID: 73032069162767164}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: ArrowTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,10 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2e61fd8eacfaf4e8dacc7a150bdf25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_resetPoint: {x: 0, y: 0}
   firepoint: {fileID: 73032069035666691}
-  arrow: {fileID: 0}
-  m_ShootingDelay: 4
+  arrow: {fileID: 3232199372043675755, guid: 370af7b2d98e1994ba089e2012b5cb3b, type: 3}
+  destroyTime: 3
+  speed: 5
+  shootingDelay: 3
 --- !u!212 &73032069162767167
 SpriteRenderer:
   m_ObjectHideFlags: 0

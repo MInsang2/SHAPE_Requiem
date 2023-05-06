@@ -10,6 +10,9 @@ public class RuneControlledPlatform : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private float speed;
     [SerializeField] private Vector2 destination;
+    [SerializeField] private AudioClip audioClip;
+
+    private AudioSource audioSource;
 
     private Vector2 target;
     private Vector2 origin;
@@ -25,14 +28,21 @@ public class RuneControlledPlatform : MonoBehaviour
             runeController = PlayerData.PlayerObj.GetComponent<RuneControllerGPT>();
         }
 
+        audioSource = transform.Find("Sound").GetComponent<AudioSource>();
         player = PlayerData.PlayerObj.transform;
 
+        
+
+        audioSource.clip = audioClip;
         origin = transform.position;
         target = destination;
         runeMoveTime = runeController.moveTime;
+        audioSource.gameObject.SetActive(false);
 
         if (player == null) Debug.Log("player == null");
         if (runeController == null) Debug.Log("runeController == null");
+        if (audioSource == null) Debug.Log("audioSource == null");
+        if (audioClip == null) Debug.Log("audioClip == null");
     }
 
     // ·éÀÌ ºÎÂøµÇ¾î ÀÖÀ» °æ¿ì ÇÃ·§Æû ÀÌµ¿
@@ -40,13 +50,18 @@ public class RuneControlledPlatform : MonoBehaviour
     {
         if (isRuneAttached)
         {
+            AttachRune();
+            MoveToDestination();
+            PlaySound(isRuneAttached);
+
             if (Input.GetMouseButtonDown(0))
             {
                 DetachRuneMidway();
             }
-
-            AttachRune();
-            MoveToDestination();
+        }
+        else
+        {
+            PlaySound(isRuneAttached);
         }
 
         UpdateTarget();
@@ -126,12 +141,17 @@ public class RuneControlledPlatform : MonoBehaviour
         RuneData.RuneUseControl = true;
         runeController.target = player.position;
         isRuneAttached = false;
-        runeController.isShoot = true;
+        runeController.isShoot = false;
     }
 
     // ·éÀ» ÇÃ·§Æû¿¡ ºÎÂø
     private void AttachRune()
     {
         runeController.target = transform.position;
+    }
+
+    void PlaySound(bool _bool)
+    {
+        audioSource.gameObject.SetActive(_bool);
     }
 }

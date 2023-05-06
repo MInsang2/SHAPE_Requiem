@@ -177,7 +177,5 @@ public class DataController : MonoBehaviour
         {
             if (ItemSprites[i] == null) Debug.Log($"ItemSprites[{i}] == null");
         }
-        
-
     }
 }

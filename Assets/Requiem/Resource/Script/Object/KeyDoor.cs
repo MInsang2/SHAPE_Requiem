@@ -3,10 +3,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using DG.Tweening;
 
 public class KeyDoor : MonoBehaviour
 {
     [SerializeField] private int keyID; // 키 ID
+    [SerializeField] private AudioClip doorSound;
+    [SerializeField] private float invokeTime;
+
+    AudioSource audioSource;
+
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null) Debug.Log("audioSource == null");
+    }
 
     // 트리거에 다른 오브젝트가 있을 때 처리하는 함수
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,9 +69,11 @@ public class KeyDoor : MonoBehaviour
     // 키를 사용하고 문을 제거하는 함수
     private void UseKeyAndDestroyDoor(PlayerInventorySystem inven, int index)
     {
+
         inven.UseItem(index);
         inven.CloseInventory();
-        Destroy(gameObject);
+        audioSource.PlayOneShot(doorSound);
+        Invoke("DestroyDoor", invokeTime);
     }
 
     // 인벤토리를 업데이트하고 닫는 함수
@@ -65,5 +81,10 @@ public class KeyDoor : MonoBehaviour
     {
         inven.playerInventory.GetComponent<InventorySystem>().UpdateInventory();
         inven.CloseInventory();
+    }
+
+    void DestroyDoor()
+    {
+        Destroy(gameObject);
     }
 }
