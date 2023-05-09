@@ -11,7 +11,8 @@ public class Bat : Enemy_Dynamic
     [SerializeField] private float escapeSpeed; // 도망 속도
     [SerializeField] private float sightArea = 3f; // 시야 범위
     [SerializeField] private float chaseArea = 10f; // 추적 범위
-    [SerializeField] private AudioSource audioSource; // 오디오 소스
+    [SerializeField] private AudioSource audioSource1; // 오디오 소스
+    [SerializeField] private AudioSource audioSource2; // 오디오 소스
     [SerializeField] private AudioClip fly; // 날개짓 소리
     [SerializeField] private float near; // 원래 위치 근처
     [SerializeField] private float escapeDuration; // 도망 중인 상태 유지 시간
@@ -57,7 +58,8 @@ public class Bat : Enemy_Dynamic
         // 변수 초기화 및 할당
         m_collider2D = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
-        audioSource = transform.Find("Sound").GetComponent<AudioSource>();
+        audioSource1 = transform.Find("Sound").GetComponent<AudioSource>();
+        audioSource2 = transform.Find("Sound").Find("FlySound").GetComponent<AudioSource>();
         fly = EnemyData.DynamicEnemyAudioClipArr[1];
         m_name = EnemyData.DynamicEnemyNameArr[0];
         damage = 1;
@@ -66,7 +68,8 @@ public class Bat : Enemy_Dynamic
 
         if (m_collider2D == null) Debug.Log("m_collider2D == null");
         if (rb == null) Debug.Log("rb == null");
-        if (audioSource == null) Debug.Log("audioSource == null");
+        if (audioSource1 == null) Debug.Log("audioSource1 == null");
+        if (audioSource2 == null) Debug.Log("audioSource2 == null");
         if (m_name == null) Debug.Log("m_name == null");
         if (fly == null) Debug.Log("fly == null");
         if (target == null) Debug.Log("target == null");
@@ -136,7 +139,7 @@ public class Bat : Enemy_Dynamic
         isChasing = true;
         if (isPlay) return false; // 추격 사운드가 재생 되었다면, 리턴
 
-        audioSource.PlayOneShot(fly); // 추격 사운드 재생
+        audioSource2.PlayOneShot(fly); // 추격 사운드 재생
         isPlay = true; // 추격 사운드가 재생 되었는가
 
         return true;
