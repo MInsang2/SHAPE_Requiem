@@ -23,6 +23,7 @@ public class PlayerControllerGPT : MonoBehaviour
     [SerializeField] float m_maxFallSpeed; // 최대 낙하 속도
     [SerializeField] float m_castDistance; // 땅과의 충돌 판정
     [SerializeField] LayerMask m_platform; // 플랫폼 레이어 마스크
+    [SerializeField] ParticleSystem m_randingEffect;
 
     bool m_isJump; // 점프 상태 체크
     bool m_isGrounded; // 땅 접촉 상태 체크
@@ -43,12 +44,14 @@ public class PlayerControllerGPT : MonoBehaviour
         m_rigid = GetComponent<Rigidbody2D>();
         m_animator = GetComponent<Animator>();
         m_collider = GetComponent<Collider2D>();
+        m_randingEffect = transform.Find("RandingEffect").GetComponent<ParticleSystem>();
 
         if (m_PlayerMoveSound == null) Debug.Log("m_PlayerMoveSound == null");
         if (m_mainCamera == null) Debug.Log("m_mainCamera == null");
         if (m_rigid == null) Debug.Log("m_rigid == null");
         if (m_animator == null) Debug.Log("m_animator == null");
         if (m_collider == null) Debug.Log("m_collider == null");
+        if (m_randingEffect == null) Debug.Log("m_randingEffect == null");
 
         // 변수 초기값 설정
         m_jumpLeft = PlayerData.PlayerJumpLeft;
@@ -80,6 +83,8 @@ public class PlayerControllerGPT : MonoBehaviour
         {
             m_jumpLeft = PlayerData.PlayerJumpLeft;
             m_isJump = false;
+
+            m_randingEffect.Play();
         }
 
         m_isGrounded = isGrounded;

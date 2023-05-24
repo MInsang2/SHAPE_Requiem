@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System;
+using DG.Tweening;
 
 public class RuneStatue : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class RuneStatue : MonoBehaviour
     private Animator animator; // 자신의 애니매이터
     private AudioSource audioSource; // 자신의 오디오 소스
     private AudioSource audioSourceActive; // 동작 시의 오디오 소스
+    private ParticleSystem activeEffect;
+    private Light2D activeLight;
     private bool isPlay; // 재생 되었는지 여부
 
     // 컴포넌트 초기화와 값 설정을 위한 Awake 함수
@@ -30,9 +33,17 @@ public class RuneStatue : MonoBehaviour
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         audioSourceActive = transform.Find("Sound").GetComponent<AudioSource>();
+        activeEffect = transform.Find("ActiveEffect").GetComponent<ParticleSystem>();
+        activeLight = transform.Find("ActiveLight").GetComponent<Light2D>();
+        activeLight.shapeLightFalloffSize = 0f;
 
-        if (animator == null) Debug.Log("m_animator == null");
-        if (audioSource == null) Debug.Log("m_audioSource == null");
+        activeEffect.gameObject.SetActive(false);
+        activeLight.gameObject.SetActive(false);
+
+        if (animator == null) Debug.Log("animator == null");
+        if (audioSource == null) Debug.Log("audioSource == null");
+        if (activeEffect == null) Debug.Log("activeEffect == null");
+        if (activeLight == null) Debug.Log("activeLight == null");
     }
 
     // 값 초기화를 위한 함수
@@ -82,7 +93,16 @@ public class RuneStatue : MonoBehaviour
     private void ActivateRuneStatue()
     {
         animator.SetBool("IsActive", true);
+        Invoke("ActivateEffect", 5f);
+        
         PlayAudioClip();
+    }
+
+    private void ActivateEffect()
+    {
+        activeEffect.gameObject.SetActive(true);
+        activeLight.gameObject.SetActive(true);
+        DOTween.To(() => activeLight.shapeLightFalloffSize, x => activeLight.shapeLightFalloffSize = x, 5, 10);
     }
 
     // 오디오 클립 재생을 위한 함수

@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/underground_MinSang.unity
-    guid: 6b0c83aba6f1076449e2a2fddfa2d39a
+    path: "Assets/Scenes/underground_\uB7EC\uD504.unity"
+    guid: e837a66d1d686fa4ea679ab119784a1c
   m_configObjects: {}
