@@ -10,6 +10,10 @@ using DG.Tweening;
 public class RuneStatue : MonoBehaviour
 {
     [SerializeField] private Vector2 savePoint; // 세이브 포인트
+    [SerializeField] private float lightRadius;
+    [SerializeField] private float lightPower;
+    [SerializeField] private float lightPowerDownTime;
+    [SerializeField] private float lightLessPower;
     [SerializeField] public bool isActive; // 동작 했는가 여부
     [SerializeField] private AudioClip audioClip; // 동작 시 재생 소리
 
