@@ -14,8 +14,10 @@ public class RuneStatue : MonoBehaviour
     [SerializeField] private float lightPower;
     [SerializeField] private float lightPowerDownTime;
     [SerializeField] private float lightLessPower;
+    [SerializeField] private float effectDelay = 5f; // 효과 딜레이 시간
     [SerializeField] public bool isActive; // 동작 했는가 여부
     [SerializeField] private AudioClip audioClip; // 동작 시 재생 소리
+    [SerializeField] LightsManager[] lightsManagers;
 
     private Animator animator; // 자신의 애니매이터
     private AudioSource audioSource; // 자신의 오디오 소스
@@ -97,8 +99,8 @@ public class RuneStatue : MonoBehaviour
     private void ActivateRuneStatue()
     {
         animator.SetBool("IsActive", true);
-        Invoke("ActivateEffect", 5f);
-        
+        Invoke("ActivateEffect", effectDelay);
+        Invoke("TurnOnLights", effectDelay);
         PlayAudioClip();
     }
 
@@ -123,5 +125,15 @@ public class RuneStatue : MonoBehaviour
     public void Initialized()
     {
         isActive = false;
+    }
+
+    // 연결된 빛 객체들 활성화
+    void TurnOnLights()
+    {
+        for (int i = 0; i < lightsManagers.Length; i++)
+        {
+            lightsManagers[i].turnOff = false;
+        }
+        
     }
 }
