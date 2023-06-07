@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 
+struct TwoFloat
+{
+    float min;
+    float max;
+}
+
 enum WindowLightType
 {
     FULL,
@@ -16,6 +22,9 @@ public class LightsManager : MonoBehaviour
     [SerializeField] public bool turnOff;
     [SerializeField] float turnOnTime = 2f;
     [SerializeField] WindowLightType windowLightType;
+    [SerializeField] TwoFloat OffTime;
+    [SerializeField] TwoFloat middleTime;
+    [SerializeField] TwoFloat onTime;
 
     Light2D light2D;
     float originIntensity;
@@ -93,5 +102,10 @@ public class LightsManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void BlinckLight()
+    {
+
     }
 }
