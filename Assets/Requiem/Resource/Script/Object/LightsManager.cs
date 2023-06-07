@@ -4,10 +4,18 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 
+enum WindowLightType
+{
+    FULL,
+    HALF,
+    EMPTY
+}
+
 public class LightsManager : MonoBehaviour
 {
     [SerializeField] public bool turnOff;
     [SerializeField] float turnOnTime = 2f;
+    [SerializeField] WindowLightType windowLightType;
 
     Light2D light2D;
     float originIntensity;
@@ -20,17 +28,18 @@ public class LightsManager : MonoBehaviour
         light2D = GetComponent<Light2D>();
         originIntensity = light2D.intensity;
 
-        if (light2D.lightType == Light2D.LightType.Freeform)
+        if (windowLightType == WindowLightType.EMPTY)
         {
-            originFallout = light2D.shapeLightFalloffSize;
-        }
+            if (light2D.lightType == Light2D.LightType.Freeform)
+            {
+                originFallout = light2D.shapeLightFalloffSize;
+            }
 
-        if (light2D.lightType == Light2D.LightType.Point)
-        {
-            originOuterRadius = light2D.pointLightOuterRadius;
+            if (light2D.lightType == Light2D.LightType.Point)
+            {
+                originOuterRadius = light2D.pointLightOuterRadius;
+            }
         }
-
-        
     }
 
     void Update()
@@ -67,6 +76,22 @@ public class LightsManager : MonoBehaviour
             {
                 DOTween.To(() => light2D.pointLightOuterRadius, x => light2D.pointLightOuterRadius = x, originOuterRadius, turnOnTime);
             }
+        }
+    }
+
+    void WindowIdle()
+    {
+        switch (windowLightType)
+        {
+            case WindowLightType.FULL:
+                break;
+            case WindowLightType.HALF:
+                break;
+            case WindowLightType.EMPTY:
+                TurnOnOff();
+                break;
+            default:
+                break;
         }
     }
 }
