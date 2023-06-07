@@ -132,8 +132,9 @@ public class RuneStatue : MonoBehaviour
     {
         for (int i = 0; i < lightsManagers.Length; i++)
         {
-            lightsManagers[i].turnOff = false;
+            lightsManagers[i].windowLightType = WindowLightType.FULL;
+
+            lightsManagers[i].turnOffValue = false;
         }
-        
     }
 }

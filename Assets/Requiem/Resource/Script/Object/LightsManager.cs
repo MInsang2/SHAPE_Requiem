@@ -1,16 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 
-struct TwoFloat
-{
-    float min;
-    float max;
-}
-
-enum WindowLightType
+public enum WindowLightType
 {
     FULL,
     HALF,
@@ -19,73 +14,69 @@ enum WindowLightType
 
 public class LightsManager : MonoBehaviour
 {
-    [SerializeField] public bool turnOff;
-    [SerializeField] float turnOnTime = 2f;
-    [SerializeField] WindowLightType windowLightType;
-    [SerializeField] TwoFloat OffTime;
-    [SerializeField] TwoFloat middleTime;
-    [SerializeField] TwoFloat onTime;
+    [SerializeField] public bool turnOffValue;
+    [SerializeField] public WindowLightType windowLightType;
+    [SerializeField] private float turnOnTime = 2f;
+    [SerializeField] private float turnOffTime = 2f;
+    [SerializeField] private Vector2 BlincOffTime;
+    [SerializeField] private Vector2 BlincMiddleTime;
+    [SerializeField] private Vector2 BlincOnTime;
 
-    Light2D light2D;
-    float originIntensity;
-    float originFallout;
-    float originOuterRadius;
+    private Light2D light2D;
+    private float originIntensity;
+    private float originFallout;
+    private float originOuterRadius;
+    private float originTurnOnTime;
+    private float originTurnOffTime;
+    private float BlincDelayTime;
+    private bool BlincStart = false;
 
 
     void Start()
     {
         light2D = GetComponent<Light2D>();
         originIntensity = light2D.intensity;
+        originTurnOnTime = turnOnTime;
+        originTurnOffTime = turnOffTime;
 
-        if (windowLightType == WindowLightType.EMPTY)
+        if (light2D.lightType == Light2D.LightType.Freeform)
         {
-            if (light2D.lightType == Light2D.LightType.Freeform)
-            {
-                originFallout = light2D.shapeLightFalloffSize;
-            }
+            originFallout = light2D.shapeLightFalloffSize;
+        }
 
-            if (light2D.lightType == Light2D.LightType.Point)
-            {
-                originOuterRadius = light2D.pointLightOuterRadius;
-            }
+        if (light2D.lightType == Light2D.LightType.Point)
+        {
+            originOuterRadius = light2D.pointLightOuterRadius;
+        }
+
+        switch (windowLightType)
+        {
+            case WindowLightType.FULL:
+                turnOffValue = false;
+                break;
+            case WindowLightType.HALF:
+            case WindowLightType.EMPTY:
+                turnOffValue = true;
+                break;
+            default:
+                break;
         }
     }
 
     void Update()
     {
-        TurnOnOff();
+        WindowIdle();
     }
 
     void TurnOnOff()
     {
-        if (turnOff)
-        {
-            DOTween.To(() => light2D.intensity, x => light2D.intensity = x, 0f, turnOnTime);
+        turnOnTime = originTurnOnTime;
+        turnOffTime = originTurnOffTime;
 
-            if (light2D.lightType == Light2D.LightType.Freeform)
-            {
-                DOTween.To(() => light2D.shapeLightFalloffSize, x => light2D.shapeLightFalloffSize = x, 0f, turnOnTime);
-            }
-
-            if (light2D.lightType == Light2D.LightType.Point)
-            {
-                DOTween.To(() => light2D.pointLightOuterRadius, x => light2D.pointLightOuterRadius = x, 0f, turnOnTime);
-            }
-        }
+        if (turnOffValue)
+            TurnOff();
         else
-        {
-            DOTween.To(() => light2D.intensity, x => light2D.intensity = x, originIntensity, turnOnTime);
-
-            if (light2D.lightType == Light2D.LightType.Freeform)
-            {
-                DOTween.To(() => light2D.shapeLightFalloffSize, x => light2D.shapeLightFalloffSize = x, originFallout, turnOnTime);
-            }
-
-            if (light2D.lightType == Light2D.LightType.Point)
-            {
-                DOTween.To(() => light2D.pointLightOuterRadius, x => light2D.pointLightOuterRadius = x, originOuterRadius, turnOnTime);
-            }
-        }
+            TurnOn();
     }
 
     void WindowIdle()
@@ -93,8 +84,11 @@ public class LightsManager : MonoBehaviour
         switch (windowLightType)
         {
             case WindowLightType.FULL:
+                turnOffValue = false;
+                TurnOn();
                 break;
             case WindowLightType.HALF:
+                BlinckLight();
                 break;
             case WindowLightType.EMPTY:
                 TurnOnOff();
@@ -107,5 +101,58 @@ public class LightsManager : MonoBehaviour
     void BlinckLight()
     {
 
+
+        if (turnOffValue && !BlincStart)
+        {
+            BlincStart = true;
+            BlincDelayTime = UnityEngine.Random.Range(BlincMiddleTime.x, BlincMiddleTime.y);
+            turnOnTime = UnityEngine.Random.Range(BlincOnTime.x, BlincOnTime.y);
+            turnOffTime = UnityEngine.Random.Range(BlincOffTime.x, BlincOffTime.y);
+
+            TurnOff();
+            Invoke("ChangeTurnOffValue", BlincDelayTime);
+        }
+        else if (!turnOffValue && BlincStart)
+        {
+            BlincStart = false;
+            TurnOn();
+            Invoke("ChangeTurnOffValue", BlincDelayTime);
+        }
+
+    }
+
+    void TurnOn()
+    {
+        DOTween.To(() => light2D.intensity, x => light2D.intensity = x, originIntensity, turnOnTime);
+
+        if (light2D.lightType == Light2D.LightType.Freeform)
+        {
+            DOTween.To(() => light2D.shapeLightFalloffSize, x => light2D.shapeLightFalloffSize = x, originFallout, turnOnTime);
+        }
+
+        if (light2D.lightType == Light2D.LightType.Point)
+        {
+            DOTween.To(() => light2D.pointLightOuterRadius, x => light2D.pointLightOuterRadius = x, originOuterRadius, turnOnTime);
+        }
+    }
+
+    void TurnOff()
+    {
+        DOTween.To(() => light2D.intensity, x => light2D.intensity = x, 0f, turnOffTime);
+
+        if (light2D.lightType == Light2D.LightType.Freeform)
+        {
+            DOTween.To(() => light2D.shapeLightFalloffSize, x => light2D.shapeLightFalloffSize = x, 0f, turnOffTime);
+        }
+
+        if (light2D.lightType == Light2D.LightType.Point)
+        {
+            DOTween.To(() => light2D.pointLightOuterRadius, x => light2D.pointLightOuterRadius = x, 0f, turnOffTime);
+        }
+    }
+
+    void ChangeTurnOffValue()
+    {
+        turnOffValue = !turnOffValue;
     }
 }
