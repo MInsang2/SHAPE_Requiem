@@ -16,8 +16,8 @@ public class LightsManager : MonoBehaviour
 {
     [SerializeField] public bool turnOffValue;
     [SerializeField] public WindowLightType windowLightType;
-    [SerializeField] private float turnOnTime = 2f;
-    [SerializeField] private float turnOffTime = 2f;
+    [SerializeField] public float turnOnTime = 2f;
+    [SerializeField] public float turnOffTime = 2f;
     [SerializeField] private Vector2 BlincOffTime;
     [SerializeField] private Vector2 BlincMiddleTime;
     [SerializeField] private Vector2 BlincOnTime;
@@ -68,7 +68,7 @@ public class LightsManager : MonoBehaviour
         WindowIdle();
     }
 
-    void TurnOnOff()
+    public void TurnOnOff()
     {
         turnOnTime = originTurnOnTime;
         turnOffTime = originTurnOffTime;
@@ -121,7 +121,7 @@ public class LightsManager : MonoBehaviour
 
     }
 
-    void TurnOn()
+    public void TurnOn()
     {
         DOTween.To(() => light2D.intensity, x => light2D.intensity = x, originIntensity, turnOnTime);
 
@@ -136,7 +136,7 @@ public class LightsManager : MonoBehaviour
         }
     }
 
-    void TurnOff()
+    public void TurnOff()
     {
         DOTween.To(() => light2D.intensity, x => light2D.intensity = x, 0f, turnOffTime);
 

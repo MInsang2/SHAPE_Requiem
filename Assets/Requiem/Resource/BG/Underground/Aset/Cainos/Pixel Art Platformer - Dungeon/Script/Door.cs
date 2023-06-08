@@ -15,6 +15,7 @@ namespace Cainos.PixelArtPlatformer_Dungeon
         [FoldoutGroup("Reference")] public Sprite spriteOpened;
         [FoldoutGroup("Reference")] public Sprite spriteClosed;
 
+        private Collider2D m_collider2D;
 
         private Animator Animator
         {
@@ -34,6 +35,7 @@ namespace Cainos.PixelArtPlatformer_Dungeon
             set
             {
                 isOpened = value;
+                m_collider2D.isTrigger = IsOpened;
 
                 #if UNITY_EDITOR
                 if (Application.isPlaying == false)
@@ -59,6 +61,8 @@ namespace Cainos.PixelArtPlatformer_Dungeon
 
         private void Start()
         {
+            m_collider2D = spriteRenderer.GetComponent<Collider2D>();
+
             Animator.Play(isOpened ? "Opened" : "Closed");
             IsOpened = isOpened;
         }
@@ -68,12 +72,14 @@ namespace Cainos.PixelArtPlatformer_Dungeon
         public void Open()
         {
             IsOpened = true;
+            m_collider2D.isTrigger = IsOpened;
         }
 
         [FoldoutGroup("Runtime"), HorizontalGroup("Runtime/Button"), Button("Close")]
         public void Close()
         {
             IsOpened = false;
+            m_collider2D.isTrigger = IsOpened;
         }
     }
 }

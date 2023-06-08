@@ -11,21 +11,33 @@ public class KeyDoor : MonoBehaviour
     [SerializeField] private int keyID; // 키 ID
     [SerializeField] private AudioClip doorSound;
     [SerializeField] private float invokeTime;
+    [SerializeField] public bool isOpened;
+    [SerializeField] private SpriteRenderer openedSprite;
+    [SerializeField] private LightsManager lightsManager;
 
-    AudioSource audioSource;
+    private AudioSource audioSource;
 
 
     private void Start()
     {
+        openedSprite = transform.Find("Lit").GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
 
         if (audioSource == null) Debug.Log("audioSource == null");
+        openedSprite.gameObject.SetActive(true);
+    }
+
+    private void Update()
+    {
+        DoorStateChange();
     }
 
     // 트리거에 다른 오브젝트가 있을 때 처리하는 함수
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (IsPlayer(collision))
+        //상호작용 유도 UI 배치
+
+        if (IsPlayer(collision) && Input.GetKeyDown(KeyCode.F))
         {
             PlayerInventorySystem inven = GetPlayerInventorySystem(collision);
             OpenAndSearchInventory(inven);
@@ -53,7 +65,7 @@ public class KeyDoor : MonoBehaviour
         {
             if (HasKey(inven, i))
             {
-                UseKeyAndDestroyDoor(inven, i);
+                UseKeyAndActiveDoor(inven, i);
                 break;
             }
         }
@@ -66,14 +78,13 @@ public class KeyDoor : MonoBehaviour
         return inven.items[index].m_ID == keyID;
     }
 
-    // 키를 사용하고 문을 제거하는 함수
-    private void UseKeyAndDestroyDoor(PlayerInventorySystem inven, int index)
+    // 키를 사용하고 문을 작동하는 함수
+    private void UseKeyAndActiveDoor(PlayerInventorySystem inven, int index)
     {
-
         inven.UseItem(index);
         inven.CloseInventory();
+        isOpened = true;
         audioSource.PlayOneShot(doorSound);
-        Invoke("DestroyDoor", invokeTime);
     }
 
     // 인벤토리를 업데이트하고 닫는 함수
@@ -81,6 +92,20 @@ public class KeyDoor : MonoBehaviour
     {
         inven.playerInventory.GetComponent<InventorySystem>().UpdateInventory();
         inven.CloseInventory();
+    }
+
+    void DoorStateChange()
+    {
+        if (isOpened)
+        {
+            openedSprite.DOColor(new Color(255f, 255f, 255f, 255f), lightsManager.turnOnTime);
+            lightsManager.turnOffValue = false;
+        }
+        else
+        {
+            openedSprite.DOColor(new Color(255f, 255f, 255f, 0f), lightsManager.turnOffTime);
+            lightsManager.turnOffValue = true;
+        }
     }
 
     void DestroyDoor()
