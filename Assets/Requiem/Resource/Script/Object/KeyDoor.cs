@@ -52,12 +52,12 @@ public class KeyDoor : MonoBehaviour
         if (IsPlayer(collision))
         {
             playerIn = true;
+        }
 
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                PlayerInventorySystem inven = GetPlayerInventorySystem(collision);
-                OpenAndSearchInventory(inven);
-            }
+        if (IsPlayer(collision) && Input.GetKeyDown(KeyCode.F))
+        {
+            PlayerInventorySystem inven = GetPlayerInventorySystem(collision);
+            OpenAndSearchInventory(inven);
         }
     }
 
@@ -85,20 +85,23 @@ public class KeyDoor : MonoBehaviour
     private void OpenAndSearchInventory(PlayerInventorySystem inven)
     {
         inven.OpenInventory();
+        bool hasKey = false;
 
         for (int i = 0; i < inven.currentIndex; i++)
         {
             if (HasKey(inven, i))
             {
+                hasKey = true;
                 UseKeyAndActiveDoor(inven, i);
                 break;
             }
-
-            if (i == inven.currentIndex)
-            {
-                needKeyUIOpen = true;
-            }
         }
+
+        if (!hasKey)
+        {
+            needKeyUIOpen = true;
+        }
+
         UpdateAndCloseInventory(inven);
     }
 
