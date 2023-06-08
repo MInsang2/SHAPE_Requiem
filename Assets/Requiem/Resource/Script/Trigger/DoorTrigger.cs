@@ -9,7 +9,7 @@ public class DoorTrigger : MonoBehaviour
     [SerializeField] KeyDoor keyDoor;
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.layer == (int)LayerName.Player && keyDoor.isOpened)
         {

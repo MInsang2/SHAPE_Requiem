@@ -3,6 +3,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 
@@ -14,6 +16,10 @@ public class KeyDoor : MonoBehaviour
     [SerializeField] public bool isOpened;
     [SerializeField] private SpriteRenderer openedSprite;
     [SerializeField] private LightsManager lightsManager;
+    [SerializeField] private SpriteRenderer[] keyUISpriteRenderer;
+    [SerializeField] private bool playerIn = false;
+    [SerializeField] private SpriteRenderer needKeyUI;
+    [SerializeField] private bool needKeyUIOpen = false;
 
     private AudioSource audioSource;
 
@@ -21,15 +27,21 @@ public class KeyDoor : MonoBehaviour
     private void Start()
     {
         openedSprite = transform.Find("Lit").GetComponent<SpriteRenderer>();
+        lightsManager = openedSprite.GetComponent<LightsManager>();
         audioSource = GetComponent<AudioSource>();
+        playerIn = false;
+        needKeyUI = transform.Find("NeedKeyUI").GetComponent<SpriteRenderer>();
 
         if (audioSource == null) Debug.Log("audioSource == null");
         openedSprite.gameObject.SetActive(true);
+        OffNeedKeyUI();
     }
 
     private void Update()
     {
         DoorStateChange();
+        OnOffUI();
+        OnOffNeedKeyUI();
     }
 
     // 트리거에 다른 오브젝트가 있을 때 처리하는 함수
@@ -37,10 +49,23 @@ public class KeyDoor : MonoBehaviour
     {
         //상호작용 유도 UI 배치
 
-        if (IsPlayer(collision) && Input.GetKeyDown(KeyCode.F))
+        if (IsPlayer(collision))
         {
-            PlayerInventorySystem inven = GetPlayerInventorySystem(collision);
-            OpenAndSearchInventory(inven);
+            playerIn = true;
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                PlayerInventorySystem inven = GetPlayerInventorySystem(collision);
+                OpenAndSearchInventory(inven);
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (IsPlayer(collision))
+        {
+            playerIn = false;
         }
     }
 
@@ -67,6 +92,11 @@ public class KeyDoor : MonoBehaviour
             {
                 UseKeyAndActiveDoor(inven, i);
                 break;
+            }
+
+            if (i == inven.currentIndex)
+            {
+                needKeyUIOpen = true;
             }
         }
         UpdateAndCloseInventory(inven);
@@ -105,6 +135,62 @@ public class KeyDoor : MonoBehaviour
         {
             openedSprite.DOColor(new Color(255f, 255f, 255f, 0f), lightsManager.turnOffTime);
             lightsManager.turnOffValue = true;
+        }
+    }
+    
+    void OnOffNeedKeyUI()
+    {
+        if (needKeyUIOpen)
+        {
+            OnNeedKeyUI();
+            Invoke("ChangeNeedKeyUIOpen", 1f);
+        }
+        else
+        {
+            OffNeedKeyUI();
+        }
+    }
+
+    void ChangeNeedKeyUIOpen()
+    {
+        needKeyUIOpen = false;
+    }
+
+    void OnNeedKeyUI()
+    {
+        needKeyUI.DOColor(new Color(255f, 255f, 255f, 255f), 1f);
+    }
+
+    void OffNeedKeyUI()
+    {
+        needKeyUI.DOColor(new Color(255f, 255f, 255f, 0f), 1f);
+    }
+
+    void OnOffUI()
+    {
+        if (playerIn && !isOpened)
+        {
+            OnUI();
+        }
+        else
+        {
+            OffUI();
+        }
+    }
+
+    void OnUI()
+    {
+        for (int i = 0; i < keyUISpriteRenderer.Length; i++)
+        {
+            keyUISpriteRenderer[i].DOColor(new Color(255f, 255f, 255f, 255f), 1f);
+        }
+    }
+
+    void OffUI()
+    {
+        for (int i = 0; i < keyUISpriteRenderer.Length; i++)
+        {
+            keyUISpriteRenderer[i].DOColor(new Color(255f, 255f, 255f, 0f), 1f);
         }
     }
 
