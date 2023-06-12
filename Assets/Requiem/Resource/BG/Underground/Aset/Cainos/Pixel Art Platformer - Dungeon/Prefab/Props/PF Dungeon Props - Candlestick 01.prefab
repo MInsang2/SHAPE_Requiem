@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -7
   m_Sprite: {fileID: -858138955, guid: daa359c07b4be2f47b477ca2857b031a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -92,63 +92,63 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6265670936862214329}
     m_Modifications:
-    - target: {fileID: 7935089473269195797, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 3491139030337275940, guid: af5654da89708184da5705e9af5e6d66, type: 3}
+      propertyPath: m_SortingOrder
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7492070252847704642, guid: af5654da89708184da5705e9af5e6d66, type: 3}
+      propertyPath: m_SortingOrder
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935089473269195797, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_Name
       value: PF Dungeon Props - Candle 02
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 8642458009007906101, guid: af5654da89708184da5705e9af5e6d66, type: 3}
+      propertyPath: m_SortingOrder
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.1875
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.00999999
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-        type: 3}
+    - target: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
@@ -156,7 +156,6 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: af5654da89708184da5705e9af5e6d66, type: 3}
 --- !u!4 &4314757149734090965 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 9072807208709021889, guid: af5654da89708184da5705e9af5e6d66, type: 3}
   m_PrefabInstance: {fileID: 5046299678770878484}
   m_PrefabAsset: {fileID: 0}
