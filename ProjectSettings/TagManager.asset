@@ -8,6 +8,9 @@ TagManager:
   - previousLevel
   - NextLevel
   - Item
+  - BrokenBrige
+  - Snake
+  - Trigger
   layers:
   - Default
   - TransparentFX

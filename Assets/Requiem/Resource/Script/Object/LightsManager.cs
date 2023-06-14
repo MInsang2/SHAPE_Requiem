@@ -39,6 +39,11 @@ public class LightsManager : MonoBehaviour
         originTurnOnTime = turnOnTime;
         originTurnOffTime = turnOffTime;
 
+        if (light2D == null)
+        {
+            Debug.Log("light2D == null");
+        }
+
         if (light2D.lightType == Light2D.LightType.Freeform)
         {
             originFallout = light2D.shapeLightFalloffSize;
