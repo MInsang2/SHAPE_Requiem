@@ -11,7 +11,7 @@ using UnityEditor.SceneManagement;
 
 namespace Cainos.PixelArtPlatformer_Dungeon
 {
-    public class Switch : MonoBehaviour
+    public class Cainos_Switch : MonoBehaviour
     {
         [FoldoutGroup("Reference")] public Door target;
         [Space]
