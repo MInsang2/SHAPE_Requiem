@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class DoubleJumpTriggerSub : MonoBehaviour
 {
     [SerializeField] DoubleJumpTrigger m_doubleJumpTrigger;
@@ -15,6 +19,12 @@ public class DoubleJumpTriggerSub : MonoBehaviour
             m_doubleJumpTrigger.m_onTrigger = false;
             m_doubleJumpTrigger.m_doubleJumpGuide.SetActive(false);
         }
-
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }

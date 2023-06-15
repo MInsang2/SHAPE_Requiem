@@ -4,6 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class Object_Trigger : MonoBehaviour
 {
     
@@ -35,4 +39,11 @@ public class Object_Trigger : MonoBehaviour
             m_object.TriggerOn(); // 연결된 오브젝트 작동.
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }

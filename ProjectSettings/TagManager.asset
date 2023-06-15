@@ -11,6 +11,7 @@ TagManager:
   - BrokenBrige
   - Snake
   - Trigger
+  - NPC
   layers:
   - Default
   - TransparentFX

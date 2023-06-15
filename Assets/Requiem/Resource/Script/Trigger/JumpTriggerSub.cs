@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class JumpTriggerSub : MonoBehaviour
 {
     [SerializeField] JumpTrigger m_jumpTrigger;
@@ -17,4 +21,11 @@ public class JumpTriggerSub : MonoBehaviour
         }
         
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }

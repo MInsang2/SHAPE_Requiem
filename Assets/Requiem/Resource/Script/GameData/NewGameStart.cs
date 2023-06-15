@@ -52,5 +52,6 @@ public class NewGameStart : MonoBehaviour
         yield return new WaitForSeconds(1f); // 1초 대기
 
         PlayerData.PlayerIsMove = true; // 플레이어 이동 가능
+        Destroy(GetComponent<NewGameStart>());
     }
 }

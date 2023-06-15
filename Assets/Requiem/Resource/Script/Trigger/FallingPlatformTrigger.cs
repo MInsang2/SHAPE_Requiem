@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class FallingPlatformTrigger : MonoBehaviour
 {
     [SerializeField] GameObject m_fallingPlatform;
@@ -20,4 +24,11 @@ public class FallingPlatformTrigger : MonoBehaviour
             m_audioSource.PlayOneShot(m_clip);
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }

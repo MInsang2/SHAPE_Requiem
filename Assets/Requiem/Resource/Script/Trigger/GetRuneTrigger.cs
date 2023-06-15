@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class GetRuneTrigger : MonoBehaviour
 {
     [SerializeField] private RuneStatue runeStatue;
@@ -56,12 +60,17 @@ public class GetRuneTrigger : MonoBehaviour
         DOTween.To(() => m_light.intensity, x => m_light.intensity = x, 0f, animationTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (CanActivateRune(collision))
+        if (CanActivateRune(collision) && runeStatue != null)
         {
             ActivateRune();
             StartCoroutine(GetLuneDelay());
+        }
+
+        if (CanActivateRune(collision) && runeStatue == null)
+        {
+            DeactivateRune();
         }
     }
 
@@ -90,4 +99,11 @@ public class GetRuneTrigger : MonoBehaviour
         runeManager.transform.rotation = Quaternion.identity;
         PlayerData.PlayerIsGetRune = true;
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }

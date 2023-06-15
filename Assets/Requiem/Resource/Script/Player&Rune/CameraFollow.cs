@@ -24,7 +24,7 @@ public class CameraFollow : MonoBehaviour
     /// <summary>
     /// 플레이어의 위치
     /// </summary>
-    [SerializeField] Transform target;
+    [SerializeField] public Transform target;
 
     /// <summary>
     /// 최종적인 카메라의 위치를 저장하는 변수

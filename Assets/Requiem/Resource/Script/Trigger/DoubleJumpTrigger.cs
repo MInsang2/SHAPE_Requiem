@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class DoubleJumpTrigger : MonoBehaviour
 {
     // 더블 점프 서브를 만들어서 적용시키면 댐
@@ -55,4 +59,11 @@ public class DoubleJumpTrigger : MonoBehaviour
             m_isActive = true;
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class MoveTrigger : MonoBehaviour
 {
     [SerializeField] GameObject m_moveGuide;
@@ -49,4 +53,11 @@ public class MoveTrigger : MonoBehaviour
             m_isActive = true;
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }

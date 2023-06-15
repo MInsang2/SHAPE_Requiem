@@ -10,23 +10,18 @@ public class SnakeTrigger : MonoBehaviour
 {
     [SerializeField] SnakeOpning snake;
 
-    BoxCollider2D m_collider2D;
-
-    private void Start()
-    {
-        m_collider2D = GetComponent<BoxCollider2D>();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Player)
+        if (collision.gameObject.tag == "NPC")
         {
             snake.SnakeActive();
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.Label(transform.position, gameObject.tag);
     }
+#endif
 }

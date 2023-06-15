@@ -29,7 +29,7 @@ public class PlayerControllerGPT : MonoBehaviour
     bool m_isGrounded; // 땅 접촉 상태 체크
 
     // 플레이어의 컴포넌트
-    [SerializeField] GameObject m_PlayerMoveSound;
+    [SerializeField] public GameObject m_PlayerMoveSound;
     [SerializeField] Rigidbody2D m_rigid;
     [SerializeField] Animator m_animator;
     [SerializeField] Collider2D m_collider;

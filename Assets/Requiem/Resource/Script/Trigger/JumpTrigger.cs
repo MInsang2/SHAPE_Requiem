@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class JumpTrigger : MonoBehaviour
 {
     // 트리거에 접촉하면 시간 재생
@@ -54,4 +58,11 @@ public class JumpTrigger : MonoBehaviour
             m_isActive = true;
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.Label(transform.position, gameObject.tag);
+    }
+#endif
 }
