@@ -4,11 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class GetRuneTrigger : MonoBehaviour
+public class GetRuneTrigger : Trigger_Requiem
 {
     [SerializeField] private RuneStatue runeStatue;
     [SerializeField] private RuneManager runeManager;
@@ -99,11 +95,4 @@ public class GetRuneTrigger : MonoBehaviour
         runeManager.transform.rotation = Quaternion.identity;
         PlayerData.PlayerIsGetRune = true;
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

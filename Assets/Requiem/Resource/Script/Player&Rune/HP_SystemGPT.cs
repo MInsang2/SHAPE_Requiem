@@ -27,7 +27,6 @@ public class HP_SystemGPT : MonoBehaviour
     GameObject hitEffect;
     Animator animator;
     GameObject playerMoveSound;
-    CameraFollow mainCamera;
 
     // 충돌을 체크할 Raycast 정보를 저장할 배열 및 에너미 정보
     RaycastHit2D[] hitInfo = new RaycastHit2D[2];
@@ -54,7 +53,6 @@ public class HP_SystemGPT : MonoBehaviour
         hitEffect = PlayerData.PlayerObj.transform.Find("HitEffect").gameObject;
         animator = GetComponent<Animator>();
         playerMoveSound = PlayerData.PlayerMoveSoundSource.gameObject;
-        mainCamera = DataController.MainCamera.GetComponent<CameraFollow>();
 
         if (playerController == null) Debug.Log("playerController == null");
         if (rb == null) Debug.Log("rb == null");
@@ -62,7 +60,6 @@ public class HP_SystemGPT : MonoBehaviour
         if (hitEffect == null) Debug.Log("hitEffect == null");
         if (animator == null) Debug.Log("animator == null");
         if (playerMoveSound == null) Debug.Log("playerMoveSound == null");
-        if (mainCamera == null) Debug.Log("mainCamera == null");
 
         hitEffect.SetActive(false); // 충돌 효과 오브젝트 비활성화
 
@@ -232,7 +229,6 @@ public class HP_SystemGPT : MonoBehaviour
                 PlayerData.PlayerIsHit = false; // 플레이어가 피격되지 않았음을 나타낸다
                 PlayerData.PlayerIsDead = false; // 플레이어가 죽지 않았음을 나타낸다
                 isInvincibility = false;  // 무적 상태를 해제
-                mainCamera.FollowTime = DataController.CameraFollowTime; // 카메라의 따라가기 시간을 기본 값으로 설정
             }
         }
     }
@@ -249,7 +245,6 @@ public class HP_SystemGPT : MonoBehaviour
         transform.position = PlayerData.PlayerSavePoint; // 플레이어의 위치를 세이브 지점으로 이동
         playerMoveSound.SetActive(false); // 플레이어 이동 사운드를 비활성화
         PlayerData.PlayerDeathCount++; // 플레이어 사망 횟수를 증가
-        mainCamera.FollowTime = 0.5f;
     }
 
     void VerticalCaughtCheck() // 수직으로 끼어있는지 확인하는 메소드

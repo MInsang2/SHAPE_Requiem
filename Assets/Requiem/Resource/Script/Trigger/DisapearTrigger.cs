@@ -5,12 +5,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 using DG.Tweening;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-
-public class DisapearTrigger : MonoBehaviour
+public class DisapearTrigger : Trigger_Requiem
 {
     
     [SerializeField] Tilemap m_tileMap;
@@ -58,11 +53,4 @@ public class DisapearTrigger : MonoBehaviour
             DOTween.To(() => m_colorAlpha, x => m_colorAlpha = x, 1f, m_changeTime);
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

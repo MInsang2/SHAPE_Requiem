@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Cinemachine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class BloodManMoveTrigger : MonoBehaviour
+public class BloodManMoveTrigger : Trigger_Requiem
 {
     [SerializeField] BloodingMan bloodingMan;
     [SerializeField] GameObject player;
-    [SerializeField] CameraFollow mainCamera;
+    [SerializeField] CinemachineVirtualCamera mainCM;
+    [SerializeField] Camera mainCamera;
+
+    private void Start()
+    {
+        player = PlayerData.PlayerObj;
+        mainCM = DataController.MainCM;
+        mainCamera = DataController.MainCamera.GetComponent<Camera>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -26,19 +31,9 @@ public class BloodManMoveTrigger : MonoBehaviour
             Destroy(PlayerData.PlayerObj.GetComponent<Animator>());
             PlayerData.PlayerObj.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
             PlayerData.PlayerObj.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
-            mainCamera.target = bloodingMan.transform;
-            mainCamera.CameraPosX = 0f;
-            mainCamera.CameraPosY = 0f;
-            DataController.MainCamera.GetComponent<Camera>().orthographicSize = 7f;
-            DOTween.To(() => DataController.MainCamera.GetComponent<Camera>().orthographicSize,
-                x => DataController.MainCamera.GetComponent<Camera>().orthographicSize = x, 6f, 5f);
+            mainCM.Follow = bloodingMan.transform;
+            DOTween.To(() => mainCM.m_Lens.OrthographicSize, x => mainCM.m_Lens.OrthographicSize = x, 6f, 5f);
+            DOTween.To(() => mainCamera.orthographicSize, x => mainCamera.orthographicSize = x, 6f, 5f);
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

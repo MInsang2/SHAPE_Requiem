@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Cinemachine;
 
 
 //레이어 번호
@@ -31,6 +32,7 @@ public enum LayerName
 class CameraData
 {
     public GameObject mainCamera; // 메인 카메라 오브젝트
+    public CinemachineVirtualCamera mainCM; // 메인 시네머신
     public float followTime; // 메인 카메라가 플레이어를 추적하는 시간
 }
 
@@ -46,7 +48,7 @@ public class SoundManager
 [Serializable]
 public class TriggerData
 {
-    public bool playerIn; 
+    public bool playerIn;
 }
 
 [Serializable]
@@ -93,6 +95,11 @@ public class DataController : MonoBehaviour
     {
         get { return instance.cameraData.followTime; }
         set { instance.cameraData.followTime = value; }
+    }
+    public static CinemachineVirtualCamera MainCM
+    {
+        get { return instance.cameraData.mainCM; }
+        set { instance.cameraData.mainCM = value; }
     }
 
     // 사운드매니저
@@ -145,20 +152,16 @@ public class DataController : MonoBehaviour
         if (GameObject.Find("DataController") == null)
         {
             if (instance == null)
-            {
                 instance = this;
-            }
         }
 
         if (cameraData.mainCamera == null)
-        {
             cameraData.mainCamera = GameObject.Find("Main Camera");
-        }
 
         if (itemData.canvasObj == null)
-        {
             itemData.canvasObj = GameObject.Find("Canvas");
-        }
+
+        cameraData.mainCM = GameObject.Find("MainCM").GetComponent<CinemachineVirtualCamera>();
 
         DataController.PlayerIn = false;
     }

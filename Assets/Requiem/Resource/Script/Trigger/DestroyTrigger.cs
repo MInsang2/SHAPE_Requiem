@@ -4,11 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class DestroyTrigger : MonoBehaviour
+public class DestroyTrigger : Trigger_Requiem
 {
     [SerializeField] GameObject[] gameObjectArr; // 파괴되는 오브젝트들
     [SerializeField] AudioClip[] clipArr; // 파괴 될 때 사운드들
@@ -47,11 +43,4 @@ public class DestroyTrigger : MonoBehaviour
             audioSource.PlayOneShot(clipArr[1]);
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

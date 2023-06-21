@@ -12,6 +12,9 @@ TagManager:
   - Snake
   - Trigger
   - NPC
+  - Ground
+  - DIvArea
+  - CameraArea
   layers:
   - Default
   - TransparentFX

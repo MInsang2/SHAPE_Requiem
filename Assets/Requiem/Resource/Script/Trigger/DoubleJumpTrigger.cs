@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class DoubleJumpTrigger : MonoBehaviour
+public class DoubleJumpTrigger : Trigger_Requiem
 {
     // 더블 점프 서브를 만들어서 적용시키면 댐
     // 트리거에 접촉하면 시간 재생
@@ -59,11 +55,4 @@ public class DoubleJumpTrigger : MonoBehaviour
             m_isActive = true;
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

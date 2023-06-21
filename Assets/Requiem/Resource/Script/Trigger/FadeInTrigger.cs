@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FadeInTrigger : MonoBehaviour
+public class FadeInTrigger : Trigger_Requiem
 {
     public Image blackFade; // 검은색 이미지를 Inspector에서 설정해주세요.
     public float fadeSpeed = 0.8f; // 페이드 스피드를 조절합니다.

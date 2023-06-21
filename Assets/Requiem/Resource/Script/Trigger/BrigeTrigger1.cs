@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class BrigeTrigger1 : MonoBehaviour
+public class BrigeTrigger1 : Trigger_Requiem
 {
     [SerializeField] Camera m_main;
     [SerializeField] CameraFollow m_mainFollow;
@@ -54,11 +50,4 @@ public class BrigeTrigger1 : MonoBehaviour
             DataController.PlayerIn = false;
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

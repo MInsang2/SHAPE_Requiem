@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cainos.PixelArtPlatformer_Dungeon;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class DoorTrigger : MonoBehaviour
+public class DoorTrigger : Trigger_Requiem
 {
     [SerializeField] Door door;
     [SerializeField] KeyDoor keyDoor;
@@ -28,11 +24,4 @@ public class DoorTrigger : MonoBehaviour
             door.IsOpened = false;
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

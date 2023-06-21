@@ -878,8 +878,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   savePoint: {x: 0, y: 0}
+  lightRadius: 0
+  lightPower: 0
+  lightPowerDownTime: 0
+  lightLessPower: 0
+  effectDelay: 5
   isActive: 0
   audioClip: {fileID: 8300000, guid: a643f073b10c5634f84e8c9c650a76fd, type: 3}
+  lightsManagers: []
 --- !u!95 &6027574873718809471
 Animator:
   serializedVersion: 5
@@ -1840,7 +1846,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0

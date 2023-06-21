@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class JumpTrigger : MonoBehaviour
+public class JumpTrigger : Trigger_Requiem
 {
     // 트리거에 접촉하면 시간 재생
     // 플레이어 상부에 트리거 만들어서 접촉 시 트리거 해제
@@ -58,11 +54,4 @@ public class JumpTrigger : MonoBehaviour
             m_isActive = true;
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

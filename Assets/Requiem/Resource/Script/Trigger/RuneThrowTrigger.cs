@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-public class RuneThrowTrigger : MonoBehaviour
+public class RuneThrowTrigger : Trigger_Requiem
 {
     [SerializeField] GameObject runeThrowGuide;
 
@@ -35,11 +31,4 @@ public class RuneThrowTrigger : MonoBehaviour
             Destroy(this);
         }
     }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Handles.Label(transform.position, gameObject.tag);
-    }
-#endif
 }

@@ -20,7 +20,6 @@ public class BloodingMan : MonoBehaviour
 
     public float delayLoadScene;
 
-    // 시작 시 이동 시작
     private void Start()
     {
         hitEffectBig.SetActive(false);

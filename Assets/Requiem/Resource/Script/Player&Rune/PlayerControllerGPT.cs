@@ -9,13 +9,6 @@ using UnityEngine.SceneManagement; //이걸 써야지 씬에 관한 시스템을 적용시킬수있
 
 public class PlayerControllerGPT : MonoBehaviour
 {
-
-
-    [Header("카메라 시스템")]
-    [SerializeField] CameraFollow m_mainCamera; // 카메라 오브젝트
-    [SerializeField] float m_cameraFollowTime; // 카메라 추적 시간 조정
-    [SerializeField] private float m_distance; // 카메라와 플레이어가 일정거리 이상 멀어짐
-
     [Header("점프 시스템")]
     [SerializeField] int m_jumpLeft; // 남은 점프 횟수
     [SerializeField] float m_jumpForce; // 점프 파워
@@ -40,14 +33,12 @@ public class PlayerControllerGPT : MonoBehaviour
     {
         // 컴포넌트를 가져와 변수에 할당
         m_PlayerMoveSound = PlayerData.PlayerMoveSoundSource.gameObject;
-        m_mainCamera = DataController.MainCamera.GetComponent<CameraFollow>();
         m_rigid = GetComponent<Rigidbody2D>();
         m_animator = GetComponent<Animator>();
         m_collider = GetComponent<Collider2D>();
         m_randingEffect = transform.Find("RandingEffect").GetComponent<ParticleSystem>();
 
         if (m_PlayerMoveSound == null) Debug.Log("m_PlayerMoveSound == null");
-        if (m_mainCamera == null) Debug.Log("m_mainCamera == null");
         if (m_rigid == null) Debug.Log("m_rigid == null");
         if (m_animator == null) Debug.Log("m_animator == null");
         if (m_collider == null) Debug.Log("m_collider == null");
@@ -68,7 +59,6 @@ public class PlayerControllerGPT : MonoBehaviour
     {
         if (PlayerData.PlayerIsMove)
         {
-            CameraController(); // 카메라 제어
             PlayerDataUpdate(); // 플레이어 데이터 업데이트
             Move(); // 이동 처리
             JumpController(); // 점프 제어
@@ -202,19 +192,6 @@ public class PlayerControllerGPT : MonoBehaviour
         {
             // 더 빠른 낙하 힘 적용
             m_rigid.velocity += Vector2.up * Physics.gravity.y * m_fallForce * Time.deltaTime;
-        }
-    }
-
-    private void CameraController()
-    {
-        // 플레이어와 카메라 간의 거리가 설정된 거리보다 멀면
-        if (Vector2.Distance(m_mainCamera.transform.position, transform.position) > m_distance)
-        {
-            m_mainCamera.FollowTime = m_cameraFollowTime; // 카메라 추적 시간 조정
-        }
-        else // 그 외에는
-        {
-            m_mainCamera.FollowTime = DataController.CameraFollowTime; // 기본 카메라 추적 시간 설정
         }
     }
 
