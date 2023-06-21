@@ -62,6 +62,28 @@ public class RuneManager : MonoBehaviour
             m_statue = collision.transform;
             m_isStatueInteraction = true;
         }
+
+        if (collision.gameObject.GetComponent<RuneStatue>() != null)
+        {
+            PlayerData.PlayerObj.GetComponent<RuneControllerGPT>().isCharge = true;
+
+            if (RuneData.RuneBattery < RuneData.RuneBatteryInitValue)
+            {
+                RuneData.RuneBattery += collision.gameObject.GetComponent<RuneStatue>().runeChargePower * Time.deltaTime;
+            }
+            else
+            {
+                RuneData.RuneBattery = RuneData.RuneBatteryInitValue;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<RuneStatue>() != null)
+        {
+            PlayerData.PlayerObj.GetComponent<RuneControllerGPT>().isCharge = false;
+        }
     }
 
     /// <summary>

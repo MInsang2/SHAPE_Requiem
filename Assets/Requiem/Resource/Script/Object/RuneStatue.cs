@@ -18,6 +18,7 @@ public class RuneStatue : MonoBehaviour
     [SerializeField] public bool isActive; // 동작 했는가 여부
     [SerializeField] private AudioClip audioClip; // 동작 시 재생 소리
     [SerializeField] LightsManager[] lightsManagers;
+    [SerializeField] public float runeChargePower = 50f;
 
     private Animator animator; // 자신의 애니매이터
     private AudioSource audioSource; // 자신의 오디오 소스
@@ -81,7 +82,7 @@ public class RuneStatue : MonoBehaviour
     // 룬 입장 처리를 위한 함수
     public void EnterTheRune()
     {
-        if (!isActive)
+        if (!isActive || RuneData.RuneBattery == 0)
         {
             UpdatePlayerData();
             ActivateRuneStatue();
@@ -101,6 +102,8 @@ public class RuneStatue : MonoBehaviour
         animator.SetBool("IsActive", true);
         Invoke("ActivateEffect", effectDelay);
         Invoke("TurnOnLights", effectDelay);
+        DOTween.To(() => RuneData.RuneBattery, x => RuneData.RuneBattery = x, RuneData.RuneBatteryInitValue, 5f);
+        PlayerData.PlayerObj.GetComponent<RuneControllerGPT>().RunePowerBack();
         PlayAudioClip();
     }
 

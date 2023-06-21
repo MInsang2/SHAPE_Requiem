@@ -11,12 +11,18 @@ public class RuneControllerGPT : MonoBehaviour
     public Vector2 target; // 룬의 이동 목표 위치
     public float moveTime; // 룬 이동 시간
     public bool isShoot; // 룬이 발사되었는지 여부
+    public bool isCharge = false;
 
     [SerializeField] private Vector2 runePosition; // 룬의 초기 위치
     [SerializeField] private Vector2 origin; // 룬의 원점 위치
     [SerializeField] private float shootDelayTime; // 발사 지연 시간
     [SerializeField] private float runeReturnDistance; // 룬이 자동으로 되돌아올 거리
     [SerializeField] private bool isMouseDelay = false; // 마우스 클릭 지연 여부
+    [SerializeField] public float batteryDrainSpeed = 1f;
+    [SerializeField] public float additionalMovementReduction = 50f;
+    [SerializeField] public ParticleSystem runeCharge;
+    [SerializeField] SpriteRenderer[] batteryUI;
+
 
     private GameObject runeObj; // 룬 게임 오브젝트
     private RuneSoundManager runeSoundManager; // 룬 사운드 관리자
@@ -35,6 +41,7 @@ public class RuneControllerGPT : MonoBehaviour
             RuneColliding(); // 룬 충돌 처리
             RuneControl(); // 룬 제어
             RuneMove(); // 룬 이동
+            RuneCharging(); // 룬 충전 효과
         }
     }
 
@@ -50,6 +57,8 @@ public class RuneControllerGPT : MonoBehaviour
         isShoot = false;
         layerMask = LayerMask.GetMask("Platform", "Wall", "RiskFactor");
 
+        SetBatteryUIVisible(false, RuneData.RuneBattery / 1000f);
+
         ValidateComponents(); // 컴포넌트 유효성 검사
     }
 
@@ -64,19 +73,169 @@ public class RuneControllerGPT : MonoBehaviour
     // 룬 제어
     private void RuneControl()
     {
-        if (RuneData.RuneUseControl)
+        if (!RuneData.RuneUseControl) return;
+
+        HandleRuneShoot(); // 룬 발사 처리
+        HandleRuneReturn(); // 룬 반환 처리
+
+        if (isShoot)
         {
-            HandleRuneShoot(); // 룬 발사 처리
-            HandleRuneReturn(); // 룬 반환 처리
-            HandleRunePower(); // 룬 파워 처리
+            DecreaseBatteryWhileShooting();
+            UpdateBatteryUI();
+        }
+    }
+
+    private void DecreaseBatteryWhileShooting()
+    {
+        if (RuneData.RuneBattery > 0)
+        {
+            RuneData.RuneBattery -= batteryDrainSpeed * Time.deltaTime;
+        }
+        else
+        {
+            RunePowerLose();
+            RuneData.RuneBattery = 0f;
+        }
+    }
+
+    private void UpdateBatteryUI()
+    {
+        if (!isShoot)
+            return;
+
+        float batteryPercentage = RuneData.RuneBattery / 1000f;
+        Color color;
+
+        if (batteryPercentage > 0.75f)
+            color = Color.green;
+        else if (batteryPercentage > 0.25f)
+            color = Color.yellow;
+        else
+            color = Color.red;
+
+        if (batteryPercentage > 0)
+        {
+            // Start the coroutine to sequentially activate battery UI elements
+            StartCoroutine(ActivateBatteryUISequentially(true, batteryPercentage));
+        }
+
+        // 모든 SpriteRenderer 컴포넌트의 색상 변경
+        foreach (var ui in batteryUI)
+        {
+            ui.DOColor(color, 5f);
+        }
+    }
+
+
+
+    private IEnumerator ActivateBatteryUISequentially(bool isVisible, float batteryPercentage)
+    {
+        if (isVisible)
+        {
+            int visibleUIElements = 0;
+
+            if (batteryPercentage > 0.75f)
+            {
+                visibleUIElements = 4;
+            }
+            else if (batteryPercentage > 0.50f)
+            {
+                visibleUIElements = 3;
+                batteryUI[3].gameObject.SetActive(false);
+            }
+            else if (batteryPercentage > 0.25f)
+            {
+                visibleUIElements = 2;
+                batteryUI[3].gameObject.SetActive(false);
+                batteryUI[2].gameObject.SetActive(false);
+            }
+            else
+            {
+                visibleUIElements = 1;
+                batteryUI[3].gameObject.SetActive(false);
+                batteryUI[2].gameObject.SetActive(false);
+                batteryUI[1].gameObject.SetActive(false);
+            }
+
+            for (int i = 0; i < visibleUIElements; i++)
+            {
+                batteryUI[i].gameObject.SetActive(isVisible);
+                yield return new WaitForSeconds(0.2f);  // Adjust delay as needed
+            }
+        }
+        else
+        {
+            foreach (var ui in batteryUI)
+            {
+                ui.gameObject.SetActive(isVisible);
+                yield return new WaitForSeconds(0.2f);  // Adjust delay as needed
+            }
         }
     }
 
     // 룬 이동
     private void RuneMove()
     {
+        // 룬의 목표 지점으로의 이동을 처리
+        MoveRuneToTarget();
+    }
+
+    private void MoveRuneToTarget()
+    {
         runeObj.transform.DOMove(target, moveTime);
     }
+
+    // 룬 발사 처리
+
+
+    private void HandleMouseClicksForShooting()
+    {
+        if (Input.GetMouseButtonDown(1) && !isMouseDelay && isShoot)
+        {
+            PlayRuneOffSoundAndDelayMouse();
+            isShoot = false;
+            SetBatteryUIVisible(false, RuneData.RuneBattery / 1000f);
+        }
+        else if (Input.GetMouseButtonDown(0) && !isMouseDelay)
+        {
+            ChangeTargetToMouse();
+            PlayRuneOnSoundAndDelayMouse();
+            HandleShootingWithBattery();
+        }
+        else if (!isShoot)
+        {
+            ReturnRune();
+        }
+    }
+
+    private void PlayRuneOffSoundAndDelayMouse()
+    {
+        runeSoundManager.PlayRuneOff();
+        isMouseDelay = true;
+        StartCoroutine("MouseClickDelay");
+    }
+
+    private void PlayRuneOnSoundAndDelayMouse()
+    {
+        runeSoundManager.PlayRuneOn();
+        isMouseDelay = true;
+        StartCoroutine("MouseClickDelay");
+    }
+
+    private void HandleShootingWithBattery()
+    {
+        RuneData.RuneActive = true;
+        RuneData.RuneLightArea.enabled = true;
+
+        if (isShoot && RuneData.RuneBattery > 0)
+        {
+            RuneData.RuneBattery -= additionalMovementReduction;
+        }
+
+        isShoot = true;
+        SetBatteryUIVisible(true, RuneData.RuneBattery / 1000f);
+    }
+
 
     // 마우스 위치로 목표 변경
     private void ChangeTargetToMouse()
@@ -96,90 +255,71 @@ public class RuneControllerGPT : MonoBehaviour
         {
             target = new Vector2(transform.position.x + (-runePosition.x), transform.position.y + runePosition.y);
         }
-        RuneData.RuneActive = isShoot;
+        RuneData.RuneActive = false;
         RuneData.RuneLightArea.enabled = false;
     }
 
     // 룬 발사 처리
     private void HandleRuneShoot()
     {
-        if (Input.GetMouseButtonDown(0) && !isMouseDelay)
-        {
-            if (isShoot)
-            {
-                runeSoundManager.PlayRuneOff();
-                isShoot = false;
-                isMouseDelay = true;
-                StartCoroutine("MouseClickDelay");
-            }
-            else
-            {
-                isShoot = true;
+        // 마우스 클릭에 따른 발사 또는 배터리 UI 숨기기 처리
+        HandleMouseClicksForShooting();
+    }
 
-                if (!RuneData.RuneTouchWater)
-                {
-                    RuneData.RuneActive = true;
-                    RuneData.RuneLightArea.enabled = true;
-                }
-                ChangeTargetToMouse();
-                isMouseDelay = true;
-                runeSoundManager.PlayRuneOn();
-                StartCoroutine("MouseClickDelay");
-            }
-        }
-        else if (!isShoot)
-        {
-            ReturnRune();
-        }
+    private void SetBatteryUIVisible(bool isVisible, float batteryPercentage)
+    {
+        StartCoroutine(ActivateBatteryUISequentially(isVisible, batteryPercentage));
     }
 
     // 룬 반환 처리
     private void HandleRuneReturn()
     {
-        if (Vector2.Distance(runeObj.transform.position, transform.position) >= RuneReturnDistance())
+        if (RuneIsFarEnough())
         {
-            isShoot = false;
-            isMouseDelay = true;
-            runeSoundManager.PlayRuneOff();
-            StartCoroutine(MouseClickDelay());
+            StopShooting();
         }
     }
 
-    // 룬 반환 거리 설정
-    private float RuneReturnDistance()
+    private bool RuneIsFarEnough()
     {
-        return runeReturnDistance;
+        return Vector2.Distance(runeObj.transform.position, transform.position) >= RuneReturnDistance();
     }
 
-    // 룬 파워 처리
-    private void HandleRunePower()
+    private void StopShooting()
     {
-        if (RuneData.RuneOnWater)
-        {
-            RunePowerLose(); // 룬 파워 감소
-        }
-        else
-        {
-            RunePowerBack(); // 룬 파워 회복
-        }
-        RuneReturnDistance();
+        isShoot = false;
+        isMouseDelay = true;
+        runeSoundManager.PlayRuneOff();
+        StartCoroutine(MouseClickDelay());
+    }
+
+    // 룬 파워 감소
+    public void RunePowerLose()
+    {
+        DecreaseRunePowerOverTime(0f, RuneData.RunePowerBackTime);
     }
 
     // 룬 파워 회복
-    private void RunePowerBack()
+    public void RunePowerBack()
     {
         if (Vector2.Distance(transform.position, runeObj.transform.position) <= RuneData.RunePowerBackDistance && !RuneData.RuneOnWater)
         {
             RuneData.RuneTouchWater = false;
             RuneData.RuneLightArea.enabled = true;
-            DOTween.To(() => runeSight.pointLightOuterRadius, x => runeSight.pointLightOuterRadius = x, RuneData.RuneOuterRadius, RuneData.RunePowerBackTime);
+            DecreaseRunePowerOverTime(RuneData.RuneOuterRadius, RuneData.RunePowerBackTime);
         }
     }
 
-    // 룬 파워 감소
-    private void RunePowerLose()
+    private void DecreaseRunePowerOverTime(float targetRadius, float duration)
     {
-        DOTween.To(() => runeSight.pointLightOuterRadius, x => runeSight.pointLightOuterRadius = x, 0f, RuneData.RunePowerBackTime);
+        DOTween.To(() => runeSight.pointLightOuterRadius, x => runeSight.pointLightOuterRadius = x, targetRadius, duration);
+    }
+
+
+    // 룬 반환 거리 설정
+    private float RuneReturnDistance()
+    {
+        return runeReturnDistance;
     }
 
     // 룬 이동 중지
@@ -192,24 +332,66 @@ public class RuneControllerGPT : MonoBehaviour
     private IEnumerator MouseClickDelay()
     {
         yield return new WaitForSeconds(shootDelayTime);
+        ResetMouseDelay();
+    }
+
+    private void ResetMouseDelay()
+    {
         isMouseDelay = false;
     }
 
     // 룬 충돌 처리
     private void RuneColliding()
     {
-        RaycastHit2D hit =
-            Physics2D.Raycast(runeObj.transform.position,
-            (target - (Vector2)runeObj.transform.position).normalized,
-            Vector2.Distance(runeObj.transform.position, target),
-            layerMask);
+        RaycastHit2D hit = GetRaycastHit();
 
-        if (hit.collider != null &&
-            (hit.collider.gameObject.layer == (int)LayerName.Platform ||
-            hit.collider.gameObject.layer == (int)LayerName.Wall ||
-            hit.collider.gameObject.layer == (int)LayerName.RiskFactor))
+        if (HitObjectIsCollidable(hit))
         {
             target = hit.point;
+        }
+    }
+
+    private RaycastHit2D GetRaycastHit()
+    {
+        return Physics2D.Raycast(runeObj.transform.position,
+            GetDirectionToTarget(),
+            GetDistanceToTarget(),
+            layerMask);
+    }
+
+    private Vector2 GetDirectionToTarget()
+    {
+        return (target - (Vector2)runeObj.transform.position).normalized;
+    }
+
+    private float GetDistanceToTarget()
+    {
+        return Vector2.Distance(runeObj.transform.position, target);
+    }
+
+    private bool HitObjectIsCollidable(RaycastHit2D hit)
+    {
+        return hit.collider != null &&
+               (hit.collider.gameObject.layer == (int)LayerName.Platform ||
+                hit.collider.gameObject.layer == (int)LayerName.Wall ||
+                hit.collider.gameObject.layer == (int)LayerName.RiskFactor);
+    }
+
+    private bool hasRestarted = false;
+    public void RuneCharging()
+    {
+        if (isCharge)
+        {
+            if (!hasRestarted)
+            {
+                runeCharge.Play();
+                hasRestarted = true;
+            }
+        }
+        else
+        {
+            runeCharge.Stop();
+            hasRestarted = false;  // 파티클이 멈추면 다시 시작할 수 있도록 플래그를 리셋합니다.
         }
     }
 }

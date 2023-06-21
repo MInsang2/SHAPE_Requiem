@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using DG.Tweening;
 
 public class RuneData : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class RuneData : MonoBehaviour
     [SerializeField] private bool onWater; // 룬이 물 위에 닿았을 때 온
     [SerializeField] private bool touchWater; // 룬이 물에 닿았을 때 온
     [SerializeField] private bool useControl; // 룬의 컨트롤이 가능할 때 온
+    [SerializeField] private float battery = 1000f;
+    [SerializeField] private float batteryInitValue = 1000f;
 
     private static RuneData instance = null;
 
@@ -87,6 +90,19 @@ public class RuneData : MonoBehaviour
         get => Instance.useControl;
         set => Instance.useControl = value;
     }
+    public static float RuneBattery
+    {
+        get => Instance.battery;
+        set => Instance.battery = value;
+    }
+    public static float RuneBatteryInitValue
+    {
+        get => Instance.batteryInitValue;
+        set => Instance.batteryInitValue = value;
+    }
+
+
+
 
     private void Awake()
     {
@@ -107,6 +123,8 @@ public class RuneData : MonoBehaviour
         {
             runeLightArea = RuneObj.transform.Find("LightArea").GetComponent<CircleCollider2D>();
         }
+
+        RuneData.RuneBattery = RuneData.RuneBatteryInitValue;
 
         RuneOuterRadius = RuneObj.GetComponent<Light2D>().pointLightOuterRadius;
         RuneOnWater = false;
