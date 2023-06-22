@@ -101,6 +101,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1102,8 +1114,8 @@ TextureImporter:
       tileset_29: -138488101
       ceiling-3: 719224115
       tileset_18: 1885157771
-      floor-4: -951796120
       platform-left-edge: -1992507524
+      floor-4: -951796120
       floor-3: 2083471581
       tileset_1: 1981831638
       entrance-right-dark: 1366185668
