@@ -22,6 +22,7 @@ public class RuneControllerGPT : MonoBehaviour
     [SerializeField] public float additionalMovementReduction = 50f;
     [SerializeField] public ParticleSystem runeCharge;
     [SerializeField] SpriteRenderer[] batteryUI;
+    [SerializeField] SpriteRenderer batteryBorder;
 
 
     private GameObject runeObj; // 룬 게임 오브젝트
@@ -268,6 +269,7 @@ public class RuneControllerGPT : MonoBehaviour
 
     private void SetBatteryUIVisible(bool isVisible, float batteryPercentage)
     {
+        batteryBorder.gameObject.SetActive(isVisible);
         StartCoroutine(ActivateBatteryUISequentially(isVisible, batteryPercentage));
     }
 
@@ -302,12 +304,8 @@ public class RuneControllerGPT : MonoBehaviour
     // 룬 파워 회복
     public void RunePowerBack()
     {
-        if (Vector2.Distance(transform.position, runeObj.transform.position) <= RuneData.RunePowerBackDistance && !RuneData.RuneOnWater)
-        {
-            RuneData.RuneTouchWater = false;
-            RuneData.RuneLightArea.enabled = true;
-            DecreaseRunePowerOverTime(RuneData.RuneOuterRadius, RuneData.RunePowerBackTime);
-        }
+        RuneData.RuneLightArea.enabled = true;
+        DecreaseRunePowerOverTime(RuneData.RuneOuterRadius, RuneData.RunePowerBackTime);
     }
 
     private void DecreaseRunePowerOverTime(float targetRadius, float duration)

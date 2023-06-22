@@ -57,10 +57,17 @@ public class RuneManager : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<RuneStatue>() != null && RuneData.RuneActive)
+        if (collision.gameObject.GetComponent<RuneStatue>() != null)
         {
-            m_statue = collision.transform;
-            m_isStatueInteraction = true;
+            if (RuneData.RuneActive || RuneData.RuneBattery <= 0)
+            {
+                if (RuneData.RuneBattery <= 0)
+                {
+                    collision.gameObject.GetComponent<RuneStatue>().Initialized();
+                }
+                m_statue = collision.transform;
+                m_isStatueInteraction = true;
+            }
         }
 
         if (collision.gameObject.GetComponent<RuneStatue>() != null)
@@ -124,6 +131,7 @@ public class RuneManager : MonoBehaviour
 
     IEnumerator StatueInteractionDelay()
     {
+
         yield return new WaitForSeconds(m_moveTime);
 
         RuneData.RuneUseControl = true;
