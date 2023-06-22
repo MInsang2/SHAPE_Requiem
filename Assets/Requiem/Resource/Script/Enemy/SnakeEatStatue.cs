@@ -53,19 +53,16 @@ public class SnakeEatStatue : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            StartCoroutine(FadeOutAndLoadScene());
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == runeStatue.gameObject)
         {
             Invoke("StatueBond", 0.5f);
+        }
+
+        if (collision.gameObject.tag == "Player")
+        {
+            StartCoroutine(FadeOutAndLoadScene());
         }
     }
 
