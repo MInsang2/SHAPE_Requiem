@@ -73,7 +73,7 @@ public class RuneStatue : MonoBehaviour
             return;
         }
 
-        if (collision.gameObject.layer == (int)LayerName.Rune)
+        if (collision.gameObject.layer == (int)LayerName.Rune && RuneData.RuneActive)
         {
             EnterTheRune();
         }
