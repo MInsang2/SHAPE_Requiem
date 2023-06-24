@@ -18,7 +18,18 @@ public class BloodingMan : MonoBehaviour
     // 이동 유형 (선형 또는 부드럽게)
     public Ease easeType = Ease.Linear;
 
+    [SerializeField] public AudioSource walkSound;
+    [SerializeField] public AudioSource breathSound;
+    [SerializeField] AudioSource screamSound;
+
     public float delayLoadScene;
+
+    private void Awake()
+    {
+        walkSound.gameObject.SetActive(false);
+        breathSound.gameObject.SetActive(false);
+        screamSound.gameObject.SetActive(false);
+    }
 
     private void Start()
     {
@@ -60,6 +71,9 @@ public class BloodingMan : MonoBehaviour
             transform.parent = collision.transform;
             Destroy(GetComponent<Rigidbody2D>());
             //Destroy(GetComponent<BloodingMan>());
+            walkSound.gameObject.SetActive(false);
+            breathSound.gameObject.SetActive(false);
+            screamSound.gameObject.SetActive(true);
 
             Invoke("ChangeScene", delayLoadScene);
         }
