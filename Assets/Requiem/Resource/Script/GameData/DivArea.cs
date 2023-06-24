@@ -8,7 +8,7 @@ using Cinemachine;
 public class DivArea : AreaData
 {
     Tilemap tilemap;
-    Collider2D cameraArea;
+    [SerializeField] Collider2D cameraArea;
     CinemachineVirtualCamera mainCM;
 
     void Start()
@@ -26,7 +26,20 @@ public class DivArea : AreaData
     {
         if (collision.tag == "Player")
         {
-            mainCM.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = cameraArea;
+            ChangeCameraArea();
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            ChangeCameraArea();
+        }
+    }
+
+    public void ChangeCameraArea()
+    {
+        mainCM.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = cameraArea;
     }
 }

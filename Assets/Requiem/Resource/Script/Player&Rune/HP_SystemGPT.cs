@@ -38,6 +38,7 @@ public class HP_SystemGPT : MonoBehaviour
     bool isInvincibility = false;
     bool loseControl = false;
     bool isDead = false;
+    bool cameraChange = false;
 
     void Start()
     {
@@ -92,6 +93,23 @@ public class HP_SystemGPT : MonoBehaviour
         {
             CheckCollision(collision.gameObject); // 충돌 처리
         }
+
+        if (cameraChange)
+        {
+            if (collision.gameObject.GetComponent<DivArea>() != null)
+            {
+                collision.gameObject.GetComponent<DivArea>().ChangeCameraArea();
+                cameraChange = false;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!isInvincibility)
+        {
+            CheckCollision(collision.gameObject); // 충돌 처리
+        }
     }
 
     void CheckCollision(GameObject obj) // 게임 오브젝트에 충돌이 일어날 때 호출되는 메소드.
@@ -115,27 +133,13 @@ public class HP_SystemGPT : MonoBehaviour
 
     void Static_EnemyCheck(Enemy_Static _enemy) // 위험 요소와의 충돌을 처리하는 메소드.
     {
-        for (int i = 0; i < staticEnemyName.Length; i++)
-        {
-            if (_enemy.GetName == staticEnemyName[i])
-            {
-                HitEnemy_Static(_enemy);
-                break;
-            }
-        }
+        HitEnemy_Static(_enemy);
     }
 
 
     void Dynamic_EnemyCheck(Enemy_Dynamic _enemy) // 적과의 충돌을 처리하는 메소드.
     {
-        for (int i = 0; i < dynamicEnemyName.Length; i++)
-        {
-            if (_enemy.GetName == dynamicEnemyName[i])
-            {
-                HitEnemy_Dynamic(_enemy);
-                break;
-            }
-        }
+        HitEnemy_Dynamic(_enemy);
     }
 
 
@@ -192,7 +196,7 @@ public class HP_SystemGPT : MonoBehaviour
         }
     }
 
-    
+
     void ReControlHit() // 피격 시 플레이어 제어 회복
     {
         if (loseControl) // 제어 상실 상태인 경우
@@ -212,7 +216,7 @@ public class HP_SystemGPT : MonoBehaviour
         }
     }
 
-    
+
     void ReControlDead() // 죽음 시 플레이어 제어 회복
     {
         if (isDead) // 죽은 상태인 경우
@@ -235,6 +239,7 @@ public class HP_SystemGPT : MonoBehaviour
 
     void Dead() // 죽음 처리하는 메소드
     {
+        cameraChange = true;
         PlayerData.PlayerHP = PlayerData.PlayerMaxHP; // 플레이어 체력을 최대치로 복구
         animator.SetTrigger("IsDead");  // 애니메이션을 죽음 상태로 전환
         loseControl = true;  // 제어 상실 상태로 전환

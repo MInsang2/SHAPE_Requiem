@@ -7,6 +7,7 @@ public class EatPlayerTrigger : Trigger_Requiem
 {
     [SerializeField] Transform snake;
     [SerializeField] Animator snakeAni;
+    [SerializeField] float chaseTime;
     Transform player;
 
     bool playerIn = false;
@@ -20,7 +21,7 @@ public class EatPlayerTrigger : Trigger_Requiem
     {
         if (playerIn)
         {
-            snake.DOMove(player.position, 5f);
+            snake.DOMove(player.position + (Vector3.up * 2), chaseTime);
         }
     }
 

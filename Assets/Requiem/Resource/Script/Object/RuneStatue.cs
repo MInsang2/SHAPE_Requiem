@@ -68,6 +68,11 @@ public class RuneStatue : MonoBehaviour
     // 트리거에 다른 오브젝트가 있을 때 처리하는 함수
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (isActive) // 이미 활성화된 경우 함수를 종료
+        {
+            return;
+        }
+
         if (collision.gameObject.layer == (int)LayerName.Rune && RuneData.RuneActive)
         {
             EnterTheRune();
@@ -82,7 +87,7 @@ public class RuneStatue : MonoBehaviour
     // 룬 입장 처리를 위한 함수
     public void EnterTheRune()
     {
-        if (!isActive || RuneData.RuneBattery == 0)
+        if (!isActive || RuneData.RuneBattery <= 0)
         {
             UpdatePlayerData();
             ActivateRuneStatue();
@@ -96,14 +101,19 @@ public class RuneStatue : MonoBehaviour
         PlayerData.PlayerHP = PlayerData.PlayerMaxHP;
     }
 
+    private bool hasTriggered = false;
     // 룬 석상 상태 활성화를 위한 함수
     private void ActivateRuneStatue()
     {
-        animator.SetBool("IsActive", true);
+        if (!hasTriggered)
+        {
+            animator.SetTrigger("IsActive");
+            hasTriggered = true;
+        }
+        PlayerData.PlayerObj.GetComponent<RuneControllerGPT>().RunePowerBack();
         Invoke("ActivateEffect", effectDelay);
         Invoke("TurnOnLights", effectDelay);
         DOTween.To(() => RuneData.RuneBattery, x => RuneData.RuneBattery = x, RuneData.RuneBatteryInitValue, 5f);
-        PlayerData.PlayerObj.GetComponent<RuneControllerGPT>().RunePowerBack();
         PlayAudioClip();
     }
 
@@ -128,6 +138,7 @@ public class RuneStatue : MonoBehaviour
     public void Initialized()
     {
         isActive = false;
+        hasTriggered = false; // Reset the trigger flag
     }
 
     // 연결된 빛 객체들 활성화

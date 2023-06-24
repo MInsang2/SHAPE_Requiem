@@ -17,6 +17,7 @@ public class DisapearTrigger : Trigger_Requiem
 
     void Start()
     {
+        m_tileMap = GetComponent<Tilemap>();
     }
 
     void Update()
@@ -28,7 +29,7 @@ public class DisapearTrigger : Trigger_Requiem
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Player)
+        if (collision.gameObject.layer == (int)LayerName.Player || collision.gameObject.layer == (int)LayerName.Rune)
         {
             m_playerIn = true;
         }
@@ -36,7 +37,7 @@ public class DisapearTrigger : Trigger_Requiem
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == (int)LayerName.Player)
+        if (collision.gameObject.layer == (int)LayerName.Player || collision.gameObject.layer == (int)LayerName.Rune)
         {
             m_playerIn = false;
         }
